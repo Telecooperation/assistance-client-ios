@@ -13,10 +13,6 @@
 		E10E038D1BEFDDD900D28F15 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E10E038B1BEFDDD900D28F15 /* Main.storyboard */; };
 		E10E038F1BEFDDD900D28F15 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E10E038E1BEFDDD900D28F15 /* Assets.xcassets */; };
 		E10E03921BEFDDD900D28F15 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E10E03901BEFDDD900D28F15 /* LaunchScreen.storyboard */; };
-		E10E039A1BEFE14000D28F15 /* Sensors in Resources */ = {isa = PBXBuildFile; fileRef = E10E03991BEFE14000D28F15 /* Sensors */; };
-		E10E039C1BEFE1A500D28F15 /* Server Communication in Resources */ = {isa = PBXBuildFile; fileRef = E10E039B1BEFE1A500D28F15 /* Server Communication */; };
-		E10E039E1BEFE22500D28F15 /* Helpers and Extensions in Resources */ = {isa = PBXBuildFile; fileRef = E10E039D1BEFE22500D28F15 /* Helpers and Extensions */; };
-		E10E03A01BEFE2B700D28F15 /* Onboarding in Resources */ = {isa = PBXBuildFile; fileRef = E10E039F1BEFE2B700D28F15 /* Onboarding */; };
 		E10E03A21BEFE3BE00D28F15 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E10E03A11BEFE3BE00D28F15 /* MapKit.framework */; };
 		E11E4EAB1BFE133900E3D7EE /* PowerState.swift in Sources */ = {isa = PBXBuildFile; fileRef = E11E4EAA1BFE133800E3D7EE /* PowerState.swift */; };
 		E11E4EAD1BFE134300E3D7EE /* PowerStateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E11E4EAC1BFE134300E3D7EE /* PowerStateManager.swift */; };
@@ -62,10 +58,6 @@
 		E10E038E1BEFDDD900D28F15 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E10E03911BEFDDD900D28F15 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E10E03931BEFDDD900D28F15 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		E10E03991BEFE14000D28F15 /* Sensors */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Sensors; path = /Users/nicko/Documents/studium/info/07_sieben/Bachelor/eva/eva/Sensors; sourceTree = "<absolute>"; };
-		E10E039B1BEFE1A500D28F15 /* Server Communication */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "Server Communication"; path = "/Users/nicko/Documents/studium/info/07_sieben/Bachelor/eva/eva/Server Communication"; sourceTree = "<absolute>"; };
-		E10E039D1BEFE22500D28F15 /* Helpers and Extensions */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "Helpers and Extensions"; path = "/Users/nicko/Documents/studium/info/07_sieben/Bachelor/eva/eva/Helpers and Extensions"; sourceTree = "<absolute>"; };
-		E10E039F1BEFE2B700D28F15 /* Onboarding */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Onboarding; path = /Users/nicko/Documents/studium/info/07_sieben/Bachelor/eva/eva/Onboarding; sourceTree = "<absolute>"; };
 		E10E03A11BEFE3BE00D28F15 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		E11E4EAA1BFE133800E3D7EE /* PowerState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PowerState.swift; sourceTree = "<group>"; };
 		E11E4EAC1BFE134300E3D7EE /* PowerStateManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PowerStateManager.swift; sourceTree = "<group>"; };
@@ -79,6 +71,7 @@
 		E13FF0A31C08C38A00EA4F8D /* MobileConnectionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MobileConnectionManager.swift; sourceTree = "<group>"; };
 		E13FF0A51C09C30100EA4F8D /* LoudnessManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoudnessManager.swift; sourceTree = "<group>"; };
 		E13FF0A71C09C30D00EA4F8D /* Loudness.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Loudness.swift; sourceTree = "<group>"; };
+		E13FF0A91C0A11C600EA4F8D /* eva.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = eva.entitlements; sourceTree = "<group>"; };
 		E16A2C131BF377A600B0D785 /* CMMotionActivityEquality.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CMMotionActivityEquality.swift; sourceTree = "<group>"; };
 		E16A2C141BF377A600B0D785 /* ResultsExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResultsExtension.swift; sourceTree = "<group>"; };
 		E16A2C161BF377A600B0D785 /* LocationAuthorizationFailedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationAuthorizationFailedViewController.swift; sourceTree = "<group>"; };
@@ -143,6 +136,7 @@
 		E10E03861BEFDDD900D28F15 /* eva */ = {
 			isa = PBXGroup;
 			children = (
+				E13FF0A91C0A11C600EA4F8D /* eva.entitlements */,
 				E10E03871BEFDDD900D28F15 /* AppDelegate.swift */,
 				E10E03891BEFDDD900D28F15 /* ViewController.swift */,
 				E10E038B1BEFDDD900D28F15 /* Main.storyboard */,
@@ -279,10 +273,16 @@
 						CreatedOnToolsVersion = 7.1;
 						DevelopmentTeam = 7WDB4D7587;
 						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
 							com.apple.BackgroundModes = {
 								enabled = 1;
 							};
 							com.apple.Maps.iOS = {
+								enabled = 1;
+							};
+							com.apple.Push = {
 								enabled = 1;
 							};
 						};
@@ -312,11 +312,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E10E039E1BEFE22500D28F15 /* Helpers and Extensions in Resources */,
-				E10E039C1BEFE1A500D28F15 /* Server Communication in Resources */,
-				E10E039A1BEFE14000D28F15 /* Sensors in Resources */,
 				E10E03921BEFDDD900D28F15 /* LaunchScreen.storyboard in Resources */,
-				E10E03A01BEFE2B700D28F15 /* Onboarding in Resources */,
 				E10E038F1BEFDDD900D28F15 /* Assets.xcassets in Resources */,
 				E10E038D1BEFDDD900D28F15 /* Main.storyboard in Resources */,
 			);
@@ -534,11 +530,14 @@
 			baseConfigurationReference = 114DAED56AFC995D2D4614B2 /* Pods-eva.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = eva/eva.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = eva/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = de.tudarmstadt.informatik.tk.eva;
+				PRODUCT_BUNDLE_IDENTIFIER = de.tudarmstadt.informatik.tk.assistance.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -548,11 +547,14 @@
 			baseConfigurationReference = ACA73DE11247251C818FDE5A /* Pods-eva.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = eva/eva.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = eva/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = de.tudarmstadt.informatik.tk.eva;
+				PRODUCT_BUNDLE_IDENTIFIER = de.tudarmstadt.informatik.tk.assistance.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
