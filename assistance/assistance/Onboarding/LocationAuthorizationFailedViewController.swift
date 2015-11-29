@@ -32,8 +32,8 @@ class LocationAuthorizationFailedViewController: UIViewController {
         }
     }
     
-    @IBAction func done(sender: AnyObject) {
-        dismissViewControllerAnimated(true, completion: nil)
+    @IBAction func openSettings(sender: AnyObject) {
+        UIApplication.sharedApplication().openURL(NSURL(string: UIApplicationOpenSettingsURLString)!)
     }
 
 }
