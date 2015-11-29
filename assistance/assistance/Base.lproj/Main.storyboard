@@ -1,34 +1,92 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9060" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9060" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="VfL-E5-1GS">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
-        <scene sceneID="tne-QT-ifu">
+        <!--Assistance-->
+        <scene sceneID="mYf-CV-ydO">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="assistance" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
-                        <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                <tableViewController id="1gi-Wt-elF" customClass="AssistanceTableViewController" customModule="assistance" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" allowsSelection="NO" rowHeight="255" sectionHeaderHeight="18" sectionFooterHeight="18" id="BWO-2M-0Ne">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <animations/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                    </view>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <sections>
+                            <tableViewSection headerTitle="Hot Zones – 5 min ago" id="Tcc-1g-ANE">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="255" id="5PL-Un-iaM">
+                                        <rect key="frame" x="0.0" y="114" width="600" height="255"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="5PL-Un-iaM" id="STs-eH-KSL">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="254"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="R4C-gz-LBP">
+                                                    <rect key="frame" x="8" y="8" width="584" height="238"/>
+                                                    <subviews>
+                                                        <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="5fZ-xp-cvz">
+                                                            <rect key="frame" x="0.0" y="0.0" width="584" height="20"/>
+                                                            <subviews>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You're in a Hot Zone!" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rHw-Cr-lPF">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="292" height="20"/>
+                                                                    <animations/>
+                                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="755" verticalCompressionResistancePriority="755" textAlignment="natural" lineBreakMode="wordWrap" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9cr-ku-4Kx">
+                                                                    <rect key="frame" x="292" y="0.0" width="292" height="20"/>
+                                                                    <animations/>
+                                                                    <string key="text">Test label on the right. I want to fill this with some text just to see what will happen if some enthusiastic developer writes a lot of stuff.</string>
+                                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                            </subviews>
+                                                            <animations/>
+                                                        </stackView>
+                                                        <mapView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" mapType="standard" zoomEnabled="NO" scrollEnabled="NO" rotateEnabled="NO" pitchEnabled="NO" showsUserLocation="YES" translatesAutoresizingMaskIntoConstraints="NO" id="g9R-iP-0me">
+                                                            <rect key="frame" x="0.0" y="28" width="584" height="210"/>
+                                                            <animations/>
+                                                        </mapView>
+                                                    </subviews>
+                                                    <animations/>
+                                                </stackView>
+                                            </subviews>
+                                            <animations/>
+                                            <constraints>
+                                                <constraint firstItem="R4C-gz-LBP" firstAttribute="leading" secondItem="STs-eH-KSL" secondAttribute="leadingMargin" id="7B3-M2-0uZ"/>
+                                                <constraint firstItem="R4C-gz-LBP" firstAttribute="trailing" secondItem="STs-eH-KSL" secondAttribute="trailingMargin" id="VDr-Ye-2EP"/>
+                                                <constraint firstItem="R4C-gz-LBP" firstAttribute="top" secondItem="STs-eH-KSL" secondAttribute="topMargin" id="XB9-W2-1VO"/>
+                                                <constraint firstItem="R4C-gz-LBP" firstAttribute="bottom" secondItem="STs-eH-KSL" secondAttribute="bottomMargin" id="rv4-fx-FXI"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <animations/>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                        </sections>
+                        <connections>
+                            <outlet property="dataSource" destination="1gi-Wt-elF" id="MUO-Od-Ql3"/>
+                            <outlet property="delegate" destination="1gi-Wt-elF" id="2Me-R8-Jet"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Assistance" id="X1m-gw-kM5">
+                        <barButtonItem key="leftBarButtonItem" image="Settings" id="jNC-c5-Jwq"/>
+                    </navigationItem>
                     <connections>
-                        <segue destination="JPA-c6-6or" kind="presentation" identifier="locationAuthorizationSegue" id="xkf-UJ-idn"/>
-                        <segue destination="kN8-46-SMZ" kind="presentation" identifier="locationAuthorizationFailedSegue" id="BtF-Yb-Ee9"/>
-                        <segue destination="Njd-zD-Tp6" kind="presentation" identifier="loginSegue" id="4UW-we-I1n"/>
+                        <segue destination="Njd-zD-Tp6" kind="presentation" identifier="loginSegue" id="kUg-8b-KDO"/>
+                        <segue destination="JPA-c6-6or" kind="presentation" identifier="locationAuthorizationSegue" id="Ox4-GC-d4W"/>
+                        <segue destination="kN8-46-SMZ" kind="presentation" identifier="locationAuthorizationFailedSegue" id="weQ-DX-yal"/>
                     </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Cjv-R8-OFM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="492" y="-649"/>
+            <point key="canvasLocation" x="415" y="-638"/>
         </scene>
         <!--Labels-->
         <scene sceneID="dJb-IO-N12">
@@ -317,17 +375,16 @@
                                 <constraints>
                                     <constraint firstAttribute="width" constant="240" id="Oex-yw-VcR"/>
                                 </constraints>
-                                <string key="text">Labels uses your location to generate timeslots. We need your permission.  Please go to Settings &gt; Privacy &gt; Location Services &gt; Labels and set "Allow Location Access" to "Always".</string>
+                                <string key="text">Labels uses your location to generate timeslots. We need your permission.  Please go to the App Settings, open "Location" and set "Allow Location Access" to "Always".</string>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3px-hq-czl">
-                                <rect key="frame" x="282" y="356" width="37" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3px-hq-czl">
+                                <rect key="frame" x="236" y="356" width="130" height="30"/>
                                 <animations/>
-                                <state key="normal" title="Done"/>
+                                <state key="normal" title="Open App Settings"/>
                                 <connections>
-                                    <action selector="done:" destination="kN8-46-SMZ" eventType="touchUpInside" id="ZBU-wa-Ys7"/>
-                                    <action selector="requestPermission:" destination="JPA-c6-6or" eventType="touchUpInside" id="MmL-X2-isU"/>
+                                    <action selector="openSettings:" destination="kN8-46-SMZ" eventType="touchUpInside" id="cuB-ZD-fbQ"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -423,5 +480,28 @@
             </objects>
             <point key="canvasLocation" x="1374" y="-2210"/>
         </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="NK6-ED-9ai">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="VfL-E5-1GS" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="sMi-Ny-CEG">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <animations/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="1gi-Wt-elF" kind="relationship" relationship="rootViewController" id="kvC-wb-tyX"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="vYO-dy-Eb7" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-356" y="-638"/>
+        </scene>
     </scenes>
+    <resources>
+        <image name="Settings" width="23" height="23"/>
+    </resources>
+    <color key="tintColor" red="1" green="0.26666666666666666" blue="0.22745098039215686" alpha="1" colorSpace="calibratedRGB"/>
 </document>

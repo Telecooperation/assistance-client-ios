@@ -22,14 +22,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             do {
                 let data = try result()
                 if let dataString = NSString(data: data as! NSData, encoding: NSUTF8StringEncoding) where dataString.length > 0,
-                   let dataJSON = try? NSJSONSerialization.JSONObjectWithData(data as! NSData, options: .MutableLeaves) as? NSDictionary {
+                    let dataJSON = try? NSJSONSerialization.JSONObjectWithData(data as! NSData, options: .MutableLeaves) as? NSDictionary {
+                    
                     print(dataJSON)
                 }
-
-            } catch let error {
+            } catch {
                 switch error {
-                    case ModuleManagement.Error.NotAuthenticated: print("Not Authenticated!")
-                    default: break
+                    case ModuleManagement.Error.NotAuthenticated:
+                        print("Not Authenticated!")
+                    default:
+                        break
                 }
             }
         }
