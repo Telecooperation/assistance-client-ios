@@ -24,8 +24,6 @@
 		E13FF0A01C08C31700EA4F8D /* WifiConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13FF09F1C08C31700EA4F8D /* WifiConnection.swift */; };
 		E13FF0A21C08C37B00EA4F8D /* MobileConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13FF0A11C08C37B00EA4F8D /* MobileConnection.swift */; };
 		E13FF0A41C08C38A00EA4F8D /* MobileConnectionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13FF0A31C08C38A00EA4F8D /* MobileConnectionManager.swift */; };
-		E13FF0A61C09C30100EA4F8D /* LoudnessManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13FF0A51C09C30100EA4F8D /* LoudnessManager.swift */; };
-		E13FF0A81C09C30D00EA4F8D /* Loudness.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13FF0A71C09C30D00EA4F8D /* Loudness.swift */; };
 		E16A2C2B1BF377A600B0D785 /* CMMotionActivityEquality.swift in Sources */ = {isa = PBXBuildFile; fileRef = E16A2C131BF377A600B0D785 /* CMMotionActivityEquality.swift */; };
 		E16A2C2C1BF377A600B0D785 /* ResultsExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E16A2C141BF377A600B0D785 /* ResultsExtension.swift */; };
 		E16A2C2D1BF377A600B0D785 /* LocationAuthorizationFailedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E16A2C161BF377A600B0D785 /* LocationAuthorizationFailedViewController.swift */; };
@@ -69,8 +67,6 @@
 		E13FF09F1C08C31700EA4F8D /* WifiConnection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WifiConnection.swift; sourceTree = "<group>"; };
 		E13FF0A11C08C37B00EA4F8D /* MobileConnection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MobileConnection.swift; sourceTree = "<group>"; };
 		E13FF0A31C08C38A00EA4F8D /* MobileConnectionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MobileConnectionManager.swift; sourceTree = "<group>"; };
-		E13FF0A51C09C30100EA4F8D /* LoudnessManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoudnessManager.swift; sourceTree = "<group>"; };
-		E13FF0A71C09C30D00EA4F8D /* Loudness.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Loudness.swift; sourceTree = "<group>"; };
 		E13FF0A91C0A11C600EA4F8D /* assistance.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = assistance.entitlements; sourceTree = "<group>"; };
 		E16A2C131BF377A600B0D785 /* CMMotionActivityEquality.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CMMotionActivityEquality.swift; sourceTree = "<group>"; };
 		E16A2C141BF377A600B0D785 /* ResultsExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResultsExtension.swift; sourceTree = "<group>"; };
@@ -136,13 +132,13 @@
 		E10E03861BEFDDD900D28F15 /* assistance */ = {
 			isa = PBXGroup;
 			children = (
-				E13FF0A91C0A11C600EA4F8D /* assistance.entitlements */,
 				E10E03871BEFDDD900D28F15 /* AppDelegate.swift */,
 				E10E03891BEFDDD900D28F15 /* ViewController.swift */,
 				E10E038B1BEFDDD900D28F15 /* Main.storyboard */,
 				E10E038E1BEFDDD900D28F15 /* Assets.xcassets */,
 				E10E03901BEFDDD900D28F15 /* LaunchScreen.storyboard */,
 				E10E03931BEFDDD900D28F15 /* Info.plist */,
+				E13FF0A91C0A11C600EA4F8D /* assistance.entitlements */,
 				E16A2C151BF377A600B0D785 /* Onboarding */,
 				E16A2C1A1BF377A600B0D785 /* Sensors */,
 				E16A2C271BF377A600B0D785 /* Server Communication */,
@@ -184,7 +180,6 @@
 			isa = PBXGroup;
 			children = (
 				E16A2C1C1BF377A600B0D785 /* AccelerometerManager.swift */,
-				E13FF0A51C09C30100EA4F8D /* LoudnessManager.swift */,
 				E11E4EB21C00ED9100E3D7EE /* ConnectionManager.swift */,
 				E13FF09D1C08C30600EA4F8D /* WifiConnectionManager.swift */,
 				E11E4EAE1C00E63F00E3D7EE /* GyroscopeManager.swift */,
@@ -202,7 +197,6 @@
 			isa = PBXGroup;
 			children = (
 				E16A2C211BF377A600B0D785 /* Accelerometer.swift */,
-				E13FF0A71C09C30D00EA4F8D /* Loudness.swift */,
 				E11E4EB41C00EE0300E3D7EE /* Connection.swift */,
 				E16A2C221BF377A600B0D785 /* Gyroscope.swift */,
 				E16A2C231BF377A600B0D785 /* MagneticField.swift */,
@@ -410,7 +404,6 @@
 				E11E4EB01C00E63F00E3D7EE /* GyroscopeManager.swift in Sources */,
 				E16A2C2B1BF377A600B0D785 /* CMMotionActivityEquality.swift in Sources */,
 				E11E4EB51C00EE0300E3D7EE /* Connection.swift in Sources */,
-				E13FF0A61C09C30100EA4F8D /* LoudnessManager.swift in Sources */,
 				E16A2C341BF377A600B0D785 /* SensorManager.swift in Sources */,
 				E16A2C2E1BF377A600B0D785 /* LocationAuthorizationViewController.swift in Sources */,
 				E16A2C3A1BF377A600B0D785 /* Sensor.swift in Sources */,
@@ -418,7 +411,6 @@
 				E16A2C2D1BF377A600B0D785 /* LocationAuthorizationFailedViewController.swift in Sources */,
 				E16A2C371BF377A600B0D785 /* MagneticField.swift in Sources */,
 				E16A2C2F1BF377A600B0D785 /* LoginTableViewController.swift in Sources */,
-				E13FF0A81C09C30D00EA4F8D /* Loudness.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

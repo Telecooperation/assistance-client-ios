@@ -19,7 +19,6 @@ class DataSync {
     let realm = try! Realm()
     
     let sensorManagers: [SensorManager] = [AccelerometerManager.sharedManager,
-                                            // LoudnessManager.sharedManager,  // Not used because ringer volume seems not to be currently accessible on iOS
                                             ConnectionManager.sharedManager,
                                             WifiConnectionManager.sharedManager,
                                             GyroscopeManager.sharedManager,
