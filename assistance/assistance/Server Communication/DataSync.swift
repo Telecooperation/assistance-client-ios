@@ -83,19 +83,17 @@ class DataSync {
                 
             } else if message == "Unauthorized (401)" {
                 
-                if let userEmail = NSUserDefaults.standardUserDefaults().stringForKey("UserEmail") {
-                    
-                    let dictionary = Locksmith.loadDataForUserAccount(userEmail)
-                    if let dictionary = dictionary, let password = dictionary["password"] as? String {
+                if let userEmail = NSUserDefaults.standardUserDefaults().stringForKey("UserEmail"),
+                   let dictionary = Locksmith.loadDataForUserAccount(userEmail),
+                   let password = dictionary["password"] as? String {
+                
+                    UserManagement().login(userEmail, password: password) {
+                        (succeeded: Bool, message: String) -> () in
                         
-                        UserManagement().login(userEmail, password: password) {
-                            (succeeded: Bool, message: String) -> () in
-                            
-                            if !succeeded {
-                                print("login failed.")
-                            } else {
-                                _ = try? Locksmith.updateData(["password": password, "token": message], forUserAccount: userEmail)
-                            }
+                        if !succeeded {
+                            print("login failed.")
+                        } else {
+                            _ = try? Locksmith.updateData(["password": password, "token": message], forUserAccount: userEmail)
                         }
                     }
                 }
@@ -103,4 +101,5 @@ class DataSync {
             }
         }
     }
+    
 }
