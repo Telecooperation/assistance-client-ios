@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		13DB32C4B4EDEC05AD06D04D /* Pods_assistance.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AD07F4357EA9122E01613F4 /* Pods_assistance.framework */; };
 		E10E03881BEFDDD900D28F15 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10E03871BEFDDD900D28F15 /* AppDelegate.swift */; };
-		E10E038A1BEFDDD900D28F15 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10E03891BEFDDD900D28F15 /* ViewController.swift */; };
 		E10E038D1BEFDDD900D28F15 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E10E038B1BEFDDD900D28F15 /* Main.storyboard */; };
 		E10E038F1BEFDDD900D28F15 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E10E038E1BEFDDD900D28F15 /* Assets.xcassets */; };
 		E10E03921BEFDDD900D28F15 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E10E03901BEFDDD900D28F15 /* LaunchScreen.storyboard */; };
@@ -45,6 +44,7 @@
 		E16A2C3D1BF377A600B0D785 /* UserManagement.swift in Sources */ = {isa = PBXBuildFile; fileRef = E16A2C2A1BF377A600B0D785 /* UserManagement.swift */; };
 		E179E4F11C0B099900596C01 /* ModuleManagement.swift in Sources */ = {isa = PBXBuildFile; fileRef = E179E4F01C0B099900596C01 /* ModuleManagement.swift */; };
 		E179E4F41C0B173C00596C01 /* GlobalConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = E179E4F31C0B173C00596C01 /* GlobalConfig.swift */; };
+		E179E4F61C0B468F00596C01 /* AssistanceTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E179E4F51C0B468F00596C01 /* AssistanceTableViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -53,7 +53,6 @@
 		ACA73DE11247251C818FDE5A /* Pods-assistance.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-assistance.release.xcconfig"; path = "Pods/Target Support Files/Pods-assistance/Pods-assistance.release.xcconfig"; sourceTree = "<group>"; };
 		E10E03841BEFDDD900D28F15 /* assistance.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = assistance.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E10E03871BEFDDD900D28F15 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		E10E03891BEFDDD900D28F15 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		E10E038C1BEFDDD900D28F15 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		E10E038E1BEFDDD900D28F15 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E10E03911BEFDDD900D28F15 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -91,6 +90,7 @@
 		E16A2C2A1BF377A600B0D785 /* UserManagement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserManagement.swift; sourceTree = "<group>"; };
 		E179E4F01C0B099900596C01 /* ModuleManagement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModuleManagement.swift; sourceTree = "<group>"; };
 		E179E4F31C0B173C00596C01 /* GlobalConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GlobalConfig.swift; path = "Helpers and Extensions/GlobalConfig.swift"; sourceTree = "<group>"; };
+		E179E4F51C0B468F00596C01 /* AssistanceTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AssistanceTableViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -138,7 +138,7 @@
 			isa = PBXGroup;
 			children = (
 				E10E03871BEFDDD900D28F15 /* AppDelegate.swift */,
-				E10E03891BEFDDD900D28F15 /* ViewController.swift */,
+				E179E4F51C0B468F00596C01 /* AssistanceTableViewController.swift */,
 				E10E038B1BEFDDD900D28F15 /* Main.storyboard */,
 				E10E03901BEFDDD900D28F15 /* LaunchScreen.storyboard */,
 				E10E038E1BEFDDD900D28F15 /* Assets.xcassets */,
@@ -413,7 +413,6 @@
 				E11E4EAD1BFE134300E3D7EE /* PowerStateManager.swift in Sources */,
 				E13FF0A21C08C37B00EA4F8D /* MobileConnection.swift in Sources */,
 				E179E4F41C0B173C00596C01 /* GlobalConfig.swift in Sources */,
-				E10E038A1BEFDDD900D28F15 /* ViewController.swift in Sources */,
 				E11E4EB31C00ED9100E3D7EE /* ConnectionManager.swift in Sources */,
 				E16A2C331BF377A600B0D785 /* PositionManager.swift in Sources */,
 				E179E4F11C0B099900596C01 /* ModuleManagement.swift in Sources */,
@@ -426,6 +425,7 @@
 				E16A2C3A1BF377A600B0D785 /* Sensor.swift in Sources */,
 				E10E03881BEFDDD900D28F15 /* AppDelegate.swift in Sources */,
 				E16A2C2D1BF377A600B0D785 /* LocationAuthorizationFailedViewController.swift in Sources */,
+				E179E4F61C0B468F00596C01 /* AssistanceTableViewController.swift in Sources */,
 				E16A2C371BF377A600B0D785 /* MagneticField.swift in Sources */,
 				E16A2C2F1BF377A600B0D785 /* LoginTableViewController.swift in Sources */,
 			);
