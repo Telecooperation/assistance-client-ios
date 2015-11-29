@@ -17,23 +17,33 @@ class RegisterTableViewController: UITableViewController {
     
     @IBAction func register(sender: AnyObject) {
         UserManagement().register(emailTextField.text!, password: passwordTextField.text!) {
-            (succeeded: Bool, message: String) -> () in
+            result in
             
-            if !succeeded {
-                let alertController = UIAlertController(title: "Registration failed", message: message, preferredStyle: .Alert)
+            do {
+                let _ = try result()
+                
+                NSUserDefaults.standardUserDefaults().setObject(self.emailTextField.text, forKey: "UserEmail")
+                
+                _ = try? Locksmith.updateData(["password": self.passwordTextField.text!], forUserAccount: self.emailTextField.text!)
+                
+                self.dismissViewControllerAnimated(true, completion: nil)
+                
+            } catch ServerConnection.Error.RequestError(let errorCode) {
+            
+                var errorMessage = "An unknown error occured."
+                if let message = ServerConnection.errorMessage[errorCode] {
+                    errorMessage = message
+                }
+                
+                let alertController = UIAlertController(title: "Registration failed", message: errorMessage, preferredStyle: .Alert)
                 let cancelAction = UIAlertAction(title: "Okay", style: .Cancel, handler: nil)
                 alertController.addAction(cancelAction)
                 
                 dispatch_async(dispatch_get_main_queue(), {
                     self.presentViewController(alertController, animated: true, completion: nil)
                 })
-            } else {
-                NSUserDefaults.standardUserDefaults().setObject(self.emailTextField.text, forKey: "UserEmail")
-                
-                _ = try? Locksmith.updateData(["password": self.passwordTextField.text!], forUserAccount: self.emailTextField.text!)
-
-                self.dismissViewControllerAnimated(true, completion: nil)
-            }
+            
+            } catch { }
         }
     }
 

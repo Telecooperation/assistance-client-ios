@@ -10,18 +10,18 @@ import UIKit
 
 class UserManagement {
     
-    let baseURL = "http://130.83.163.146" // 130.83.163.146 & 130.83.163.115
-    
-    func register(email: String, password: String, completed: (succeeded: Bool, message: String) -> ()) {
+    func register(email: String, password: String, completed: (result: Result) -> Void) {
         
         let params: [String: String] = ["email": email, "password": password]
         
-        ServerConnection().post("\(baseURL)/users/register", token: nil, params: params) { (succeeded: Bool, message: String) -> () in
-            completed(succeeded: succeeded, message: message)
+        ServerConnection().post("\(GlobalConfig.baseURL)/users/register", token: nil, params: params) {
+            result in
+            
+            completed(result: result)
         }
     }
     
-    func login(email: String, password: String, completed: (succeeded: Bool, message: String) -> ()) {
+    func login(email: String, password: String, completed: (result: Result) -> Void) {
         
         var deviceDictionary = [String: String]()
         
@@ -39,40 +39,50 @@ class UserManagement {
         
         let params: [String: AnyObject] = ["email": email, "password": password, "device": deviceDictionary]
         
-        ServerConnection().post("\(baseURL)/users/login", token: nil, params: params) { (succeeded: Bool, message: String) -> () in
-            completed(succeeded: succeeded, message: message)
+        ServerConnection().post("\(GlobalConfig.baseURL)/users/login", token: nil, params: params) {
+            result in
+            
+            completed(result: result)
         }
     }
     
-    func resetPassword(email: String, completed: (succeeded: Bool, message: String) -> ()) {
+    func resetPassword(email: String, completed: (result: Result) -> Void) {
         
         let params: [String: String] = ["email": email]
         
-        ServerConnection().post("\(baseURL)/users/password", token: nil, params: params) { (succeeded: Bool, message: String) -> () in
-            completed(succeeded: succeeded, message: message)
+        ServerConnection().post("\(GlobalConfig.baseURL)/users/password", token: nil, params: params) {
+            result in
+            
+            completed(result: result)
         }
     }
     
-    func shortProfile(token: String, completed: (succeeded: Bool, message: String) -> ()) {
+    func shortProfile(token: String, completed: (result: Result) -> Void) {
         
-        ServerConnection().get("\(baseURL)/users/profile/short", token: token) { (succeeded: Bool, message: String) -> () in
-            completed(succeeded: succeeded, message: message)
+        ServerConnection().get("\(GlobalConfig.baseURL)/users/profile/short", token: token) {
+            result in
+            
+            completed(result: result)
         }
     }
     
-    func longProfile(token: String, completed: (succeeded: Bool, message: String) -> ()) {
+    func longProfile(token: String, completed: (result: Result) -> Void) {
         
-        ServerConnection().get("\(baseURL)/users/profile/long", token: token) { (succeeded: Bool, message: String) -> () in
-            completed(succeeded: succeeded, message: message)
+        ServerConnection().get("\(GlobalConfig.baseURL)/users/profile/long", token: token) {
+            result in
+            
+            completed(result: result)
         }
     }
     
-    func updateProfile(token: String, firstName: String, lastName: String, completed: (succeeded: Bool, message: String) -> ()) {
+    func updateProfile(token: String, firstName: String, lastName: String, completed: (result: Result) -> Void) {
         
         let params: [String: AnyObject] = ["firstname": firstName, "lastname": lastName]
         
-        ServerConnection().put("\(baseURL)/users/profile", token: token, params: params) { (succeeded: Bool, message: String) -> () in
-            completed(succeeded: succeeded, message: message)
+        ServerConnection().put("\(GlobalConfig.baseURL)/users/profile", token: token, params: params) {
+            result in
+            
+            completed(result: result)
         }
     }
 }

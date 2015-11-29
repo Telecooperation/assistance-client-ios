@@ -14,8 +14,6 @@ import GCNetworkReachability
 
 class DataSync {
     
-    let baseURL = "http://130.83.163.146" // 130.83.163.146 & 130.83.163.115
-    
     let realm = try! Realm()
     
     let sensorManagers: [SensorManager] = [AccelerometerManager.sharedManager,
@@ -68,10 +66,11 @@ class DataSync {
         
         let params: [String: AnyObject] = ["device_id": device_id, "sensorreadings": sensorReadings]
         
-        ServerConnection().post("\(baseURL)/sensordata/upload", token: token, params: params) {
-            (succeeded: Bool, message: String) -> () in
-
-            if succeeded {
+        ServerConnection().post("\(GlobalConfig.baseURL)/sensordata/upload", token: token, params: params) {
+            result in
+            
+            do {
+                let _ = try result()
                 
                 dispatch_async(dispatch_get_main_queue(), {
                     for sensorManager in self.sensorManagers {
@@ -81,24 +80,31 @@ class DataSync {
                     }
                 })
                 
-            } else if message == "Unauthorized (401)" {
-                
+            } catch ServerConnection.Error.Unauthorized {
+
                 if let userEmail = NSUserDefaults.standardUserDefaults().stringForKey("UserEmail"),
-                   let dictionary = Locksmith.loadDataForUserAccount(userEmail),
-                   let password = dictionary["password"] as? String {
-                
-                    UserManagement().login(userEmail, password: password) {
-                        (succeeded: Bool, message: String) -> () in
+                    let dictionary = Locksmith.loadDataForUserAccount(userEmail),
+                    let password = dictionary["password"] as? String {
                         
-                        if !succeeded {
-                            print("login failed.")
-                        } else {
-                            _ = try? Locksmith.updateData(["password": password, "token": message], forUserAccount: userEmail)
+                        UserManagement().login(userEmail, password: password) {
+                            result in
+                            
+                            do {
+                                let data = try result()
+                                
+                                if let dataString = NSString(data: data as! NSData, encoding: NSUTF8StringEncoding) where dataString.length > 0,
+                                    let dataJSON = try? NSJSONSerialization.JSONObjectWithData(data as! NSData, options: .MutableLeaves) as! NSDictionary,
+                                    token = dataJSON["token"] as? String {
+                                    _ = try? Locksmith.updateData(["password": password, "token": token], forUserAccount: userEmail)
+                                }
+                            } catch {
+                                print("login failed.")
+                            }
                         }
-                    }
                 }
-                
-            }
+            
+            } catch {  }
+
         }
     }
     

@@ -43,6 +43,8 @@
 		E16A2C3B1BF377A600B0D785 /* DataSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = E16A2C281BF377A600B0D785 /* DataSync.swift */; };
 		E16A2C3C1BF377A600B0D785 /* ServerConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = E16A2C291BF377A600B0D785 /* ServerConnection.swift */; };
 		E16A2C3D1BF377A600B0D785 /* UserManagement.swift in Sources */ = {isa = PBXBuildFile; fileRef = E16A2C2A1BF377A600B0D785 /* UserManagement.swift */; };
+		E179E4F11C0B099900596C01 /* ModuleManagement.swift in Sources */ = {isa = PBXBuildFile; fileRef = E179E4F01C0B099900596C01 /* ModuleManagement.swift */; };
+		E179E4F41C0B173C00596C01 /* GlobalConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = E179E4F31C0B173C00596C01 /* GlobalConfig.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -87,6 +89,8 @@
 		E16A2C281BF377A600B0D785 /* DataSync.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataSync.swift; sourceTree = "<group>"; };
 		E16A2C291BF377A600B0D785 /* ServerConnection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerConnection.swift; sourceTree = "<group>"; };
 		E16A2C2A1BF377A600B0D785 /* UserManagement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserManagement.swift; sourceTree = "<group>"; };
+		E179E4F01C0B099900596C01 /* ModuleManagement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModuleManagement.swift; sourceTree = "<group>"; };
+		E179E4F31C0B173C00596C01 /* GlobalConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GlobalConfig.swift; path = "Helpers and Extensions/GlobalConfig.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,6 +119,7 @@
 			isa = PBXGroup;
 			children = (
 				E10E03861BEFDDD900D28F15 /* assistance */,
+				E179E4F21C0B163700596C01 /* Configuration */,
 				E10E03851BEFDDD900D28F15 /* Products */,
 				FF1A98267B92CC7DCB74AF4D /* Pods */,
 				32CF01121C229A22CD75C39E /* Frameworks */,
@@ -135,10 +140,8 @@
 				E10E03871BEFDDD900D28F15 /* AppDelegate.swift */,
 				E10E03891BEFDDD900D28F15 /* ViewController.swift */,
 				E10E038B1BEFDDD900D28F15 /* Main.storyboard */,
-				E10E038E1BEFDDD900D28F15 /* Assets.xcassets */,
 				E10E03901BEFDDD900D28F15 /* LaunchScreen.storyboard */,
-				E10E03931BEFDDD900D28F15 /* Info.plist */,
-				E13FF0A91C0A11C600EA4F8D /* assistance.entitlements */,
+				E10E038E1BEFDDD900D28F15 /* Assets.xcassets */,
 				E16A2C151BF377A600B0D785 /* Onboarding */,
 				E16A2C1A1BF377A600B0D785 /* Sensors */,
 				E16A2C271BF377A600B0D785 /* Server Communication */,
@@ -214,10 +217,22 @@
 			isa = PBXGroup;
 			children = (
 				E16A2C281BF377A600B0D785 /* DataSync.swift */,
+				E179E4F01C0B099900596C01 /* ModuleManagement.swift */,
 				E16A2C291BF377A600B0D785 /* ServerConnection.swift */,
 				E16A2C2A1BF377A600B0D785 /* UserManagement.swift */,
 			);
 			path = "Server Communication";
+			sourceTree = "<group>";
+		};
+		E179E4F21C0B163700596C01 /* Configuration */ = {
+			isa = PBXGroup;
+			children = (
+				E179E4F31C0B173C00596C01 /* GlobalConfig.swift */,
+				E10E03931BEFDDD900D28F15 /* Info.plist */,
+				E13FF0A91C0A11C600EA4F8D /* assistance.entitlements */,
+			);
+			name = Configuration;
+			path = assistance;
 			sourceTree = "<group>";
 		};
 		FF1A98267B92CC7DCB74AF4D /* Pods */ = {
@@ -397,9 +412,11 @@
 				E16A2C3D1BF377A600B0D785 /* UserManagement.swift in Sources */,
 				E11E4EAD1BFE134300E3D7EE /* PowerStateManager.swift in Sources */,
 				E13FF0A21C08C37B00EA4F8D /* MobileConnection.swift in Sources */,
+				E179E4F41C0B173C00596C01 /* GlobalConfig.swift in Sources */,
 				E10E038A1BEFDDD900D28F15 /* ViewController.swift in Sources */,
 				E11E4EB31C00ED9100E3D7EE /* ConnectionManager.swift in Sources */,
 				E16A2C331BF377A600B0D785 /* PositionManager.swift in Sources */,
+				E179E4F11C0B099900596C01 /* ModuleManagement.swift in Sources */,
 				E13FF0A01C08C31700EA4F8D /* WifiConnection.swift in Sources */,
 				E11E4EB01C00E63F00E3D7EE /* GyroscopeManager.swift in Sources */,
 				E16A2C2B1BF377A600B0D785 /* CMMotionActivityEquality.swift in Sources */,

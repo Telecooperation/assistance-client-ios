@@ -8,27 +8,48 @@
 
 import Foundation
 
+typealias Result = () throws -> AnyObject
+
 class ServerConnection: NSObject, NSURLSessionDelegate, NSURLSessionTaskDelegate {
     
-    let errorMessage: [Int: String] = [
+    enum Error: ErrorType {
+        case Unauthorized
+        case NoInternetConnection
+        case ResponseFormatError
+        case RequestError(errorCode: Int)
+        case ServerError(errorCode: Int)
+    }
+    
+    static let errorMessage: [Int: String] = [
+        0: "Unspecified error",
+        1: "Unauthorized",
         2: "Incorrect email/password",
         3: "An account with the provided email already exists.",
-        9: "The user is already logged in."
+        4: "Not all parameters (email and password) were provided.",
+        5: "The module id was not provided.",
+        6: "The module is already activated.",
+        7: "The module is not activated.",
+        8: "The module does not exist.",
+        9: "The user is already logged in.",
+        10: "Missing parameters (general).",
+        11: "Invalid parameters (general).",
+        12: "Device ID not known.",
+        13: "Platform is not supported."
     ]
     
-    func get(url: String, token: String?, completed: (succeeded: Bool, message: String) -> ()) {
+    func get(url: String, token: String?, completed: (result: Result) -> Void) {
         sendRequest("GET", url: url, token: token, params: nil, completed: completed)
     }
     
-    func post(url: String, token: String?, params: [String: AnyObject], completed: (succeeded: Bool, message: String) -> ()) {
+    func post(url: String, token: String?, params: [String: AnyObject], completed: (result: Result) -> Void) {
         sendRequest("POST", url: url, token: token, params: params, completed: completed)
     }
     
-    func put(url: String, token: String?, params: [String: AnyObject], completed: (succeeded: Bool, message: String) -> ()) {
+    func put(url: String, token: String?, params: [String: AnyObject], completed: (result: Result) -> Void) {
         sendRequest("PUT", url: url, token: token, params: params, completed: completed)
     }
     
-    private func sendRequest(httpMethod: String, url: String, token: String?, params: [String: AnyObject]?, completed: (succeeded: Bool, message: String) -> ()) {
+    private func sendRequest(httpMethod: String, url: String, token: String?, params: [String: AnyObject]?, completed: (result: Result) -> Void) {
         let request = NSMutableURLRequest(URL: NSURL(string: url)!)
         let session = NSURLSession.sharedSession()
         request.HTTPMethod = httpMethod
@@ -58,24 +79,18 @@ class ServerConnection: NSObject, NSURLSessionDelegate, NSURLSessionTaskDelegate
             
             if let data = data {
                 print("response: \(response)")
-                let dataString = NSString(data: data, encoding: NSUTF8StringEncoding)
-                print("body: \(dataString)")
+                print("body: \(NSString(data: data, encoding: NSUTF8StringEncoding))")
                 
                 if let response = response as? NSHTTPURLResponse {
-                    
                     var errorCode = 0
-                    var message = ""
                     
                     do {
-                        if let dataString = dataString where dataString.length > 0 {
+                        if let dataString = NSString(data: data, encoding: NSUTF8StringEncoding) where dataString.length > 0 {
                             let dataJSON = try NSJSONSerialization.JSONObjectWithData(data, options: .MutableLeaves) as? NSDictionary
                             
                             if let dataJSON = dataJSON {
                                 if let code = dataJSON["code"] as? Int {
                                     errorCode = code
-                                }
-                                if let token = dataJSON["token"] as? String {
-                                    message = token
                                 }
                                 if let device_id = dataJSON["device_id"] as? Int {
                                     NSUserDefaults.standardUserDefaults().setObject(device_id, forKey: "device_id")
@@ -83,24 +98,19 @@ class ServerConnection: NSObject, NSURLSessionDelegate, NSURLSessionTaskDelegate
                             }
                         }
                     } catch {
-                        completed(succeeded: false, message: "Internal format error.")
+                        completed(result: { throw Error.ResponseFormatError })
                     }
                         
                     switch response.statusCode {
-                        case 200: completed(succeeded: true, message: message)
-                        case 400:
-                            if let errorCodeMessage = self.errorMessage[errorCode] {
-                                completed(succeeded: false, message: errorCodeMessage)
-                            } else {
-                                completed(succeeded: false, message: "Internal Error. (\(errorCode))")
-                            }
-                        case 401: completed(succeeded: false, message: "Unauthorized (401)")
-                        case 404: completed(succeeded: false, message: "Internal server error (404)")
-                        case 500: completed(succeeded: false, message: "Internal server error (500)")
+                        case 200: completed(result: { return data })
+                        case 400: completed(result: { throw Error.RequestError(errorCode: errorCode) })
+                        case 401: completed(result: { throw Error.Unauthorized })
+                        case 404: completed(result: { throw Error.ServerError(errorCode: 404) })
+                        case 500: completed(result: { throw Error.ServerError(errorCode: 500) })
                         default: ()
                     }
                 } else {
-                    completed(succeeded: false, message: "Please check your internet connection!")
+                    completed(result: { throw Error.NoInternetConnection })
                 }
             }
         })

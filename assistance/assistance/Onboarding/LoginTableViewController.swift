@@ -28,23 +28,38 @@ class LoginTableViewController: UITableViewController {
     
     @IBAction func signIn(sender: AnyObject) {
         UserManagement().login(emailTextField.text!, password: passwordTextField.text!) {
-            (succeeded: Bool, message: String) -> () in
+            result in
             
-            if !succeeded {
-                let alertController = UIAlertController(title: "Login failed", message: message, preferredStyle: .Alert)
+            do {
+                let data = try result()
+                
+                NSUserDefaults.standardUserDefaults().setObject(self.emailTextField.text, forKey: "UserEmail")
+                
+                if let dataString = NSString(data: data as! NSData, encoding: NSUTF8StringEncoding) where dataString.length > 0,
+                    let dataJSON = try? NSJSONSerialization.JSONObjectWithData(data as! NSData, options: .MutableLeaves) as! NSDictionary,
+                    token = dataJSON["token"] as? String {
+                        _ = try? Locksmith.updateData(["password": self.passwordTextField.text!, "token": token], forUserAccount: self.emailTextField.text!)
+                }
+                
+                self.dismissViewControllerAnimated(true, completion: nil)
+                
+            } catch ServerConnection.Error.RequestError(let errorCode) {
+                
+                var errorMessage = "An unknown error occured."
+                if let message = ServerConnection.errorMessage[errorCode] {
+                    errorMessage = message
+                }
+                
+                let alertController = UIAlertController(title: "Login failed", message: errorMessage, preferredStyle: .Alert)
                 let cancelAction = UIAlertAction(title: "Okay", style: .Cancel, handler: nil)
                 alertController.addAction(cancelAction)
                 
                 dispatch_async(dispatch_get_main_queue(), {
                     self.presentViewController(alertController, animated: true, completion: nil)
                 })
-            } else {
-                NSUserDefaults.standardUserDefaults().setObject(self.emailTextField.text, forKey: "UserEmail")
                 
-                _ = try? Locksmith.updateData(["password": self.passwordTextField.text!, "token": message], forUserAccount: self.emailTextField.text!)
-                
-                self.dismissViewControllerAnimated(true, completion: nil)
-            }
+            } catch { }
+            
         }
     }
 
