@@ -2,7 +2,7 @@
 //  AssistanceTableViewController.swift
 //  assistance
 //
-//  Created by Nicko on 29/11/15.
+//  Created by Nickolas Guendling on 29/11/15.
 //  Copyright © 2015 Darmstadt University of Technology. All rights reserved.
 //
 
@@ -12,11 +12,42 @@ import CoreLocation
 
 class AssistanceTableViewController: UITableViewController {
 
+    var currentInfo = [
+        ["moduleId": "de.tudarmstadt.informatik.tk.assistanceplatform.modules.hotplaces",
+         "created": "2015-11-29T20:21:34+01:00",
+         "payload": [
+                        ["type": "group", "alignment": "horizontal", "distribution": [70, 30], "content":   [
+                                                                                                                ["type": "text", "style": "headline", "content": "This Is an Awesome Headline!"],
+                                                                                                                ["type": "text", "style": "footnote", "content": "Yeah."]
+                                                                                                            ]
+                        ],
+                        ["type": "map", "showCurrentLocation": true, "points": [[49.877427, 8.653879], [49.877496, 8.653429], [49.877220, 8.653493]]]
+                    ]
+        ]
+    ]
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         tableView.tableFooterView = UIView(frame: CGRect.zero)
+        
+        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.estimatedRowHeight = 290.0
     }
+    
+//    override func viewWillAppear() {
+//        super.viewWillAppear()
+//        
+//        ModuleManager().currentInformation {
+//            result in
+//            
+//            do {
+//                let data = try result()
+//            } catch {
+//                
+//            }
+//        }
+//    }
     
     override func viewDidAppear(animated: Bool) {
         if CLLocationManager.authorizationStatus() == .NotDetermined {
@@ -32,25 +63,46 @@ class AssistanceTableViewController: UITableViewController {
 
     // MARK: - Table view data source
 
-//    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-//        // #warning Incomplete implementation, return the number of sections
-//        return 0
-//    }
-//
-//    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        // #warning Incomplete implementation, return the number of rows
-//        return 0
-//    }
+    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        // #warning Incomplete implementation, return the number of sections
+        return currentInfo.count
+    }
 
-    /*
+    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        // #warning Incomplete implementation, return the number of rows
+        return 1
+    }
+
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("reuseIdentifier", forIndexPath: indexPath)
+        let cell = tableView.dequeueReusableCellWithIdentifier("Card", forIndexPath: indexPath)
 
-        // Configure the cell...
+        let cardInfo = currentInfo[Int(indexPath.section)]
+        if let payload = cardInfo["payload"] as? [[String: AnyObject]] {
+            for object in payload {
+                
+            }
+        }
 
         return cell
     }
-    */
+    
+    override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        
+        let iso8601date = currentInfo[section]["created"] as! String
+        guard let date = NSDate(ISO8601String: iso8601date) else {
+            return "Hot Zone"
+        }
+        
+        let durationFormatter = NSDateComponentsFormatter()
+        durationFormatter.unitsStyle = .Short
+        durationFormatter.allowedUnits = [.Day, .Hour, .Minute]
+        
+        let duration = NSDate().timeIntervalSinceDate(date)
+        
+        let durationString = durationFormatter.stringFromTimeInterval(duration)!
+        
+        return "Hot Zone - \(durationString) ago"
+    }
 
     /*
     // Override to support conditional editing of the table view.

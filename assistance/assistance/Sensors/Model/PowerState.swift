@@ -2,13 +2,11 @@
 //  PowerState.swift
 //  Labels
 //
-//  Created by Nicko on 20/11/15.
+//  Created by Nickolas Guendling on 20/11/15.
 //  Copyright © 2015 Darmstadt University of Technology. All rights reserved.
 //
 
 import Foundation
-
-import CoreMotion
 
 @objc enum ChargingState: Int {
     case None, Low, Okay, Full, Malfunction
@@ -32,10 +30,11 @@ class PowerState: Sensor {
     
     override func dictionary() -> [String: AnyObject] {
         return ["type": "powerstate",
-                "created": created.ISO8601String(),
+                "created": created.ISO8601String()!,
                 "isCharging": isCharging,
                 "percent": percent,
                 "chargingState": chargingState.rawValue,
                 "powerSaveMode": powerSaveMode]
     }
+    
 }

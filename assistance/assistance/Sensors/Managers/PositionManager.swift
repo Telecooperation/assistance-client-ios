@@ -2,7 +2,7 @@
 //  PositionManager.swift
 //  Labels
 //
-//  Created by Nicko on 11/10/15.
+//  Created by Nickolas Guendling on 11/10/15.
 //  Copyright © 2015 Darmstadt University of Technology. All rights reserved.
 //
 
@@ -13,10 +13,9 @@ import RealmSwift
 
 class PositionManager: NSObject, SensorManager, CLLocationManagerDelegate {
     
-    let sensorName = "position"
+    let sensorType = "position"
     
-    let uploadInterval = 60.0 //TODO: update upload intervall!
-    let updateInterval = 10.0
+    var sensorConfiguration = NSMutableDictionary()
     
     static let sharedManager = PositionManager()
     
@@ -25,6 +24,8 @@ class PositionManager: NSObject, SensorManager, CLLocationManagerDelegate {
     
     override init() {
         super.init()
+        
+        initSensorManager()
         
         locationManager.delegate = self
         locationManager.pausesLocationUpdatesAutomatically = false
@@ -35,10 +36,27 @@ class PositionManager: NSObject, SensorManager, CLLocationManagerDelegate {
         }
     }
     
+    func needsSystemAuthorization() -> Bool {
+        return CLLocationManager.authorizationStatus() != .AuthorizedAlways
+    }
+    
+    func requestAuthorizationFromViewController(viewController: UIViewController, completed: (granted: Bool, error: NSError?) -> Void) {
+        if CLLocationManager.authorizationStatus() != .AuthorizedAlways {
+            locationManager.requestAlwaysAuthorization()
+        }
+    }
+    
+    func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
+        switch status {
+            case .AuthorizedAlways: self.grantAuthorization()
+            case .Denied, .Restricted: self.denySystemAuthorization()
+            default: ()
+        }
+    }
+    
     func didStart() {
         locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
         
-        locationManager.requestAlwaysAuthorization()
         locationManager.startUpdatingLocation()
     }
     
@@ -67,22 +85,22 @@ class PositionManager: NSObject, SensorManager, CLLocationManagerDelegate {
     }
     
     func sensorData() -> [Sensor] {
-        if isActive() && shouldUpload() {
-            return Array(realm.objects(Position).toArray().prefix(50))
+        if isActive() && shouldUpdate() {
+            return Array(realm.objects(Position).toArray().prefix(20))
         }
         
         return [Sensor]()
     }
     
-    func sensorDataDidUpload(data: [Sensor]) {
+    func sensorDataDidUpdate(data: [Sensor]) {
         _ = try? realm.write {
             for position in data {
                 self.realm.delete(position)
             }
         }
         
-        if realm.objects(Position).count < 50 {
-            didUpload()
+        if realm.objects(Position).count == 0 {
+            didUpdate()
         }
     }
 }

@@ -2,7 +2,7 @@
 //  AccelerometerManager.swift
 //  Labels
 //
-//  Created by Nicko on 14/10/15.
+//  Created by Nickolas Guendling on 14/10/15.
 //  Copyright © 2015 Darmstadt University of Technology. All rights reserved.
 //
 
@@ -13,10 +13,9 @@ import RealmSwift
 
 class AccelerometerManager: NSObject, SensorManager {
     
-    let sensorName = "accelerometer"
+    let sensorType = "accelerometer"
     
-    let uploadInterval = 60.0
-    let updateInterval = 5.0
+    var sensorConfiguration = NSMutableDictionary()
     
     static let sharedManager = AccelerometerManager()
     
@@ -26,7 +25,9 @@ class AccelerometerManager: NSObject, SensorManager {
     override init() {
         super.init()
 
-        motionManager.accelerometerUpdateInterval = updateInterval
+        initSensorManager()
+        
+        motionManager.accelerometerUpdateInterval = collectionInterval()
         
         if isActive() {
             start()
@@ -44,37 +45,42 @@ class AccelerometerManager: NSObject, SensorManager {
                         _ = try? self.realm.write {
                             self.realm.add(Accelerometer(accelerometerData: accelerometerData))
                         }
-                        DataSync().syncData()
                     })
                 }
+                dispatch_async(dispatch_get_main_queue(), {
+                    DataSync().syncData()
+                })
             }
         }
     }
     
     func didStop() {
-        // TODO: really stop?
-        motionManager.stopAccelerometerUpdates()
+        /*
+        * We do not actually stop requesting accelerometer updates using
+        * motionManager.stopAccelerometerUpdates() here because we use
+        * the accelerometer update calls to sync all sensor data to the server.
+        */
         
         realm.delete(realm.objects(Accelerometer))
     }
     
     func sensorData() -> [Sensor] {
-        if isActive() && shouldUpload() {
-            return Array(realm.objects(Accelerometer).toArray().prefix(50))
+        if isActive() && shouldUpdate() {
+            return Array(realm.objects(Accelerometer).toArray().prefix(20))
         }
         
         return [Sensor]()
     }
     
-    func sensorDataDidUpload(data: [Sensor]) {
+    func sensorDataDidUpdate(data: [Sensor]) {
         _ = try? realm.write {
             for accelerometer in data {
                 self.realm.delete(accelerometer)
             }
         }
         
-        if realm.objects(Accelerometer).count < 50 {
-            didUpload()
+        if realm.objects(Accelerometer).count == 0 {
+            didUpdate()
         }
     }
     

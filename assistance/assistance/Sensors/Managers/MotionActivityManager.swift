@@ -2,7 +2,7 @@
 //  MotionActivityManager.swift
 //  Labels
 //
-//  Created by Nicko on 14/10/15.
+//  Created by Nickolas Guendling on 14/10/15.
 //  Copyright © 2015 Darmstadt University of Technology. All rights reserved.
 //
 
@@ -13,10 +13,9 @@ import RealmSwift
 
 class MotionActivityManager: NSObject, SensorManager {
     
-    let sensorName = "motionactivity"
+    let sensorType = "motionactivity"
     
-    let uploadInterval = 60.0
-    let updateInterval = 10.0
+    var sensorConfiguration = NSMutableDictionary()
     
     let motionActivityManager = CMMotionActivityManager()
     
@@ -24,15 +23,39 @@ class MotionActivityManager: NSObject, SensorManager {
     
     let realm = try! Realm()
     
+    override init() {
+        super.init()
+        
+        initSensorManager()
+        
+        if isActive() {
+            start()
+        }
+    }
+    
+    func requestAuthorizationFromViewController(viewController: UIViewController, completed: (granted: Bool, error: NSError?) -> Void) {
+        self.motionActivityManager.queryActivityStartingFromDate(NSDate(), toDate: NSDate(), toQueue: NSOperationQueue()) {
+            _, error in
+            
+            if let error = error where error.code == Int(CMErrorMotionActivityNotAuthorized.rawValue) {
+                self.denySystemAuthorization()
+                completed(granted: false, error: error)
+            } else {
+                self.grantAuthorization()
+                completed(granted: true, error: error)
+            }
+        }
+    }
+    
     func didStop() {
         realm.delete(realm.objects(MotionActivity))
     }
     
     func sensorData() -> [Sensor] {
-        if isActive() && shouldUpload() {
+        if isActive() && shouldUpdate() {
             if CMMotionActivityManager.isActivityAvailable() {
                 self.motionActivityManager.queryActivityStartingFromDate(lastUpdateTime(), toDate: NSDate(), toQueue: NSOperationQueue()) {
-                    (motionActivities, error) in
+                    motionActivities, error in
                     
                     if let motionActivities = motionActivities {
                         dispatch_async(dispatch_get_main_queue(),{
@@ -52,21 +75,21 @@ class MotionActivityManager: NSObject, SensorManager {
                 didUpdate()
             }
             
-            return Array(realm.objects(MotionActivity).toArray().prefix(50))
+            return Array(realm.objects(MotionActivity).toArray().prefix(20))
         }
 
         return [Sensor]()
     }
     
-    func sensorDataDidUpload(data: [Sensor]) {
+    func sensorDataDidUpdate(data: [Sensor]) {
         _ = try? realm.write {
             for motionActivity in data {
                 self.realm.delete(motionActivity)
             }
         }
         
-        if realm.objects(MotionActivity).count < 50 {
-            didUpload()
+        if realm.objects(MotionActivity).count == 0 {
+            didUpdate()
         }
     }
 }

@@ -2,46 +2,47 @@
 //  AppDelegate.swift
 //  assistance
 //
-//  Created by Nicko on 08/11/15.
+//  Created by Nickolas Guendling on 08/11/15.
 //  Copyright © 2015 Darmstadt University of Technology. All rights reserved.
 //
 
 import UIKit
+
+import FBSDKCoreKit
+import FBSDKLoginKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         
-        ModuleManagement().availableModules {
-            result in
-            
-            do {
-                let data = try result()
-                if let dataString = NSString(data: data as! NSData, encoding: NSUTF8StringEncoding) where dataString.length > 0,
-                    let dataJSON = try? NSJSONSerialization.JSONObjectWithData(data as! NSData, options: .MutableLeaves) as? NSDictionary {
-                    
-                    print(dataJSON)
-                }
-            } catch {
-                switch error {
-                    case ModuleManagement.Error.NotAuthenticated:
-                        print("Not Authenticated!")
-                    default:
-                        break
-                }
-            }
-        }
+        FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
+        
+        // TODO: Remove debug line!
+        NSUserDefaults.standardUserDefaults().removeObjectForKey("sensorConfiguration")
+        
+        createSensorConfiguration()
         
         return true
+    }
+    
+    func createSensorConfiguration() {
+        if NSUserDefaults.standardUserDefaults().objectForKey("sensorConfiguration") == nil {
+            if let path = NSBundle.mainBundle().pathForResource("Sensors", ofType: "plist"), sensorConfiguration = NSDictionary(contentsOfFile: path) as? [String: AnyObject] {
+                NSUserDefaults.standardUserDefaults().setObject(sensorConfiguration, forKey: "sensorConfiguration")
+            }
+        }
     }
     
     func application(application: UIApplication, performFetchWithCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void) {
         DataSync().syncData()
         completionHandler(.NewData) // was .NoData
+    }
+    
+    func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject) -> Bool {
+        return FBSDKApplicationDelegate.sharedInstance().application(application, openURL: url, sourceApplication: sourceApplication, annotation: annotation)
     }
 
     func applicationWillResignActive(application: UIApplication) {
@@ -59,7 +60,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationDidBecomeActive(application: UIApplication) {
-        // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+        FBSDKAppEvents.activateApp()
     }
 
     func applicationWillTerminate(application: UIApplication) {

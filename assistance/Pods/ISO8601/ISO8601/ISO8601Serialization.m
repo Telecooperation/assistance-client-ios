@@ -10,7 +10,7 @@
 
 @implementation ISO8601Serialization
 
-+ (NSDateComponents *)dateComponentsForString:(NSString *)string {
++ (NSDateComponents * __nullable)dateComponentsForString:(NSString * __nonnull)string {
 	NSScanner *scanner = [[NSScanner alloc] initWithString:string];
 	scanner.charactersToBeSkipped = nil;
 	
@@ -126,10 +126,24 @@
 }
 
 
-+ (NSString *)stringForDateComponents:(NSDateComponents *)components {	
-	NSString *string = [[NSString alloc] initWithFormat:@"%04li-%02i-%02iT%02i:%02i:%02i", (long)components.year,
-						(int)components.month, (int)components.day, (int)components.hour, (int)components.minute,
-						(int)components.second];
++ (NSString * __nullable)stringForDateComponents:(NSDateComponents * __nonnull)components {
+	NSString *string = @"";
+	BOOL hasDate = components.year != NSDateComponentUndefined || components.month != NSDateComponentUndefined || components.day != NSDateComponentUndefined;
+	BOOL hasTime = components.hour != NSDateComponentUndefined || components.minute != NSDateComponentUndefined || components.second != NSDateComponentUndefined || components.timeZone;
+	if (!hasDate && !hasTime) {
+		return nil;
+	}
+	if (hasDate) {
+		string = [string stringByAppendingFormat:@"%04li-%02i-%02i", (long)components.year,
+		                                                              (int)components.month,
+		                                                              (int)components.day];
+	}
+	if (hasTime) {
+		string = [string stringByAppendingFormat:@"%@%02i:%02i:%02i", hasDate ? @"T" : @"",
+		                                                              (int)components.hour,
+		                                                              (int)components.minute,
+		                                                              (int)components.second];
+	}
 
 	NSTimeZone *timeZone = components.timeZone;
 	if (!timeZone) {

@@ -2,7 +2,7 @@
 //  PowerStateManager.swift
 //  Labels
 //
-//  Created by Nicko on 20/11/15.
+//  Created by Nickolas Guendling on 20/11/15.
 //  Copyright © 2015 Darmstadt University of Technology. All rights reserved.
 //
 
@@ -12,10 +12,9 @@ import RealmSwift
 
 class PowerStateManager: NSObject, SensorManager {
     
-    let sensorName = "powerstate"
+    let sensorType = "powerstate"
     
-    let uploadInterval = 60.0
-    let updateInterval = 5.0
+    var sensorConfiguration = NSMutableDictionary()
     
     static let sharedManager = PowerStateManager()
     
@@ -23,6 +22,8 @@ class PowerStateManager: NSObject, SensorManager {
     
     override init() {
         super.init()
+        
+        initSensorManager()
         
         if isActive() {
             start()
@@ -71,22 +72,22 @@ class PowerStateManager: NSObject, SensorManager {
     }
     
     func sensorData() -> [Sensor] {
-        if isActive() && shouldUpload() {
-            return Array(realm.objects(PowerState).toArray().prefix(50))
+        if isActive() && shouldUpdate() {
+            return Array(realm.objects(PowerState).toArray().prefix(20))
         }
         
         return [Sensor]()
     }
     
-    func sensorDataDidUpload(data: [Sensor]) {
+    func sensorDataDidUpdate(data: [Sensor]) {
         _ = try? realm.write {
             for powerState in data {
                 self.realm.delete(powerState)
             }
         }
         
-        if realm.objects(PowerState).count < 50 {
-            didUpload()
+        if realm.objects(PowerState).count == 0 {
+            didUpdate()
         }
     }
     

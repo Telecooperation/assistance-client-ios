@@ -2,7 +2,7 @@
 //  ConnectionManager.swift
 //  assistance
 //
-//  Created by Nicko on 21/11/15.
+//  Created by Nickolas Guendling on 21/11/15.
 //  Copyright © 2015 Darmstadt University of Technology. All rights reserved.
 //
 
@@ -13,10 +13,9 @@ import GCNetworkReachability
 
 class ConnectionManager: NSObject, SensorManager {
     
-    let sensorName = "connection"
+    let sensorType = "connection"
     
-    let uploadInterval = 60.0
-    let updateInterval = 5.0
+    var sensorConfiguration = NSMutableDictionary()
     
     static let sharedManager = ConnectionManager()
     
@@ -26,6 +25,8 @@ class ConnectionManager: NSObject, SensorManager {
     
     override init() {
         super.init()
+        
+        initSensorManager()
         
         if isActive() {
             start()
@@ -53,22 +54,22 @@ class ConnectionManager: NSObject, SensorManager {
     }
     
     func sensorData() -> [Sensor] {
-        if isActive() && shouldUpload() {
-            return Array(realm.objects(Connection).toArray().prefix(50))
+        if isActive() && shouldUpdate() {
+            return Array(realm.objects(Connection).toArray().prefix(20))
         }
         
         return [Sensor]()
     }
     
-    func sensorDataDidUpload(data: [Sensor]) {
+    func sensorDataDidUpdate(data: [Sensor]) {
         _ = try? realm.write {
             for connection in data {
                 self.realm.delete(connection)
             }
         }
         
-        if realm.objects(Connection).count < 50 {
-            didUpload()
+        if realm.objects(Connection).count == 0 {
+            didUpdate()
         }
     }
     

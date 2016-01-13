@@ -2,7 +2,7 @@
 //  RegisterTableViewController.swift
 //  Labels
 //
-//  Created by Nicko on 30/07/15.
+//  Created by Nickolas Guendling on 30/07/15.
 //  Copyright © 2015 Darmstadt University of Technology. All rights reserved.
 //
 
@@ -16,7 +16,7 @@ class RegisterTableViewController: UITableViewController {
     @IBOutlet var passwordTextField: UITextField!
     
     @IBAction func register(sender: AnyObject) {
-        UserManagement().register(emailTextField.text!, password: passwordTextField.text!) {
+        UserManager().register(emailTextField.text!, password: passwordTextField.text!) {
             result in
             
             do {

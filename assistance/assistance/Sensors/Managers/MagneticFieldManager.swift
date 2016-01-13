@@ -2,7 +2,7 @@
 //  MagneticFieldManager.swift
 //  Labels
 //
-//  Created by Nicko on 20/11/15.
+//  Created by Nickolas Guendling on 20/11/15.
 //  Copyright © 2015 Darmstadt University of Technology. All rights reserved.
 //
 
@@ -13,10 +13,9 @@ import RealmSwift
 
 class MagneticFieldManager: NSObject, SensorManager {
     
-    let sensorName = "magneticfield"
+    let sensorType = "magneticfield"
     
-    let uploadInterval = 60.0
-    let updateInterval = 5.0
+    var sensorConfiguration = NSMutableDictionary()
     
     static let sharedManager = MagneticFieldManager()
     
@@ -25,8 +24,10 @@ class MagneticFieldManager: NSObject, SensorManager {
     
     override init() {
         super.init()
-
-        motionManager.magnetometerUpdateInterval = updateInterval
+        
+        initSensorManager()
+        
+        motionManager.magnetometerUpdateInterval = collectionInterval()
         
         if isActive() {
             start()
@@ -51,29 +52,28 @@ class MagneticFieldManager: NSObject, SensorManager {
     }
     
     func didStop() {
-        // TODO: really stop?
         motionManager.stopMagnetometerUpdates()
         
         realm.delete(realm.objects(MagneticField))
     }
     
     func sensorData() -> [Sensor] {
-        if isActive() && shouldUpload() {
-            return Array(realm.objects(MagneticField).toArray().prefix(50))
+        if isActive() && shouldUpdate() {
+            return Array(realm.objects(MagneticField).toArray().prefix(20))
         }
         
         return [Sensor]()
     }
     
-    func sensorDataDidUpload(data: [Sensor]) {
+    func sensorDataDidUpdate(data: [Sensor]) {
         _ = try? realm.write {
-            for magneticfield in data {
-                self.realm.delete(magneticfield)
+            for magneticField in data {
+                self.realm.delete(magneticField)
             }
         }
         
-        if realm.objects(MagneticField).count < 50 {
-            didUpload()
+        if realm.objects(MagneticField).count == 0 {
+            didUpdate()
         }
     }
     

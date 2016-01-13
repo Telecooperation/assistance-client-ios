@@ -2,7 +2,7 @@
 //  DataSync.swift
 //  Labels
 //
-//  Created by Nicko on 04/10/15.
+//  Created by Nickolas Guendling on 04/10/15.
 //  Copyright © 2015 Darmstadt University of Technology. All rights reserved.
 //
 
@@ -16,15 +16,7 @@ class DataSync {
     
     let realm = try! Realm()
     
-    let sensorManagers: [SensorManager] = [AccelerometerManager.sharedManager,
-                                            ConnectionManager.sharedManager,
-                                            WifiConnectionManager.sharedManager,
-                                            GyroscopeManager.sharedManager,
-                                            MagneticFieldManager.sharedManager,
-                                            MotionActivityManager.sharedManager,
-                                            PositionManager.sharedManager,
-                                            PowerStateManager.sharedManager,
-                                            MobileConnectionManager.sharedManager]
+    let sensorManagers = SensorsManager().allSensorManagers()
     
     func syncData() {
         
@@ -38,12 +30,12 @@ class DataSync {
             return
         }
         
-        let timeSinceLastUpload = NSDate().timeIntervalSinceDate(PositionManager.sharedManager.lastUploadTime())
-        let forceCellularUploadIntervall = 60 * 60 * 24 * 3.0 // three days
+        let timeSinceLastUpdate = NSDate().timeIntervalSinceDate(PositionManager.sharedManager.lastUpdateTime())
+        let forceCellularUploadIntervall = NSTimeInterval(60 * 60 * 24) // one day
         
         let reachability = GCNetworkReachability.reachabilityForInternetConnection()
         
-        guard reachability.currentReachabilityStatus() == GCNetworkReachabilityStatusWiFi || timeSinceLastUpload > forceCellularUploadIntervall else {
+        guard reachability.currentReachabilityStatus() == GCNetworkReachabilityStatusWiFi || timeSinceLastUpdate > forceCellularUploadIntervall else {
             print("Sync failed: Not connected to WiFi!")
             return
         }
@@ -52,9 +44,9 @@ class DataSync {
         var sensorDataToSync = [String: [Sensor]]()
         
         for sensorManager in sensorManagers {
-            if sensorManager.shouldUpload() {
-                sensorDataToSync[sensorManager.sensorName] = sensorManager.sensorData()
-                for sensorData in sensorDataToSync[sensorManager.sensorName]! {
+            if sensorManager.shouldUpdate() {
+                sensorDataToSync[sensorManager.sensorType] = sensorManager.sensorData()
+                for sensorData in sensorDataToSync[sensorManager.sensorType]! {
                     sensorReadings.append(sensorData.dictionary())
                 }
             }
@@ -74,8 +66,8 @@ class DataSync {
                 
                 dispatch_async(dispatch_get_main_queue(), {
                     for sensorManager in self.sensorManagers {
-                        if let syncedSensorData = sensorDataToSync[sensorManager.sensorName] where syncedSensorData.count > 0 {
-                            sensorManager.sensorDataDidUpload(syncedSensorData)
+                        if let syncedSensorData = sensorDataToSync[sensorManager.sensorType] where syncedSensorData.count > 0 {
+                            sensorManager.sensorDataDidUpdate(syncedSensorData)
                         }
                     }
                 })
@@ -86,7 +78,7 @@ class DataSync {
                     let dictionary = Locksmith.loadDataForUserAccount(userEmail),
                     let password = dictionary["password"] as? String {
                         
-                        UserManagement().login(userEmail, password: password) {
+                        UserManager().login(userEmail, password: password) {
                             result in
                             
                             do {

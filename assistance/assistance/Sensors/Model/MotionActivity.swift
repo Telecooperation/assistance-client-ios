@@ -2,7 +2,7 @@
 //  MotionActivity.swift
 //  Labels
 //
-//  Created by Nicko on 09/10/15.
+//  Created by Nickolas Guendling on 09/10/15.
 //  Copyright © 2015 Darmstadt University of Technology. All rights reserved.
 //
 
@@ -53,7 +53,7 @@ class MotionActivity: Sensor {
     
     override func dictionary() -> [String: AnyObject] {
         return ["type": "motionactivity",
-                "created": created.ISO8601String(),
+                "created": created.ISO8601String()!,
                 "walking": walking,
                 "running": running,
                 "cycling": cycling,
@@ -61,4 +61,5 @@ class MotionActivity: Sensor {
                 "stationary": stationary,
                 "unknown": unknown]
     }
+    
 }

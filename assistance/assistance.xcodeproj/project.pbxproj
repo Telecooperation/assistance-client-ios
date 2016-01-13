@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		13DB32C4B4EDEC05AD06D04D /* Pods_assistance.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AD07F4357EA9122E01613F4 /* Pods_assistance.framework */; };
+		E10280B61C3FC4EC007E1962 /* SensorPermissionsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10280B51C3FC4EC007E1962 /* SensorPermissionsTableViewController.swift */; };
+		E10280B81C410474007E1962 /* SensorPermissionsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10280B71C410473007E1962 /* SensorPermissionsTableViewCell.swift */; };
+		E10280BA1C464B1F007E1962 /* SensorAuthorizationStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10280B91C464B1F007E1962 /* SensorAuthorizationStatus.swift */; };
+		E10280BC1C464FA2007E1962 /* SensorsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10280BB1C464FA2007E1962 /* SensorsManager.swift */; };
 		E10E03881BEFDDD900D28F15 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10E03871BEFDDD900D28F15 /* AppDelegate.swift */; };
 		E10E038D1BEFDDD900D28F15 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E10E038B1BEFDDD900D28F15 /* Main.storyboard */; };
 		E10E038F1BEFDDD900D28F15 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E10E038E1BEFDDD900D28F15 /* Assets.xcassets */; };
@@ -23,6 +27,9 @@
 		E13FF0A01C08C31700EA4F8D /* WifiConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13FF09F1C08C31700EA4F8D /* WifiConnection.swift */; };
 		E13FF0A21C08C37B00EA4F8D /* MobileConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13FF0A11C08C37B00EA4F8D /* MobileConnection.swift */; };
 		E13FF0A41C08C38A00EA4F8D /* MobileConnectionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13FF0A31C08C38A00EA4F8D /* MobileConnectionManager.swift */; };
+		E166A2C31C354D8300C96632 /* RealmString.swift in Sources */ = {isa = PBXBuildFile; fileRef = E166A2C21C354D8300C96632 /* RealmString.swift */; };
+		E166A2C51C37FE2400C96632 /* TucanLoginTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E166A2C41C37FE2400C96632 /* TucanLoginTableViewController.swift */; };
+		E166A2C71C39839300C96632 /* Sensors.plist in Resources */ = {isa = PBXBuildFile; fileRef = E166A2C61C39839300C96632 /* Sensors.plist */; };
 		E16A2C2B1BF377A600B0D785 /* CMMotionActivityEquality.swift in Sources */ = {isa = PBXBuildFile; fileRef = E16A2C131BF377A600B0D785 /* CMMotionActivityEquality.swift */; };
 		E16A2C2C1BF377A600B0D785 /* ResultsExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E16A2C141BF377A600B0D785 /* ResultsExtension.swift */; };
 		E16A2C2D1BF377A600B0D785 /* LocationAuthorizationFailedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E16A2C161BF377A600B0D785 /* LocationAuthorizationFailedViewController.swift */; };
@@ -41,16 +48,35 @@
 		E16A2C3A1BF377A600B0D785 /* Sensor.swift in Sources */ = {isa = PBXBuildFile; fileRef = E16A2C261BF377A600B0D785 /* Sensor.swift */; };
 		E16A2C3B1BF377A600B0D785 /* DataSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = E16A2C281BF377A600B0D785 /* DataSync.swift */; };
 		E16A2C3C1BF377A600B0D785 /* ServerConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = E16A2C291BF377A600B0D785 /* ServerConnection.swift */; };
-		E16A2C3D1BF377A600B0D785 /* UserManagement.swift in Sources */ = {isa = PBXBuildFile; fileRef = E16A2C2A1BF377A600B0D785 /* UserManagement.swift */; };
-		E179E4F11C0B099900596C01 /* ModuleManagement.swift in Sources */ = {isa = PBXBuildFile; fileRef = E179E4F01C0B099900596C01 /* ModuleManagement.swift */; };
+		E16A2C3D1BF377A600B0D785 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E16A2C2A1BF377A600B0D785 /* UserManager.swift */; };
+		E176DA701C19AAB400680A6A /* LabeledValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = E176DA6F1C19AAB400680A6A /* LabeledValue.swift */; };
+		E179E4F11C0B099900596C01 /* ModuleManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E179E4F01C0B099900596C01 /* ModuleManager.swift */; };
 		E179E4F41C0B173C00596C01 /* GlobalConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = E179E4F31C0B173C00596C01 /* GlobalConfig.swift */; };
 		E179E4F61C0B468F00596C01 /* AssistanceTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E179E4F51C0B468F00596C01 /* AssistanceTableViewController.swift */; };
+		E179E4F81C13532700596C01 /* FacebookManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E179E4F71C13532600596C01 /* FacebookManager.swift */; };
+		E179E4FA1C13537900596C01 /* TucanManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E179E4F91C13537900596C01 /* TucanManager.swift */; };
+		E179E4FC1C13578800596C01 /* CalendarManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E179E4FB1C13578800596C01 /* CalendarManager.swift */; };
+		E179E5001C1357AE00596C01 /* ContactManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E179E4FF1C1357AE00596C01 /* ContactManager.swift */; };
+		E179E5021C1358C800596C01 /* Contact.swift in Sources */ = {isa = PBXBuildFile; fileRef = E179E5011C1358C800596C01 /* Contact.swift */; };
+		E179E5041C1358D600596C01 /* Alarm.swift in Sources */ = {isa = PBXBuildFile; fileRef = E179E5031C1358D600596C01 /* Alarm.swift */; };
+		E179E5061C1358E300596C01 /* Calendar.swift in Sources */ = {isa = PBXBuildFile; fileRef = E179E5051C1358E300596C01 /* Calendar.swift */; };
+		E179E5081C1358EF00596C01 /* Facebook.swift in Sources */ = {isa = PBXBuildFile; fileRef = E179E5071C1358EF00596C01 /* Facebook.swift */; };
+		E179E50A1C1358FB00596C01 /* Tucan.swift in Sources */ = {isa = PBXBuildFile; fileRef = E179E5091C1358FB00596C01 /* Tucan.swift */; };
+		E17F1CC71C18264A001F1DDA /* PowerLevelManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E17F1CC61C18264A001F1DDA /* PowerLevelManager.swift */; };
+		E17F1CC91C1842DA001F1DDA /* PowerLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E17F1CC81C1842DA001F1DDA /* PowerLevel.swift */; };
+		E1F20B901C39B61800A7B39C /* ModuleDetailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1F20B8D1C39B61800A7B39C /* ModuleDetailTableViewController.swift */; };
+		E1F20B911C39B61800A7B39C /* ModuleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1F20B8E1C39B61800A7B39C /* ModuleTableViewCell.swift */; };
+		E1F20B921C39B61800A7B39C /* ModuleTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1F20B8F1C39B61800A7B39C /* ModuleTableViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		114DAED56AFC995D2D4614B2 /* Pods-assistance.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-assistance.debug.xcconfig"; path = "Pods/Target Support Files/Pods-assistance/Pods-assistance.debug.xcconfig"; sourceTree = "<group>"; };
 		1AD07F4357EA9122E01613F4 /* Pods_assistance.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_assistance.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		ACA73DE11247251C818FDE5A /* Pods-assistance.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-assistance.release.xcconfig"; path = "Pods/Target Support Files/Pods-assistance/Pods-assistance.release.xcconfig"; sourceTree = "<group>"; };
+		E10280B51C3FC4EC007E1962 /* SensorPermissionsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SensorPermissionsTableViewController.swift; path = "Sensor Permissions/SensorPermissionsTableViewController.swift"; sourceTree = "<group>"; };
+		E10280B71C410473007E1962 /* SensorPermissionsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SensorPermissionsTableViewCell.swift; path = "Sensor Permissions/SensorPermissionsTableViewCell.swift"; sourceTree = "<group>"; };
+		E10280B91C464B1F007E1962 /* SensorAuthorizationStatus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SensorAuthorizationStatus.swift; sourceTree = "<group>"; };
+		E10280BB1C464FA2007E1962 /* SensorsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SensorsManager.swift; path = assistance/Sensors/SensorsManager.swift; sourceTree = SOURCE_ROOT; };
 		E10E03841BEFDDD900D28F15 /* assistance.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = assistance.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E10E03871BEFDDD900D28F15 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E10E038C1BEFDDD900D28F15 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -59,25 +85,28 @@
 		E10E03931BEFDDD900D28F15 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E10E03A11BEFE3BE00D28F15 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		E11E4EAA1BFE133800E3D7EE /* PowerState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PowerState.swift; sourceTree = "<group>"; };
-		E11E4EAC1BFE134300E3D7EE /* PowerStateManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PowerStateManager.swift; sourceTree = "<group>"; };
-		E11E4EAE1C00E63F00E3D7EE /* GyroscopeManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GyroscopeManager.swift; sourceTree = "<group>"; };
-		E11E4EAF1C00E63F00E3D7EE /* MagneticFieldManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MagneticFieldManager.swift; sourceTree = "<group>"; };
-		E11E4EB21C00ED9100E3D7EE /* ConnectionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConnectionManager.swift; sourceTree = "<group>"; };
+		E11E4EAC1BFE134300E3D7EE /* PowerStateManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = PowerStateManager.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		E11E4EAE1C00E63F00E3D7EE /* GyroscopeManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = GyroscopeManager.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		E11E4EAF1C00E63F00E3D7EE /* MagneticFieldManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = MagneticFieldManager.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		E11E4EB21C00ED9100E3D7EE /* ConnectionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = ConnectionManager.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		E11E4EB41C00EE0300E3D7EE /* Connection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Connection.swift; sourceTree = "<group>"; };
 		E13FF09D1C08C30600EA4F8D /* WifiConnectionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WifiConnectionManager.swift; sourceTree = "<group>"; };
 		E13FF09F1C08C31700EA4F8D /* WifiConnection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WifiConnection.swift; sourceTree = "<group>"; };
 		E13FF0A11C08C37B00EA4F8D /* MobileConnection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MobileConnection.swift; sourceTree = "<group>"; };
-		E13FF0A31C08C38A00EA4F8D /* MobileConnectionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MobileConnectionManager.swift; sourceTree = "<group>"; };
+		E13FF0A31C08C38A00EA4F8D /* MobileConnectionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = MobileConnectionManager.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		E13FF0A91C0A11C600EA4F8D /* assistance.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = assistance.entitlements; sourceTree = "<group>"; };
+		E166A2C21C354D8300C96632 /* RealmString.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmString.swift; sourceTree = "<group>"; };
+		E166A2C41C37FE2400C96632 /* TucanLoginTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TucanLoginTableViewController.swift; sourceTree = "<group>"; };
+		E166A2C61C39839300C96632 /* Sensors.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Sensors.plist; sourceTree = "<group>"; };
 		E16A2C131BF377A600B0D785 /* CMMotionActivityEquality.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CMMotionActivityEquality.swift; sourceTree = "<group>"; };
 		E16A2C141BF377A600B0D785 /* ResultsExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResultsExtension.swift; sourceTree = "<group>"; };
 		E16A2C161BF377A600B0D785 /* LocationAuthorizationFailedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationAuthorizationFailedViewController.swift; sourceTree = "<group>"; };
 		E16A2C171BF377A600B0D785 /* LocationAuthorizationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationAuthorizationViewController.swift; sourceTree = "<group>"; };
 		E16A2C181BF377A600B0D785 /* LoginTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginTableViewController.swift; sourceTree = "<group>"; };
 		E16A2C191BF377A600B0D785 /* RegisterTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterTableViewController.swift; sourceTree = "<group>"; };
-		E16A2C1C1BF377A600B0D785 /* AccelerometerManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccelerometerManager.swift; sourceTree = "<group>"; };
-		E16A2C1D1BF377A600B0D785 /* MotionActivityManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MotionActivityManager.swift; sourceTree = "<group>"; };
-		E16A2C1E1BF377A600B0D785 /* PositionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PositionManager.swift; sourceTree = "<group>"; };
+		E16A2C1C1BF377A600B0D785 /* AccelerometerManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = AccelerometerManager.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		E16A2C1D1BF377A600B0D785 /* MotionActivityManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = MotionActivityManager.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		E16A2C1E1BF377A600B0D785 /* PositionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = PositionManager.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		E16A2C1F1BF377A600B0D785 /* SensorManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SensorManager.swift; sourceTree = "<group>"; };
 		E16A2C211BF377A600B0D785 /* Accelerometer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Accelerometer.swift; sourceTree = "<group>"; };
 		E16A2C221BF377A600B0D785 /* Gyroscope.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Gyroscope.swift; sourceTree = "<group>"; };
@@ -85,12 +114,27 @@
 		E16A2C241BF377A600B0D785 /* MotionActivity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MotionActivity.swift; sourceTree = "<group>"; };
 		E16A2C251BF377A600B0D785 /* Position.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Position.swift; sourceTree = "<group>"; };
 		E16A2C261BF377A600B0D785 /* Sensor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sensor.swift; sourceTree = "<group>"; };
-		E16A2C281BF377A600B0D785 /* DataSync.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataSync.swift; sourceTree = "<group>"; };
+		E16A2C281BF377A600B0D785 /* DataSync.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = DataSync.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		E16A2C291BF377A600B0D785 /* ServerConnection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerConnection.swift; sourceTree = "<group>"; };
-		E16A2C2A1BF377A600B0D785 /* UserManagement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserManagement.swift; sourceTree = "<group>"; };
-		E179E4F01C0B099900596C01 /* ModuleManagement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModuleManagement.swift; sourceTree = "<group>"; };
+		E16A2C2A1BF377A600B0D785 /* UserManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
+		E176DA6F1C19AAB400680A6A /* LabeledValue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LabeledValue.swift; sourceTree = "<group>"; };
+		E179E4F01C0B099900596C01 /* ModuleManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModuleManager.swift; sourceTree = "<group>"; };
 		E179E4F31C0B173C00596C01 /* GlobalConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GlobalConfig.swift; path = "Helpers and Extensions/GlobalConfig.swift"; sourceTree = "<group>"; };
 		E179E4F51C0B468F00596C01 /* AssistanceTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AssistanceTableViewController.swift; sourceTree = "<group>"; };
+		E179E4F71C13532600596C01 /* FacebookManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = FacebookManager.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		E179E4F91C13537900596C01 /* TucanManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = TucanManager.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		E179E4FB1C13578800596C01 /* CalendarManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = CalendarManager.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		E179E4FF1C1357AE00596C01 /* ContactManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = ContactManager.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		E179E5011C1358C800596C01 /* Contact.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Contact.swift; sourceTree = "<group>"; };
+		E179E5031C1358D600596C01 /* Alarm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Alarm.swift; sourceTree = "<group>"; };
+		E179E5051C1358E300596C01 /* Calendar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Calendar.swift; sourceTree = "<group>"; };
+		E179E5071C1358EF00596C01 /* Facebook.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Facebook.swift; sourceTree = "<group>"; };
+		E179E5091C1358FB00596C01 /* Tucan.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tucan.swift; sourceTree = "<group>"; };
+		E17F1CC61C18264A001F1DDA /* PowerLevelManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = PowerLevelManager.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		E17F1CC81C1842DA001F1DDA /* PowerLevel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PowerLevel.swift; sourceTree = "<group>"; };
+		E1F20B8D1C39B61800A7B39C /* ModuleDetailTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ModuleDetailTableViewController.swift; path = Modules/ModuleDetailTableViewController.swift; sourceTree = "<group>"; };
+		E1F20B8E1C39B61800A7B39C /* ModuleTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ModuleTableViewCell.swift; path = Modules/ModuleTableViewCell.swift; sourceTree = "<group>"; };
+		E1F20B8F1C39B61800A7B39C /* ModuleTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ModuleTableViewController.swift; path = Modules/ModuleTableViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -113,6 +157,15 @@
 				1AD07F4357EA9122E01613F4 /* Pods_assistance.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		E10280B41C3FC4AC007E1962 /* Sensor Permissions */ = {
+			isa = PBXGroup;
+			children = (
+				E10280B51C3FC4EC007E1962 /* SensorPermissionsTableViewController.swift */,
+				E10280B71C410473007E1962 /* SensorPermissionsTableViewCell.swift */,
+			);
+			name = "Sensor Permissions";
 			sourceTree = "<group>";
 		};
 		E10E037B1BEFDDD900D28F15 = {
@@ -139,10 +192,13 @@
 			children = (
 				E10E03871BEFDDD900D28F15 /* AppDelegate.swift */,
 				E179E4F51C0B468F00596C01 /* AssistanceTableViewController.swift */,
+				E166A2C41C37FE2400C96632 /* TucanLoginTableViewController.swift */,
 				E10E038B1BEFDDD900D28F15 /* Main.storyboard */,
 				E10E03901BEFDDD900D28F15 /* LaunchScreen.storyboard */,
 				E10E038E1BEFDDD900D28F15 /* Assets.xcassets */,
 				E16A2C151BF377A600B0D785 /* Onboarding */,
+				E1F20B8C1C39B5EC00A7B39C /* Modules */,
+				E10280B41C3FC4AC007E1962 /* Sensor Permissions */,
 				E16A2C1A1BF377A600B0D785 /* Sensors */,
 				E16A2C271BF377A600B0D785 /* Server Communication */,
 				E16A2C121BF377A600B0D785 /* Helpers and Extensions */,
@@ -155,6 +211,8 @@
 			children = (
 				E16A2C131BF377A600B0D785 /* CMMotionActivityEquality.swift */,
 				E16A2C141BF377A600B0D785 /* ResultsExtension.swift */,
+				E166A2C21C354D8300C96632 /* RealmString.swift */,
+				E10280B91C464B1F007E1962 /* SensorAuthorizationStatus.swift */,
 			);
 			path = "Helpers and Extensions";
 			sourceTree = "<group>";
@@ -173,6 +231,7 @@
 		E16A2C1A1BF377A600B0D785 /* Sensors */ = {
 			isa = PBXGroup;
 			children = (
+				E10280BB1C464FA2007E1962 /* SensorsManager.swift */,
 				E16A2C1B1BF377A600B0D785 /* Managers */,
 				E16A2C201BF377A600B0D785 /* Model */,
 			);
@@ -183,15 +242,20 @@
 			isa = PBXGroup;
 			children = (
 				E16A2C1C1BF377A600B0D785 /* AccelerometerManager.swift */,
+				E179E4FB1C13578800596C01 /* CalendarManager.swift */,
 				E11E4EB21C00ED9100E3D7EE /* ConnectionManager.swift */,
-				E13FF09D1C08C30600EA4F8D /* WifiConnectionManager.swift */,
+				E179E4FF1C1357AE00596C01 /* ContactManager.swift */,
+				E179E4F71C13532600596C01 /* FacebookManager.swift */,
 				E11E4EAE1C00E63F00E3D7EE /* GyroscopeManager.swift */,
 				E11E4EAF1C00E63F00E3D7EE /* MagneticFieldManager.swift */,
+				E13FF0A31C08C38A00EA4F8D /* MobileConnectionManager.swift */,
 				E16A2C1D1BF377A600B0D785 /* MotionActivityManager.swift */,
 				E16A2C1E1BF377A600B0D785 /* PositionManager.swift */,
+				E17F1CC61C18264A001F1DDA /* PowerLevelManager.swift */,
 				E11E4EAC1BFE134300E3D7EE /* PowerStateManager.swift */,
 				E16A2C1F1BF377A600B0D785 /* SensorManager.swift */,
-				E13FF0A31C08C38A00EA4F8D /* MobileConnectionManager.swift */,
+				E179E4F91C13537900596C01 /* TucanManager.swift */,
+				E13FF09D1C08C30600EA4F8D /* WifiConnectionManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -200,15 +264,22 @@
 			isa = PBXGroup;
 			children = (
 				E16A2C211BF377A600B0D785 /* Accelerometer.swift */,
+				E179E5031C1358D600596C01 /* Alarm.swift */,
+				E179E5051C1358E300596C01 /* Calendar.swift */,
 				E11E4EB41C00EE0300E3D7EE /* Connection.swift */,
+				E179E5011C1358C800596C01 /* Contact.swift */,
+				E179E5071C1358EF00596C01 /* Facebook.swift */,
 				E16A2C221BF377A600B0D785 /* Gyroscope.swift */,
+				E176DA6F1C19AAB400680A6A /* LabeledValue.swift */,
 				E16A2C231BF377A600B0D785 /* MagneticField.swift */,
+				E13FF0A11C08C37B00EA4F8D /* MobileConnection.swift */,
 				E16A2C241BF377A600B0D785 /* MotionActivity.swift */,
 				E16A2C251BF377A600B0D785 /* Position.swift */,
+				E17F1CC81C1842DA001F1DDA /* PowerLevel.swift */,
 				E11E4EAA1BFE133800E3D7EE /* PowerState.swift */,
 				E16A2C261BF377A600B0D785 /* Sensor.swift */,
+				E179E5091C1358FB00596C01 /* Tucan.swift */,
 				E13FF09F1C08C31700EA4F8D /* WifiConnection.swift */,
-				E13FF0A11C08C37B00EA4F8D /* MobileConnection.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -217,9 +288,9 @@
 			isa = PBXGroup;
 			children = (
 				E16A2C281BF377A600B0D785 /* DataSync.swift */,
-				E179E4F01C0B099900596C01 /* ModuleManagement.swift */,
+				E179E4F01C0B099900596C01 /* ModuleManager.swift */,
 				E16A2C291BF377A600B0D785 /* ServerConnection.swift */,
-				E16A2C2A1BF377A600B0D785 /* UserManagement.swift */,
+				E16A2C2A1BF377A600B0D785 /* UserManager.swift */,
 			);
 			path = "Server Communication";
 			sourceTree = "<group>";
@@ -229,10 +300,21 @@
 			children = (
 				E179E4F31C0B173C00596C01 /* GlobalConfig.swift */,
 				E10E03931BEFDDD900D28F15 /* Info.plist */,
+				E166A2C61C39839300C96632 /* Sensors.plist */,
 				E13FF0A91C0A11C600EA4F8D /* assistance.entitlements */,
 			);
 			name = Configuration;
 			path = assistance;
+			sourceTree = "<group>";
+		};
+		E1F20B8C1C39B5EC00A7B39C /* Modules */ = {
+			isa = PBXGroup;
+			children = (
+				E1F20B8D1C39B61800A7B39C /* ModuleDetailTableViewController.swift */,
+				E1F20B8E1C39B61800A7B39C /* ModuleTableViewCell.swift */,
+				E1F20B8F1C39B61800A7B39C /* ModuleTableViewController.swift */,
+			);
+			name = Modules;
 			sourceTree = "<group>";
 		};
 		FF1A98267B92CC7DCB74AF4D /* Pods */ = {
@@ -321,6 +403,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E166A2C71C39839300C96632 /* Sensors.plist in Resources */,
 				E10E03921BEFDDD900D28F15 /* LaunchScreen.storyboard in Resources */,
 				E10E038F1BEFDDD900D28F15 /* Assets.xcassets in Resources */,
 				E10E038D1BEFDDD900D28F15 /* Main.storyboard in Resources */,
@@ -395,39 +478,60 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E179E5021C1358C800596C01 /* Contact.swift in Sources */,
 				E16A2C321BF377A600B0D785 /* MotionActivityManager.swift in Sources */,
 				E16A2C3B1BF377A600B0D785 /* DataSync.swift in Sources */,
+				E10280BC1C464FA2007E1962 /* SensorsManager.swift in Sources */,
 				E16A2C361BF377A600B0D785 /* Gyroscope.swift in Sources */,
 				E16A2C381BF377A600B0D785 /* MotionActivity.swift in Sources */,
+				E176DA701C19AAB400680A6A /* LabeledValue.swift in Sources */,
 				E16A2C301BF377A600B0D785 /* RegisterTableViewController.swift in Sources */,
 				E11E4EAB1BFE133900E3D7EE /* PowerState.swift in Sources */,
 				E11E4EB11C00E63F00E3D7EE /* MagneticFieldManager.swift in Sources */,
 				E16A2C351BF377A600B0D785 /* Accelerometer.swift in Sources */,
+				E1F20B911C39B61800A7B39C /* ModuleTableViewCell.swift in Sources */,
+				E1F20B921C39B61800A7B39C /* ModuleTableViewController.swift in Sources */,
+				E179E5001C1357AE00596C01 /* ContactManager.swift in Sources */,
 				E13FF09E1C08C30700EA4F8D /* WifiConnectionManager.swift in Sources */,
 				E16A2C311BF377A600B0D785 /* AccelerometerManager.swift in Sources */,
 				E16A2C2C1BF377A600B0D785 /* ResultsExtension.swift in Sources */,
 				E13FF0A41C08C38A00EA4F8D /* MobileConnectionManager.swift in Sources */,
 				E16A2C3C1BF377A600B0D785 /* ServerConnection.swift in Sources */,
 				E16A2C391BF377A600B0D785 /* Position.swift in Sources */,
-				E16A2C3D1BF377A600B0D785 /* UserManagement.swift in Sources */,
+				E179E5061C1358E300596C01 /* Calendar.swift in Sources */,
+				E16A2C3D1BF377A600B0D785 /* UserManager.swift in Sources */,
 				E11E4EAD1BFE134300E3D7EE /* PowerStateManager.swift in Sources */,
 				E13FF0A21C08C37B00EA4F8D /* MobileConnection.swift in Sources */,
 				E179E4F41C0B173C00596C01 /* GlobalConfig.swift in Sources */,
 				E11E4EB31C00ED9100E3D7EE /* ConnectionManager.swift in Sources */,
 				E16A2C331BF377A600B0D785 /* PositionManager.swift in Sources */,
-				E179E4F11C0B099900596C01 /* ModuleManagement.swift in Sources */,
+				E179E4F11C0B099900596C01 /* ModuleManager.swift in Sources */,
+				E179E4FC1C13578800596C01 /* CalendarManager.swift in Sources */,
+				E10280B61C3FC4EC007E1962 /* SensorPermissionsTableViewController.swift in Sources */,
+				E166A2C31C354D8300C96632 /* RealmString.swift in Sources */,
+				E179E4FA1C13537900596C01 /* TucanManager.swift in Sources */,
+				E10280BA1C464B1F007E1962 /* SensorAuthorizationStatus.swift in Sources */,
 				E13FF0A01C08C31700EA4F8D /* WifiConnection.swift in Sources */,
 				E11E4EB01C00E63F00E3D7EE /* GyroscopeManager.swift in Sources */,
 				E16A2C2B1BF377A600B0D785 /* CMMotionActivityEquality.swift in Sources */,
 				E11E4EB51C00EE0300E3D7EE /* Connection.swift in Sources */,
+				E1F20B901C39B61800A7B39C /* ModuleDetailTableViewController.swift in Sources */,
+				E179E50A1C1358FB00596C01 /* Tucan.swift in Sources */,
+				E179E5081C1358EF00596C01 /* Facebook.swift in Sources */,
 				E16A2C341BF377A600B0D785 /* SensorManager.swift in Sources */,
+				E166A2C51C37FE2400C96632 /* TucanLoginTableViewController.swift in Sources */,
 				E16A2C2E1BF377A600B0D785 /* LocationAuthorizationViewController.swift in Sources */,
 				E16A2C3A1BF377A600B0D785 /* Sensor.swift in Sources */,
 				E10E03881BEFDDD900D28F15 /* AppDelegate.swift in Sources */,
+				E179E4F81C13532700596C01 /* FacebookManager.swift in Sources */,
 				E16A2C2D1BF377A600B0D785 /* LocationAuthorizationFailedViewController.swift in Sources */,
 				E179E4F61C0B468F00596C01 /* AssistanceTableViewController.swift in Sources */,
+				E17F1CC71C18264A001F1DDA /* PowerLevelManager.swift in Sources */,
 				E16A2C371BF377A600B0D785 /* MagneticField.swift in Sources */,
+				E10280B81C410474007E1962 /* SensorPermissionsTableViewCell.swift in Sources */,
 				E16A2C2F1BF377A600B0D785 /* LoginTableViewController.swift in Sources */,
+				E179E5041C1358D600596C01 /* Alarm.swift in Sources */,
+				E17F1CC91C1842DA001F1DDA /* PowerLevel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

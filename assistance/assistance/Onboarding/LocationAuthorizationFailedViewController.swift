@@ -2,7 +2,7 @@
 //  LocationAuthorizationFailedViewController.swift
 //  Labels
 //
-//  Created by Nicko on 18/08/15.
+//  Created by Nickolas Guendling on 18/08/15.
 //  Copyright © 2015 Darmstadt University of Technology. All rights reserved.
 //
 

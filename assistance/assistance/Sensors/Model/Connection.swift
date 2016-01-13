@@ -2,7 +2,7 @@
 //  Connection.swift
 //  assistance
 //
-//  Created by Nicko on 21/11/15.
+//  Created by Nickolas Guendling on 21/11/15.
 //  Copyright © 2015 Darmstadt University of Technology. All rights reserved.
 //
 
@@ -22,8 +22,9 @@ class Connection: Sensor {
     
     override func dictionary() -> [String: AnyObject] {
         return ["type": "connection",
-            "created": created.ISO8601String(),
+            "created": created.ISO8601String()!,
             "isWifi": isWifi,
             "isMobile": isMobile]
     }
+    
 }

@@ -2,7 +2,7 @@
 //  ServerConnection.swift
 //  Labels
 //
-//  Created by Nicko on 21/07/15.
+//  Created by Nickolas Guendling on 21/07/15.
 //  Copyright © 2015 Darmstadt University of Technology. All rights reserved.
 //
 
@@ -51,7 +51,8 @@ class ServerConnection: NSObject, NSURLSessionDelegate, NSURLSessionTaskDelegate
     
     private func sendRequest(httpMethod: String, url: String, token: String?, params: [String: AnyObject]?, completed: (result: Result) -> Void) {
         let request = NSMutableURLRequest(URL: NSURL(string: url)!)
-        let session = NSURLSession.sharedSession()
+        let sessionConfiguration = NSURLSessionConfiguration.defaultSessionConfiguration()
+        let session = NSURLSession(configuration: sessionConfiguration, delegate: self, delegateQueue: nil)
         request.HTTPMethod = httpMethod
         
         if let params = params {
@@ -118,15 +119,13 @@ class ServerConnection: NSObject, NSURLSessionDelegate, NSURLSessionTaskDelegate
         task.resume()
     }
 
-    
     func URLSession(session: NSURLSession, didReceiveChallenge challenge: NSURLAuthenticationChallenge, completionHandler: (NSURLSessionAuthChallengeDisposition, NSURLCredential?) -> Void) {
-        
-        completionHandler(NSURLSessionAuthChallengeDisposition.UseCredential, NSURLCredential(forTrust: challenge.protectionSpace.serverTrust!))
+        completionHandler(.UseCredential, NSURLCredential(forTrust: challenge.protectionSpace.serverTrust!))
     }
     
     func URLSession(session: NSURLSession, task: NSURLSessionTask, willPerformHTTPRedirection response: NSHTTPURLResponse, newRequest request: NSURLRequest, completionHandler: (NSURLRequest?) -> Void) {
-        
         let newRequest: NSURLRequest? = request
         completionHandler(newRequest)
     }
+    
 }

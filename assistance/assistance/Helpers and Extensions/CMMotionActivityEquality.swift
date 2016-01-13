@@ -2,7 +2,7 @@
 //  CMMotionActivityExtension.swift
 //  Labels
 //
-//  Created by Nicko on 14/10/15.
+//  Created by Nickolas Guendling on 14/10/15.
 //  Copyright © 2015 Darmstadt University of Technology. All rights reserved.
 //
 

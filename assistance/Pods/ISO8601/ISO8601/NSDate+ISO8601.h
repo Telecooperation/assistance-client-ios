@@ -23,7 +23,7 @@
  
  @return A date represented by the ISO8601 string.
  */
-+ (NSDate *)dateWithISO8601String:(NSString *)string;
++ (NSDate * __nullable)dateWithISO8601String:(NSString * __nonnull)string;
 
 /**
  Returns a string representation of the receiver in ISO8601 format.
@@ -31,7 +31,7 @@
  @return A string representation of the receiver in ISO8601 format in the current calendar's time
 	     zone.
  */
-- (NSString *)ISO8601String;
+- (NSString * __nullable)ISO8601String;
 
 
 #pragma mark - Advanced
@@ -48,7 +48,7 @@
  
  @return A date represented by the ISO8601 string.
  */
-+ (NSDate *)dateWithISO8601String:(NSString *)string timeZone:(inout NSTimeZone **)timeZone usingCalendar:(NSCalendar *)calendar;
++ (NSDate * __nullable)dateWithISO8601String:(NSString * __nonnull)string timeZone:(inout NSTimeZone * __nonnull * __nullable)timeZone usingCalendar:(NSCalendar * __nullable)calendar;
 
 /**
  Returns a string representation of the receiver in ISO8601 format.
@@ -60,6 +60,6 @@
  
  @return A string representation of the receiver in ISO8601 format in `timeZone`.
  */
-- (NSString *)ISO8601StringWithTimeZone:(NSTimeZone *)timeZone usingCalendar:(NSCalendar *)calendar;
+- (NSString * __nullable)ISO8601StringWithTimeZone:(NSTimeZone * __nullable)timeZone usingCalendar:(NSCalendar * __nullable)calendar;
 
 @end

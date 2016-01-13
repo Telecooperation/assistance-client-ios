@@ -2,7 +2,7 @@
 //  MobileConnectionManager.swift
 //  assistance
 //
-//  Created by Nicko on 27/11/15.
+//  Created by Nickolas Guendling on 27/11/15.
 //  Copyright © 2015 Darmstadt University of Technology. All rights reserved.
 //
 
@@ -15,10 +15,9 @@ import GCNetworkReachability
 
 class MobileConnectionManager: NSObject, SensorManager {
     
-    let sensorName = "mobileconnection"
+    let sensorType = "mobileconnection"
     
-    let uploadInterval = 60.0
-    let updateInterval = 5.0
+    var sensorConfiguration = NSMutableDictionary()
     
     static let sharedManager = MobileConnectionManager()
     
@@ -28,6 +27,8 @@ class MobileConnectionManager: NSObject, SensorManager {
     
     override init() {
         super.init()
+        
+        initSensorManager()
         
         if isActive() {
             start()
@@ -39,10 +40,10 @@ class MobileConnectionManager: NSObject, SensorManager {
             networkReachabilityStatus in
             
             if networkReachabilityStatus == GCNetworkReachabilityStatusWWAN {
-                if let carrier = CTTelephonyNetworkInfo().subscriberCellularProvider, carrierName = carrier.carrierName, mobileCountryCode = carrier.mobileCountryCode, mobileNetworkCode = carrier.mobileNetworkCode {
+                if let carrier = CTTelephonyNetworkInfo().subscriberCellularProvider {
                     dispatch_async(dispatch_get_main_queue(), {
                         _ = try? self.realm.write {
-                            self.realm.add(MobileConnection(carrierName: carrierName, mobileCountryCode: mobileCountryCode, mobileNetworkCode: mobileNetworkCode, voipAvailable: carrier.allowsVOIP))
+                            self.realm.add(MobileConnection(carrier: carrier))
                         }
                     })
                 }
@@ -57,22 +58,22 @@ class MobileConnectionManager: NSObject, SensorManager {
     }
     
     func sensorData() -> [Sensor] {
-        if isActive() && shouldUpload() {
-            return Array(realm.objects(MobileConnection).toArray().prefix(50))
+        if isActive() && shouldUpdate() {
+            return Array(realm.objects(MobileConnection).toArray().prefix(20))
         }
         
         return [Sensor]()
     }
     
-    func sensorDataDidUpload(data: [Sensor]) {
+    func sensorDataDidUpdate(data: [Sensor]) {
         _ = try? realm.write {
             for mobileconnection in data {
                 self.realm.delete(mobileconnection)
             }
         }
         
-        if realm.objects(MobileConnection).count < 50 {
-            didUpload()
+        if realm.objects(MobileConnection).count == 0 {
+            didUpdate()
         }
     }
     

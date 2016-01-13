@@ -2,7 +2,7 @@
 //  Accelerometer.swift
 //  Labels
 //
-//  Created by Nicko on 09/10/15.
+//  Created by Nickolas Guendling on 09/10/15.
 //  Copyright © 2015 Darmstadt University of Technology. All rights reserved.
 //
 
@@ -26,9 +26,10 @@ class Accelerometer: Sensor {
     
     override func dictionary() -> [String: AnyObject] {
         return ["type": "accelerometer",
-                "created": created.ISO8601String(),
+                "created": created.ISO8601String()!,
                 "x": x,
                 "y": y,
                 "z": z]
     }
+    
 }

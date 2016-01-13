@@ -84,6 +84,9 @@ strip_invalid_archs() {
 
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
+  install_framework "Pods-assistance/Bolts.framework"
+  install_framework "Pods-assistance/FBSDKCoreKit.framework"
+  install_framework "Pods-assistance/FBSDKLoginKit.framework"
   install_framework "Pods-assistance/GCNetworkReachability.framework"
   install_framework "Pods-assistance/ISO8601.framework"
   install_framework "Pods-assistance/Locksmith.framework"
@@ -91,6 +94,9 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "Pods-assistance/RealmSwift.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
+  install_framework "Pods-assistance/Bolts.framework"
+  install_framework "Pods-assistance/FBSDKCoreKit.framework"
+  install_framework "Pods-assistance/FBSDKLoginKit.framework"
   install_framework "Pods-assistance/GCNetworkReachability.framework"
   install_framework "Pods-assistance/ISO8601.framework"
   install_framework "Pods-assistance/Locksmith.framework"

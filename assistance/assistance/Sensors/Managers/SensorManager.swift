@@ -2,7 +2,7 @@
 //  SensorManager.swift
 //  Labels
 //
-//  Created by Nicko on 11/10/15.
+//  Created by Nickolas Guendling on 11/10/15.
 //  Copyright © 2015 Darmstadt University of Technology. All rights reserved.
 //
 
@@ -12,13 +12,15 @@ import RealmSwift
 
 @objc protocol SensorManager {
     
-    var sensorName: String { get }
+    var sensorType: String { get }
     
-    var uploadInterval: Double { get }
-    var updateInterval: Double { get }
+    var sensorConfiguration: NSMutableDictionary { get set }
     
     func sensorData() -> [Sensor]
-    func sensorDataDidUpload(data: [Sensor])
+    func sensorDataDidUpdate(data: [Sensor])
+    
+    optional func needsSystemAuthorization() -> Bool
+    optional func requestAuthorizationFromViewController(viewController: UIViewController, completed: (granted: Bool, error: NSError?) -> Void)
     
     optional func didStart()
     optional func didStop()
@@ -26,55 +28,149 @@ import RealmSwift
 
 extension SensorManager {
     
-    func start() {
-        NSUserDefaults.standardUserDefaults().setBool(true, forKey: "\(sensorName)IsActive")
+    func initSensorManager() {
+        if let sensorConfigurations = NSUserDefaults.standardUserDefaults().objectForKey("sensorConfiguration")?.mutableCopy() as? NSMutableDictionary, sensorConfiguration = sensorConfigurations[sensorType] {
+            self.sensorConfiguration = sensorConfiguration.mutableCopy() as! NSMutableDictionary
+        }
+    }
+    
+    func name() -> String {
+        if let name = sensorConfiguration["name"] as? String {
+            return name
+        }
         
+        return ""
+    }
+    
+    func needsUserAuthorization() -> Bool {
+        if let authorizationStatusNumber = sensorConfiguration["authorization_status"] as? NSNumber,
+            authorizationStatus = SensorAuthorizationStatus(rawValue: Int(authorizationStatusNumber.intValue))
+            where authorizationStatus == .Granted {
+            
+            return false
+        }
+        
+        return true
+    }
+    
+    func needsSystemAuthorization() -> Bool {
+        if let authorizationStatusNumber = sensorConfiguration["authorization_status"] as? NSNumber,
+            authorizationStatus = SensorAuthorizationStatus(rawValue: Int(authorizationStatusNumber.intValue))
+            where authorizationStatus == .NeedsSystemAuthorization || authorizationStatus == .SystemAuthorizationDenied {
+                
+                return true
+        }
+        
+        return false
+    }
+    
+    func needsAuthorization() -> Bool {
+        return needsUserAuthorization() || needsSystemAuthorization()
+    }
+    
+    func requestAuthorizationFromViewController(viewController: UIViewController, completed: (granted: Bool, error: NSError?) -> Void) {
+        grantAuthorization()
+        
+        completed(granted: true, error: nil)
+    }
+    
+    func grantAuthorization() {
+        sensorConfiguration["authorization_status"] = NSNumber(integer: SensorAuthorizationStatus.Granted.rawValue)
+        saveSensorConfiguration()
+    }
+    
+    func denyAuthorization() {
+        sensorConfiguration["authorization_status"] = NSNumber(integer: SensorAuthorizationStatus.Denied.rawValue)
+        saveSensorConfiguration()
+    }
+    
+    func denySystemAuthorization() {
+        sensorConfiguration["authorization_status"] = NSNumber(integer: SensorAuthorizationStatus.SystemAuthorizationDenied.rawValue)
+        saveSensorConfiguration()
+    }
+    
+    func startSensingForModuleWithID(moduleId: String, collectionInterval: Double, updateInterval: Double) {
+        if !(sensorConfiguration["used_by_modules"] as! [String]).contains(moduleId) {
+            (sensorConfiguration["used_by_modules"] as! NSMutableArray).addObject(moduleId)
+            (sensorConfiguration["collection_interval"] as! NSMutableArray).addObject(collectionInterval)
+            (sensorConfiguration["update_interval"] as! NSMutableArray).addObject(updateInterval)
+            
+            saveSensorConfiguration()
+            
+            if (sensorConfiguration["used_by_modules"] as! [String]).count == 1 {
+                start()
+            }
+        }
+    }
+    
+    func stopSensingForModuleWithID(moduleId: String, collectionInterval: Double, updateInterval: Double) {
+        if let index = (sensorConfiguration["used_by_modules"] as! [String]).indexOf(moduleId) {
+            (sensorConfiguration["used_by_modules"] as! NSMutableArray).removeObjectAtIndex(index)
+            (sensorConfiguration["collection_interval"] as! NSMutableArray).removeObjectAtIndex(index)
+            (sensorConfiguration["update_interval"] as! NSMutableArray).removeObjectAtIndex(index)
+            
+            saveSensorConfiguration()
+            
+            if (sensorConfiguration["used_by_modules"] as! [String]).count == 0 {
+                stop()
+            }
+        }
+    }
+    
+    func start() {
         didStart?()
     }
     
     func stop() {
-        NSUserDefaults.standardUserDefaults().setBool(false, forKey: "\(sensorName)IsActive")
-        
         didStop?()
     }
     
     func isActive() -> Bool {
-        if NSUserDefaults.standardUserDefaults().objectForKey("\(sensorName)IsActive") == nil {
-            NSUserDefaults.standardUserDefaults().setBool(true, forKey: "\(sensorName)IsActive")
-        }
-        
-        return NSUserDefaults.standardUserDefaults().boolForKey("\(sensorName)IsActive")
+        return (sensorConfiguration["used_by_modules"] as! NSArray).count > 0
     }
     
-    func shouldUpload() -> Bool {
-        return NSDate().timeIntervalSinceDate(lastUploadTime()) >= uploadInterval
+    func isRealtime() -> Bool {
+        return (sensorConfiguration["update_interval"] as! [Double]).filter({ $0 >= 0 }).count > 0
     }
     
-    func lastUploadTime() -> NSDate {
-        if NSUserDefaults.standardUserDefaults().objectForKey("\(sensorName)LastUploadTime") == nil {
-            NSUserDefaults.standardUserDefaults().setObject(NSDate.distantPast(), forKey: "\(sensorName)LastUploadTime")
-        }
-        
-        return NSUserDefaults.standardUserDefaults().objectForKey("\(sensorName)LastUploadTime") as! NSDate
-    }
-    
-    func didUpload() {
-        NSUserDefaults.standardUserDefaults().setObject(NSDate(), forKey: "\(sensorName)LastUploadTime")
+    func updateInterval() -> Double {
+        return ((sensorConfiguration["update_interval"] as! [Double]).filter({ $0 >= 0 }) + [60.0 * 60.0 * 24.0]).minElement()!
     }
     
     func shouldUpdate() -> Bool {
-        return NSDate().timeIntervalSinceDate(lastUpdateTime()) >= updateInterval
+        return NSDate().timeIntervalSinceDate(lastUpdateTime()) >= updateInterval()
     }
     
     func lastUpdateTime() -> NSDate {
-        if NSUserDefaults.standardUserDefaults().objectForKey("\(sensorName)LastUpdateTime") == nil {
-            NSUserDefaults.standardUserDefaults().setObject(NSDate.distantPast(), forKey: "\(sensorName)LastUpdateTime")
-        }
-        
-        return NSUserDefaults.standardUserDefaults().objectForKey("\(sensorName)LastUpdateTime") as! NSDate
+        return sensorConfiguration["last_update"] as! NSDate
     }
     
     func didUpdate() {
-        NSUserDefaults.standardUserDefaults().setObject(NSDate(), forKey: "\(sensorName)LastUpdateTime")
+        sensorConfiguration["last_update"] = NSDate()
+        saveSensorConfiguration()
+    }
+    
+    func collectionInterval() -> Double {
+        return ((sensorConfiguration["collection_interval"] as! [Double]).filter({ $0 >= 0 }) + [60.0 * 60.0 * 24.0]).minElement()!
+    }
+    
+    func shouldCollect() -> Bool {
+        return NSDate().timeIntervalSinceDate(lastCollectionTime()) >= collectionInterval()
+    }
+    
+    func lastCollectionTime() -> NSDate {
+        return sensorConfiguration["last_collection"] as! NSDate
+    }
+    
+    func didCollect() {
+        sensorConfiguration["last_collection"] = NSDate()
+        saveSensorConfiguration()
+    }
+    
+    func saveSensorConfiguration() {
+        if let sensorConfigurations = NSUserDefaults.standardUserDefaults().objectForKey("sensorConfiguration")?.mutableCopy() as? NSMutableDictionary {
+            sensorConfigurations[sensorType] = self.sensorConfiguration
+            NSUserDefaults.standardUserDefaults().setObject(sensorConfigurations, forKey: "sensorConfiguration")
+        }
     }
 }

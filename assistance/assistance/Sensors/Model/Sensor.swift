@@ -2,7 +2,7 @@
 //  Sensor.swift
 //  Labels
 //
-//  Created by Nicko on 09/10/15.
+//  Created by Nickolas Guendling on 09/10/15.
 //  Copyright © 2015 Darmstadt University of Technology. All rights reserved.
 //
 
@@ -11,7 +11,7 @@ import Foundation
 import RealmSwift
 import ISO8601
 
-class Sensor: Object {
+class Sensor: Object, Equatable, Hashable {
 
     dynamic var id: String = NSUUID().UUIDString
     
@@ -21,7 +21,16 @@ class Sensor: Object {
         return "id"
     }
     
-    func dictionary() -> [String: AnyObject] {
-        return ["created": created.ISO8601String()]
+    func setSynced() {
+
     }
+    
+    func dictionary() -> [String: AnyObject] {
+        return ["created": created.ISO8601String()!]
+    }
+    
+}
+
+func ==(lhs: Sensor, rhs: Sensor) -> Bool {
+    return lhs.isEqual(rhs)
 }

@@ -6,5 +6,7 @@ target 'assistance' do
   pod 'Locksmith’
   pod 'ISO8601'
   pod 'GCNetworkReachability'
+  pod 'FBSDKCoreKit’
+  pod 'FBSDKLoginKit’
 end
 

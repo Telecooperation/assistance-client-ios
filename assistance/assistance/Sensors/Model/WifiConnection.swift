@@ -2,7 +2,7 @@
 //  WifiConnection.swift
 //  assistance
 //
-//  Created by Nicko on 27/11/15.
+//  Created by Nickolas Guendling on 27/11/15.
 //  Copyright © 2015 Darmstadt University of Technology. All rights reserved.
 //
 
@@ -22,8 +22,9 @@ class WifiConnection: Sensor {
     
     override func dictionary() -> [String: AnyObject] {
         return ["type": "wificonnection",
-            "created": created.ISO8601String(),
+            "created": created.ISO8601String()!,
             "ssid": ssid,
             "bssid": bssid]
     }
+    
 }
