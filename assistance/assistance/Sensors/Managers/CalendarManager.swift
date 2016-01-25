@@ -12,11 +12,7 @@ import EventKit
 
 import RealmSwift
 
-class CalendarManager: NSObject, SensorManager {
-    
-    let sensorType = "calendar"
-    
-    var sensorConfiguration = NSMutableDictionary()
+class CalendarManager: SensorManager {
     
     var collecting = false
     
@@ -28,6 +24,7 @@ class CalendarManager: NSObject, SensorManager {
     override init() {
         super.init()
         
+        sensorType = "calendar"
         initSensorManager()
         
         if isActive() {
@@ -35,12 +32,13 @@ class CalendarManager: NSObject, SensorManager {
         }
     }
     
-    func needsSystemAuthorization() -> Bool {
+    override func needsSystemAuthorization() -> Bool {
         return EKEventStore.authorizationStatusForEntityType(.Event) != .Authorized
     }
     
-    func requestAuthorizationFromViewController(viewController: UIViewController, completed: (granted: Bool, error: NSError?) -> Void) {
-        if EKEventStore.authorizationStatusForEntityType(.Event) != .Authorized {
+    override func requestAuthorizationFromViewController(viewController: UIViewController, completed: (granted: Bool, error: NSError?) -> Void) {
+        print(EKEventStore.authorizationStatusForEntityType(.Event).rawValue)
+        if EKEventStore.authorizationStatusForEntityType(.Event) == .NotDetermined {
             eventStore.requestAccessToEntityType(.Event) {
                 granted, error in
                 
@@ -52,19 +50,26 @@ class CalendarManager: NSObject, SensorManager {
                 
                 completed(granted: granted, error: error)
             }
+        } else if EKEventStore.authorizationStatusForEntityType(.Event) == .Denied {
+            let calendarPermissionViewController = viewController.storyboard?.instantiateViewControllerWithIdentifier(String(CalendarPermissionViewController)) as! CalendarPermissionViewController
+            viewController.presentViewController(calendarPermissionViewController, animated: true, completion: nil)
+            
+            completed(granted: false, error: nil)
+        } else if EKEventStore.authorizationStatusForEntityType(.Event) == .Authorized {
+            grantAuthorization()
         }
     }
-    
-    func didStart() {
+
+    override func didStart() {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "calendarChanged", name: EKEventStoreChangedNotification, object: nil)
         
         calendarChanged()
     }
     
-    func didStop() {
+    override func didStop() {
         NSNotificationCenter.defaultCenter().removeObserver(self)
         
-        realm.delete(realm.objects(Calendar))
+//        realm.delete(realm.objects(Calendar))
     }
     
     func calendarChanged() {
@@ -99,7 +104,7 @@ class CalendarManager: NSObject, SensorManager {
         collecting = false
     }
     
-    func sensorData() -> [Sensor] {
+    override func sensorData() -> [Sensor] {
         if isActive() && shouldUpdate() && !collecting {
             return Array(realm.objects(Calendar).filter("isNew == true || isUpdated == true || isDeleted == true").toArray().prefix(20))
         }
@@ -107,7 +112,7 @@ class CalendarManager: NSObject, SensorManager {
         return [Sensor]()
     }
     
-    func sensorDataDidUpdate(data: [Sensor]) {
+    override func sensorDataDidUpdate(data: [Sensor]) {
         _ = try? realm.write {
             for calendar in data {
                 calendar.setSynced()

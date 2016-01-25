@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		13DB32C4B4EDEC05AD06D04D /* Pods_assistance.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AD07F4357EA9122E01613F4 /* Pods_assistance.framework */; };
 		E10280B61C3FC4EC007E1962 /* SensorPermissionsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10280B51C3FC4EC007E1962 /* SensorPermissionsTableViewController.swift */; };
-		E10280B81C410474007E1962 /* SensorPermissionsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10280B71C410473007E1962 /* SensorPermissionsTableViewCell.swift */; };
+		E10280B81C410474007E1962 /* SensorPermissionsSensorTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10280B71C410473007E1962 /* SensorPermissionsSensorTableViewCell.swift */; };
 		E10280BA1C464B1F007E1962 /* SensorAuthorizationStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10280B91C464B1F007E1962 /* SensorAuthorizationStatus.swift */; };
 		E10280BC1C464FA2007E1962 /* SensorsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10280BB1C464FA2007E1962 /* SensorsManager.swift */; };
 		E10E03881BEFDDD900D28F15 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10E03871BEFDDD900D28F15 /* AppDelegate.swift */; };
@@ -23,6 +23,9 @@
 		E11E4EB11C00E63F00E3D7EE /* MagneticFieldManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E11E4EAF1C00E63F00E3D7EE /* MagneticFieldManager.swift */; };
 		E11E4EB31C00ED9100E3D7EE /* ConnectionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E11E4EB21C00ED9100E3D7EE /* ConnectionManager.swift */; };
 		E11E4EB51C00EE0300E3D7EE /* Connection.swift in Sources */ = {isa = PBXBuildFile; fileRef = E11E4EB41C00EE0300E3D7EE /* Connection.swift */; };
+		E12C5EF61C55870700B1994E /* MotionActivityPermissionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12C5EF51C55870700B1994E /* MotionActivityPermissionViewController.swift */; };
+		E12C5EF81C563C9700B1994E /* TermsOfServiceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12C5EF71C563C9700B1994E /* TermsOfServiceViewController.swift */; };
+		E12C5EFA1C5647ED00B1994E /* SensorPermissionsUsedSensorTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12C5EF91C5647ED00B1994E /* SensorPermissionsUsedSensorTableViewCell.swift */; };
 		E13FF09E1C08C30700EA4F8D /* WifiConnectionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13FF09D1C08C30600EA4F8D /* WifiConnectionManager.swift */; };
 		E13FF0A01C08C31700EA4F8D /* WifiConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13FF09F1C08C31700EA4F8D /* WifiConnection.swift */; };
 		E13FF0A21C08C37B00EA4F8D /* MobileConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13FF0A11C08C37B00EA4F8D /* MobileConnection.swift */; };
@@ -64,7 +67,17 @@
 		E179E50A1C1358FB00596C01 /* Tucan.swift in Sources */ = {isa = PBXBuildFile; fileRef = E179E5091C1358FB00596C01 /* Tucan.swift */; };
 		E17F1CC71C18264A001F1DDA /* PowerLevelManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E17F1CC61C18264A001F1DDA /* PowerLevelManager.swift */; };
 		E17F1CC91C1842DA001F1DDA /* PowerLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E17F1CC81C1842DA001F1DDA /* PowerLevel.swift */; };
-		E1F20B901C39B61800A7B39C /* ModuleDetailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1F20B8D1C39B61800A7B39C /* ModuleDetailTableViewController.swift */; };
+		E18AFFDE1C4E775300345A21 /* UIGestureRecognizer+Closure.swift in Sources */ = {isa = PBXBuildFile; fileRef = E18AFFDD1C4E775300345A21 /* UIGestureRecognizer+Closure.swift */; };
+		E18AFFE01C4E949400345A21 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E18AFFDF1C4E949400345A21 /* GoogleService-Info.plist */; };
+		E18AFFE21C4EEF6500345A21 /* SettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E18AFFE11C4EEF6500345A21 /* SettingsTableViewController.swift */; };
+		E1969B341C49018C0014B959 /* ContactPermissionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1969B331C49018B0014B959 /* ContactPermissionViewController.swift */; };
+		E1C208F81C4CF16100970A67 /* CalendarPermissionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1C208F71C4CF16100970A67 /* CalendarPermissionViewController.swift */; };
+		E1C208FA1C4D2E3500970A67 /* CardParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1C208F91C4D2E3500970A67 /* CardParser.swift */; };
+		E1C208FC1C4D992100970A67 /* UIButton+Closure.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1C208FB1C4D992000970A67 /* UIButton+Closure.swift */; };
+		E1E9820C1C512FE500D989C7 /* ModuleActivationSensorTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1E9820B1C512FE500D989C7 /* ModuleActivationSensorTableViewCell.swift */; };
+		E1E9820E1C5130C600D989C7 /* ModuleActivationUsedSensorTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1E9820D1C5130C600D989C7 /* ModuleActivationUsedSensorTableViewCell.swift */; };
+		E1E982101C5132F900D989C7 /* ModuleActivationInformationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1E9820F1C5132F900D989C7 /* ModuleActivationInformationTableViewCell.swift */; };
+		E1F20B901C39B61800A7B39C /* ModuleActivationTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1F20B8D1C39B61800A7B39C /* ModuleActivationTableViewController.swift */; };
 		E1F20B911C39B61800A7B39C /* ModuleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1F20B8E1C39B61800A7B39C /* ModuleTableViewCell.swift */; };
 		E1F20B921C39B61800A7B39C /* ModuleTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1F20B8F1C39B61800A7B39C /* ModuleTableViewController.swift */; };
 /* End PBXBuildFile section */
@@ -74,7 +87,7 @@
 		1AD07F4357EA9122E01613F4 /* Pods_assistance.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_assistance.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		ACA73DE11247251C818FDE5A /* Pods-assistance.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-assistance.release.xcconfig"; path = "Pods/Target Support Files/Pods-assistance/Pods-assistance.release.xcconfig"; sourceTree = "<group>"; };
 		E10280B51C3FC4EC007E1962 /* SensorPermissionsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SensorPermissionsTableViewController.swift; path = "Sensor Permissions/SensorPermissionsTableViewController.swift"; sourceTree = "<group>"; };
-		E10280B71C410473007E1962 /* SensorPermissionsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SensorPermissionsTableViewCell.swift; path = "Sensor Permissions/SensorPermissionsTableViewCell.swift"; sourceTree = "<group>"; };
+		E10280B71C410473007E1962 /* SensorPermissionsSensorTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SensorPermissionsSensorTableViewCell.swift; path = "Sensor Permissions/SensorPermissionsSensorTableViewCell.swift"; sourceTree = "<group>"; };
 		E10280B91C464B1F007E1962 /* SensorAuthorizationStatus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SensorAuthorizationStatus.swift; sourceTree = "<group>"; };
 		E10280BB1C464FA2007E1962 /* SensorsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SensorsManager.swift; path = assistance/Sensors/SensorsManager.swift; sourceTree = SOURCE_ROOT; };
 		E10E03841BEFDDD900D28F15 /* assistance.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = assistance.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -90,6 +103,9 @@
 		E11E4EAF1C00E63F00E3D7EE /* MagneticFieldManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = MagneticFieldManager.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		E11E4EB21C00ED9100E3D7EE /* ConnectionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = ConnectionManager.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		E11E4EB41C00EE0300E3D7EE /* Connection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Connection.swift; sourceTree = "<group>"; };
+		E12C5EF51C55870700B1994E /* MotionActivityPermissionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MotionActivityPermissionViewController.swift; path = "Sensor Permissions/MotionActivityPermissionViewController.swift"; sourceTree = "<group>"; };
+		E12C5EF71C563C9700B1994E /* TermsOfServiceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TermsOfServiceViewController.swift; sourceTree = "<group>"; };
+		E12C5EF91C5647ED00B1994E /* SensorPermissionsUsedSensorTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SensorPermissionsUsedSensorTableViewCell.swift; path = "Sensor Permissions/SensorPermissionsUsedSensorTableViewCell.swift"; sourceTree = "<group>"; };
 		E13FF09D1C08C30600EA4F8D /* WifiConnectionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WifiConnectionManager.swift; sourceTree = "<group>"; };
 		E13FF09F1C08C31700EA4F8D /* WifiConnection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WifiConnection.swift; sourceTree = "<group>"; };
 		E13FF0A11C08C37B00EA4F8D /* MobileConnection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MobileConnection.swift; sourceTree = "<group>"; };
@@ -132,7 +148,17 @@
 		E179E5091C1358FB00596C01 /* Tucan.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tucan.swift; sourceTree = "<group>"; };
 		E17F1CC61C18264A001F1DDA /* PowerLevelManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = PowerLevelManager.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		E17F1CC81C1842DA001F1DDA /* PowerLevel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PowerLevel.swift; sourceTree = "<group>"; };
-		E1F20B8D1C39B61800A7B39C /* ModuleDetailTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ModuleDetailTableViewController.swift; path = Modules/ModuleDetailTableViewController.swift; sourceTree = "<group>"; };
+		E18AFFDD1C4E775300345A21 /* UIGestureRecognizer+Closure.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIGestureRecognizer+Closure.swift"; sourceTree = "<group>"; };
+		E18AFFDF1C4E949400345A21 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		E18AFFE11C4EEF6500345A21 /* SettingsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsTableViewController.swift; sourceTree = "<group>"; };
+		E1969B331C49018B0014B959 /* ContactPermissionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ContactPermissionViewController.swift; path = "Sensor Permissions/ContactPermissionViewController.swift"; sourceTree = "<group>"; };
+		E1C208F71C4CF16100970A67 /* CalendarPermissionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CalendarPermissionViewController.swift; path = "Sensor Permissions/CalendarPermissionViewController.swift"; sourceTree = "<group>"; };
+		E1C208F91C4D2E3500970A67 /* CardParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardParser.swift; sourceTree = "<group>"; };
+		E1C208FB1C4D992000970A67 /* UIButton+Closure.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIButton+Closure.swift"; sourceTree = "<group>"; };
+		E1E9820B1C512FE500D989C7 /* ModuleActivationSensorTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ModuleActivationSensorTableViewCell.swift; path = Modules/ModuleActivationSensorTableViewCell.swift; sourceTree = "<group>"; };
+		E1E9820D1C5130C600D989C7 /* ModuleActivationUsedSensorTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ModuleActivationUsedSensorTableViewCell.swift; path = Modules/ModuleActivationUsedSensorTableViewCell.swift; sourceTree = "<group>"; };
+		E1E9820F1C5132F900D989C7 /* ModuleActivationInformationTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ModuleActivationInformationTableViewCell.swift; path = Modules/ModuleActivationInformationTableViewCell.swift; sourceTree = "<group>"; };
+		E1F20B8D1C39B61800A7B39C /* ModuleActivationTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ModuleActivationTableViewController.swift; path = Modules/ModuleActivationTableViewController.swift; sourceTree = "<group>"; };
 		E1F20B8E1C39B61800A7B39C /* ModuleTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ModuleTableViewCell.swift; path = Modules/ModuleTableViewCell.swift; sourceTree = "<group>"; };
 		E1F20B8F1C39B61800A7B39C /* ModuleTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ModuleTableViewController.swift; path = Modules/ModuleTableViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -163,7 +189,11 @@
 			isa = PBXGroup;
 			children = (
 				E10280B51C3FC4EC007E1962 /* SensorPermissionsTableViewController.swift */,
-				E10280B71C410473007E1962 /* SensorPermissionsTableViewCell.swift */,
+				E10280B71C410473007E1962 /* SensorPermissionsSensorTableViewCell.swift */,
+				E12C5EF91C5647ED00B1994E /* SensorPermissionsUsedSensorTableViewCell.swift */,
+				E1969B331C49018B0014B959 /* ContactPermissionViewController.swift */,
+				E1C208F71C4CF16100970A67 /* CalendarPermissionViewController.swift */,
+				E12C5EF51C55870700B1994E /* MotionActivityPermissionViewController.swift */,
 			);
 			name = "Sensor Permissions";
 			sourceTree = "<group>";
@@ -192,7 +222,9 @@
 			children = (
 				E10E03871BEFDDD900D28F15 /* AppDelegate.swift */,
 				E179E4F51C0B468F00596C01 /* AssistanceTableViewController.swift */,
+				E18AFFE11C4EEF6500345A21 /* SettingsTableViewController.swift */,
 				E166A2C41C37FE2400C96632 /* TucanLoginTableViewController.swift */,
+				E1C208F91C4D2E3500970A67 /* CardParser.swift */,
 				E10E038B1BEFDDD900D28F15 /* Main.storyboard */,
 				E10E03901BEFDDD900D28F15 /* LaunchScreen.storyboard */,
 				E10E038E1BEFDDD900D28F15 /* Assets.xcassets */,
@@ -213,6 +245,8 @@
 				E16A2C141BF377A600B0D785 /* ResultsExtension.swift */,
 				E166A2C21C354D8300C96632 /* RealmString.swift */,
 				E10280B91C464B1F007E1962 /* SensorAuthorizationStatus.swift */,
+				E1C208FB1C4D992000970A67 /* UIButton+Closure.swift */,
+				E18AFFDD1C4E775300345A21 /* UIGestureRecognizer+Closure.swift */,
 			);
 			path = "Helpers and Extensions";
 			sourceTree = "<group>";
@@ -224,6 +258,7 @@
 				E16A2C171BF377A600B0D785 /* LocationAuthorizationViewController.swift */,
 				E16A2C181BF377A600B0D785 /* LoginTableViewController.swift */,
 				E16A2C191BF377A600B0D785 /* RegisterTableViewController.swift */,
+				E12C5EF71C563C9700B1994E /* TermsOfServiceViewController.swift */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";
@@ -301,6 +336,7 @@
 				E179E4F31C0B173C00596C01 /* GlobalConfig.swift */,
 				E10E03931BEFDDD900D28F15 /* Info.plist */,
 				E166A2C61C39839300C96632 /* Sensors.plist */,
+				E18AFFDF1C4E949400345A21 /* GoogleService-Info.plist */,
 				E13FF0A91C0A11C600EA4F8D /* assistance.entitlements */,
 			);
 			name = Configuration;
@@ -310,9 +346,12 @@
 		E1F20B8C1C39B5EC00A7B39C /* Modules */ = {
 			isa = PBXGroup;
 			children = (
-				E1F20B8D1C39B61800A7B39C /* ModuleDetailTableViewController.swift */,
-				E1F20B8E1C39B61800A7B39C /* ModuleTableViewCell.swift */,
 				E1F20B8F1C39B61800A7B39C /* ModuleTableViewController.swift */,
+				E1F20B8E1C39B61800A7B39C /* ModuleTableViewCell.swift */,
+				E1F20B8D1C39B61800A7B39C /* ModuleActivationTableViewController.swift */,
+				E1E9820F1C5132F900D989C7 /* ModuleActivationInformationTableViewCell.swift */,
+				E1E9820B1C512FE500D989C7 /* ModuleActivationSensorTableViewCell.swift */,
+				E1E9820D1C5130C600D989C7 /* ModuleActivationUsedSensorTableViewCell.swift */,
 			);
 			name = Modules;
 			sourceTree = "<group>";
@@ -405,6 +444,7 @@
 			files = (
 				E166A2C71C39839300C96632 /* Sensors.plist in Resources */,
 				E10E03921BEFDDD900D28F15 /* LaunchScreen.storyboard in Resources */,
+				E18AFFE01C4E949400345A21 /* GoogleService-Info.plist in Resources */,
 				E10E038F1BEFDDD900D28F15 /* Assets.xcassets in Resources */,
 				E10E038D1BEFDDD900D28F15 /* Main.storyboard in Resources */,
 			);
@@ -485,11 +525,16 @@
 				E16A2C361BF377A600B0D785 /* Gyroscope.swift in Sources */,
 				E16A2C381BF377A600B0D785 /* MotionActivity.swift in Sources */,
 				E176DA701C19AAB400680A6A /* LabeledValue.swift in Sources */,
+				E1C208FA1C4D2E3500970A67 /* CardParser.swift in Sources */,
+				E18AFFDE1C4E775300345A21 /* UIGestureRecognizer+Closure.swift in Sources */,
+				E12C5EFA1C5647ED00B1994E /* SensorPermissionsUsedSensorTableViewCell.swift in Sources */,
 				E16A2C301BF377A600B0D785 /* RegisterTableViewController.swift in Sources */,
 				E11E4EAB1BFE133900E3D7EE /* PowerState.swift in Sources */,
 				E11E4EB11C00E63F00E3D7EE /* MagneticFieldManager.swift in Sources */,
+				E1E9820C1C512FE500D989C7 /* ModuleActivationSensorTableViewCell.swift in Sources */,
 				E16A2C351BF377A600B0D785 /* Accelerometer.swift in Sources */,
 				E1F20B911C39B61800A7B39C /* ModuleTableViewCell.swift in Sources */,
+				E12C5EF81C563C9700B1994E /* TermsOfServiceViewController.swift in Sources */,
 				E1F20B921C39B61800A7B39C /* ModuleTableViewController.swift in Sources */,
 				E179E5001C1357AE00596C01 /* ContactManager.swift in Sources */,
 				E13FF09E1C08C30700EA4F8D /* WifiConnectionManager.swift in Sources */,
@@ -506,20 +551,26 @@
 				E11E4EB31C00ED9100E3D7EE /* ConnectionManager.swift in Sources */,
 				E16A2C331BF377A600B0D785 /* PositionManager.swift in Sources */,
 				E179E4F11C0B099900596C01 /* ModuleManager.swift in Sources */,
+				E1C208FC1C4D992100970A67 /* UIButton+Closure.swift in Sources */,
 				E179E4FC1C13578800596C01 /* CalendarManager.swift in Sources */,
+				E1E982101C5132F900D989C7 /* ModuleActivationInformationTableViewCell.swift in Sources */,
 				E10280B61C3FC4EC007E1962 /* SensorPermissionsTableViewController.swift in Sources */,
 				E166A2C31C354D8300C96632 /* RealmString.swift in Sources */,
 				E179E4FA1C13537900596C01 /* TucanManager.swift in Sources */,
 				E10280BA1C464B1F007E1962 /* SensorAuthorizationStatus.swift in Sources */,
 				E13FF0A01C08C31700EA4F8D /* WifiConnection.swift in Sources */,
+				E1E9820E1C5130C600D989C7 /* ModuleActivationUsedSensorTableViewCell.swift in Sources */,
 				E11E4EB01C00E63F00E3D7EE /* GyroscopeManager.swift in Sources */,
 				E16A2C2B1BF377A600B0D785 /* CMMotionActivityEquality.swift in Sources */,
 				E11E4EB51C00EE0300E3D7EE /* Connection.swift in Sources */,
-				E1F20B901C39B61800A7B39C /* ModuleDetailTableViewController.swift in Sources */,
+				E1F20B901C39B61800A7B39C /* ModuleActivationTableViewController.swift in Sources */,
 				E179E50A1C1358FB00596C01 /* Tucan.swift in Sources */,
+				E1969B341C49018C0014B959 /* ContactPermissionViewController.swift in Sources */,
 				E179E5081C1358EF00596C01 /* Facebook.swift in Sources */,
 				E16A2C341BF377A600B0D785 /* SensorManager.swift in Sources */,
 				E166A2C51C37FE2400C96632 /* TucanLoginTableViewController.swift in Sources */,
+				E1C208F81C4CF16100970A67 /* CalendarPermissionViewController.swift in Sources */,
+				E12C5EF61C55870700B1994E /* MotionActivityPermissionViewController.swift in Sources */,
 				E16A2C2E1BF377A600B0D785 /* LocationAuthorizationViewController.swift in Sources */,
 				E16A2C3A1BF377A600B0D785 /* Sensor.swift in Sources */,
 				E10E03881BEFDDD900D28F15 /* AppDelegate.swift in Sources */,
@@ -528,7 +579,8 @@
 				E179E4F61C0B468F00596C01 /* AssistanceTableViewController.swift in Sources */,
 				E17F1CC71C18264A001F1DDA /* PowerLevelManager.swift in Sources */,
 				E16A2C371BF377A600B0D785 /* MagneticField.swift in Sources */,
-				E10280B81C410474007E1962 /* SensorPermissionsTableViewCell.swift in Sources */,
+				E10280B81C410474007E1962 /* SensorPermissionsSensorTableViewCell.swift in Sources */,
+				E18AFFE21C4EEF6500345A21 /* SettingsTableViewController.swift in Sources */,
 				E16A2C2F1BF377A600B0D785 /* LoginTableViewController.swift in Sources */,
 				E179E5041C1358D600596C01 /* Alarm.swift in Sources */,
 				E17F1CC91C1842DA001F1DDA /* PowerLevel.swift in Sources */,
@@ -646,7 +698,9 @@
 				CODE_SIGN_ENTITLEMENTS = assistance/assistance.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = assistance/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = de.tudarmstadt.informatik.tk.assistance.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -663,7 +717,9 @@
 				CODE_SIGN_ENTITLEMENTS = assistance/assistance.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = assistance/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = de.tudarmstadt.informatik.tk.assistance.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";

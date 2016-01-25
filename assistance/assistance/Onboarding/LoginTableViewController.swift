@@ -8,7 +8,7 @@
 
 import UIKit
 
-import Locksmith
+import RealmSwift
 
 class LoginTableViewController: UITableViewController {
 
@@ -16,13 +16,10 @@ class LoginTableViewController: UITableViewController {
     @IBOutlet var passwordTextField: UITextField!
     
     override func viewWillAppear(animated: Bool) {
-        if let userEmail = NSUserDefaults.standardUserDefaults().stringForKey("UserEmail") {
-            let dictionary = Locksmith.loadDataForUserAccount(userEmail)
-            if let dictionary = dictionary, let password = dictionary["password"] as? String {
-                self.emailTextField.text = userEmail
-                self.passwordTextField.text = password
-                signIn(self)
-            }
+        if let userEmail = NSUserDefaults.standardUserDefaults().stringForKey("UserEmail"), password = NSUserDefaults.standardUserDefaults().stringForKey("UserPassword") {
+            self.emailTextField.text = userEmail
+            self.passwordTextField.text = password
+            signIn(self)
         }
     }
     
@@ -38,8 +35,11 @@ class LoginTableViewController: UITableViewController {
                 if let dataString = NSString(data: data as! NSData, encoding: NSUTF8StringEncoding) where dataString.length > 0,
                     let dataJSON = try? NSJSONSerialization.JSONObjectWithData(data as! NSData, options: .MutableLeaves) as! NSDictionary,
                     token = dataJSON["token"] as? String {
-                        _ = try? Locksmith.updateData(["password": self.passwordTextField.text!, "token": token], forUserAccount: self.emailTextField.text!)
+                        NSUserDefaults.standardUserDefaults().setObject(self.passwordTextField.text, forKey: "UserPassword")
+                        NSUserDefaults.standardUserDefaults().setObject(token, forKey: "UserToken")
                 }
+                
+                ModuleManager().resetModules()
                 
                 self.dismissViewControllerAnimated(true, completion: nil)
                 
@@ -59,7 +59,6 @@ class LoginTableViewController: UITableViewController {
                 })
                 
             } catch { }
-            
         }
     }
 

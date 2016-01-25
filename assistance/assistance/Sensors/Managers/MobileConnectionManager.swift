@@ -13,11 +13,7 @@ import CoreTelephony
 import RealmSwift
 import GCNetworkReachability
 
-class MobileConnectionManager: NSObject, SensorManager {
-    
-    let sensorType = "mobileconnection"
-    
-    var sensorConfiguration = NSMutableDictionary()
+class MobileConnectionManager: SensorManager {
     
     static let sharedManager = MobileConnectionManager()
     
@@ -28,6 +24,7 @@ class MobileConnectionManager: NSObject, SensorManager {
     override init() {
         super.init()
         
+        sensorType = "mobileconnection"
         initSensorManager()
         
         if isActive() {
@@ -35,7 +32,7 @@ class MobileConnectionManager: NSObject, SensorManager {
         }
     }
     
-    func didStart() {
+    override func didStart() {
         reachability.startMonitoringNetworkReachabilityWithHandler {
             networkReachabilityStatus in
             
@@ -51,13 +48,13 @@ class MobileConnectionManager: NSObject, SensorManager {
         }
     }
     
-    func didStop() {
+    override func didStop() {
         GCNetworkReachability().stopMonitoringNetworkReachability()
         
-        realm.delete(realm.objects(MobileConnection))
+//        realm.delete(realm.objects(MobileConnection))
     }
     
-    func sensorData() -> [Sensor] {
+    override func sensorData() -> [Sensor] {
         if isActive() && shouldUpdate() {
             return Array(realm.objects(MobileConnection).toArray().prefix(20))
         }
@@ -65,7 +62,7 @@ class MobileConnectionManager: NSObject, SensorManager {
         return [Sensor]()
     }
     
-    func sensorDataDidUpdate(data: [Sensor]) {
+    override func sensorDataDidUpdate(data: [Sensor]) {
         _ = try? realm.write {
             for mobileconnection in data {
                 self.realm.delete(mobileconnection)

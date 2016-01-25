@@ -8,22 +8,50 @@
 
 import UIKit
 
+import CoreMotion
+
 import FBSDKCoreKit
 import FBSDKLoginKit
+import Google
+import ChameleonFramework
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, GGLInstanceIDDelegate {
 
     var window: UIWindow?
+    
+    var fakeMotionManager = CMMotionManager()
+    
+    var gcmSenderID: String?
+    var registrationToken: String?
+    var registrationOptions = [String: AnyObject]()
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         
+        UIView.appearance().tintColor = UIColor.flatRedColor()//UIColor(red: 255.0/255.0, green: 68.0/255.0, blue: 58.0/255.0, alpha: 1.0)
+//        Chameleon.setGlobalThemeUsingPrimaryColor(UIColor.flatNavyBlueColor(), withContentStyle: .Light)
+        
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         
+        let userNotificationSettings: UIUserNotificationSettings = UIUserNotificationSettings(forTypes: [.Alert, .Badge, .Sound], categories: nil)
+        application.registerUserNotificationSettings(userNotificationSettings)
+        application.registerForRemoteNotifications()
+        
         // TODO: Remove debug line!
-        NSUserDefaults.standardUserDefaults().removeObjectForKey("sensorConfiguration")
+//        NSUserDefaults.standardUserDefaults().removeObjectForKey("sensorConfiguration")
         
         createSensorConfiguration()
+        
+        fakeMotionManager.accelerometerUpdateInterval = 1.0
+        if fakeMotionManager.accelerometerAvailable {
+            fakeMotionManager.startAccelerometerUpdatesToQueue(NSOperationQueue()) {
+                _, _ in
+                
+                dispatch_async(dispatch_get_main_queue(), {
+                    DataSync().syncData()
+                })
+            }
+        }
         
         return true
     }
@@ -43,6 +71,46 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject) -> Bool {
         return FBSDKApplicationDelegate.sharedInstance().application(application, openURL: url, sourceApplication: sourceApplication, annotation: annotation)
+    }
+    
+    func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
+        
+        var configureError: NSError?
+        GGLContext.sharedInstance().configureWithError(&configureError)
+        gcmSenderID = GGLContext.sharedInstance().configuration.gcmSenderID
+        
+        let instanceIDConfig = GGLInstanceIDConfig.defaultConfig()
+        instanceIDConfig.delegate = self
+
+        GGLInstanceID.sharedInstance().startWithConfig(instanceIDConfig)
+        
+        // TODO: Change to production
+        registrationOptions = [kGGLInstanceIDRegisterAPNSOption:deviceToken, kGGLInstanceIDAPNSServerTypeSandboxOption:false]
+        GGLInstanceID.sharedInstance().tokenWithAuthorizedEntity(gcmSenderID, scope: kGGLInstanceIDScopeGCM, options: registrationOptions) {
+            registrationToken, error in
+            
+            if registrationToken != nil {
+                self.registrationToken = registrationToken
+                
+                UserManager().registerForMessaging(registrationToken) {
+                    _ in
+                    
+                }
+            }
+        }
+    }
+    
+    func onTokenRefresh() {
+        GGLInstanceID.sharedInstance().tokenWithAuthorizedEntity(gcmSenderID, scope: kGGLInstanceIDScopeGCM, options: registrationOptions) {
+            token, error in
+            
+            if token != nil {
+                UserManager().registerForMessaging(token) {
+                    _ in
+                    
+                }
+            }
+        }
     }
 
     func applicationWillResignActive(application: UIApplication) {

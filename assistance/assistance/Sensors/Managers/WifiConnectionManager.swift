@@ -13,11 +13,7 @@ import SystemConfiguration.CaptiveNetwork
 import RealmSwift
 import GCNetworkReachability
 
-class WifiConnectionManager: NSObject, SensorManager {
-    
-    let sensorType = "wificonnection"
-    
-    var sensorConfiguration = NSMutableDictionary()
+class WifiConnectionManager: SensorManager {
     
     static let sharedManager = WifiConnectionManager()
     
@@ -28,6 +24,7 @@ class WifiConnectionManager: NSObject, SensorManager {
     override init() {
         super.init()
         
+        sensorType = "wificonnection"
         initSensorManager()
         
         if isActive() {
@@ -35,7 +32,7 @@ class WifiConnectionManager: NSObject, SensorManager {
         }
     }
     
-    func didStart() {
+    override func didStart() {
         reachability.startMonitoringNetworkReachabilityWithHandler {
             networkReachabilityStatus in
             
@@ -66,13 +63,13 @@ class WifiConnectionManager: NSObject, SensorManager {
         }
     }
     
-    func didStop() {
+    override func didStop() {
         GCNetworkReachability().stopMonitoringNetworkReachability()
         
-        realm.delete(realm.objects(WifiConnection))
+//        realm.delete(realm.objects(WifiConnection))
     }
     
-    func sensorData() -> [Sensor] {
+    override func sensorData() -> [Sensor] {
         if isActive() && shouldUpdate() {
             return Array(realm.objects(WifiConnection).toArray().prefix(20))
         }
@@ -80,7 +77,7 @@ class WifiConnectionManager: NSObject, SensorManager {
         return [Sensor]()
     }
     
-    func sensorDataDidUpdate(data: [Sensor]) {
+    override func sensorDataDidUpdate(data: [Sensor]) {
         _ = try? realm.write {
             for wificonnection in data {
                 self.realm.delete(wificonnection)

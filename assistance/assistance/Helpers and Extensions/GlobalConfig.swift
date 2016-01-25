@@ -9,5 +9,6 @@
 import Foundation
 
 struct GlobalConfig {
-    static let baseURL = "https://46.101.151.208"  //"https://130.83.163.146"
+//    static let baseURL = "https://130.83.163.55" // Test
+    static let baseURL = "https://130.83.163.101" // Production
 }

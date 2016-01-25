@@ -10,12 +10,8 @@ import Foundation
 
 import RealmSwift
 
-class TucanManager: NSObject, SensorManager {
+class TucanManager: SensorManager {
 
-    let sensorType = "tucancredentials"
-    
-    var sensorConfiguration = NSMutableDictionary()
-    
     static let sharedManager = TucanManager()
     
     let realm = try! Realm()
@@ -23,6 +19,7 @@ class TucanManager: NSObject, SensorManager {
     override init() {
         super.init()
         
+        sensorType = "tucancredentials"
         initSensorManager()
         
         if isActive() {
@@ -30,16 +27,16 @@ class TucanManager: NSObject, SensorManager {
         }
     }
     
-    func needsAuthorization() -> Bool {
-        return true
+    override func needsSystemAuthorization() -> Bool {
+        return realm.objects(Tucan).count == 0
     }
     
-    func requestAuthorizationFromViewController(viewController: UIViewController) {
-        let tucanLoginViewController = viewController.storyboard?.instantiateViewControllerWithIdentifier("TucanLogin") as! TucanLoginTableViewController
+    override func requestAuthorizationFromViewController(viewController: UIViewController, completed: (granted: Bool, error: NSError?) -> Void) {
+        let tucanLoginViewController = viewController.storyboard?.instantiateViewControllerWithIdentifier("TucanLogin") as! UINavigationController
         viewController.presentViewController(tucanLoginViewController, animated: true, completion: nil)
     }
     
-    func sensorData() -> [Sensor] {
+    override func sensorData() -> [Sensor] {
         if isActive() && shouldUpdate() {
             return Array(realm.objects(Tucan).filter("isNew == true").toArray().prefix(20))
         }
@@ -47,14 +44,14 @@ class TucanManager: NSObject, SensorManager {
         return [Sensor]()
     }
     
-    func sensorDataDidUpdate(data: [Sensor]) {
+    override func sensorDataDidUpdate(data: [Sensor]) {
         _ = try? realm.write {
             for tucan in data {
                 tucan.setSynced()
             }
         }
         
-        if realm.objects(Tucan).count == 0 {
+        if realm.objects(Tucan).filter("isNew == true").count == 0 {
             didUpdate()
         }
     }

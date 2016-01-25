@@ -85,4 +85,22 @@ class UserManager {
             completed(result: result)
         }
     }
+    
+    func registerForMessaging(messagingRegistrationID: String, completed: (result: Result) -> Void) {
+        
+        guard let token = NSUserDefaults.standardUserDefaults().stringForKey("UserToken") else {
+            print("Registering for messaging failed: Token not found!")
+            return
+        }
+        
+        if let deviceID = NSUserDefaults.standardUserDefaults().stringForKey("device_id") {
+            let params: [String: AnyObject] = ["device_id": deviceID, "messaging_registration_id": messagingRegistrationID]
+            
+            ServerConnection().post("\(GlobalConfig.baseURL)/devices/register_for_messaging", token: token, params: params) {
+                result in
+                
+                completed(result: result)
+            }
+        }
+    }
 }

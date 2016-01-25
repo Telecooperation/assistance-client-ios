@@ -11,11 +11,7 @@ import Foundation
 import CoreLocation
 import RealmSwift
 
-class PositionManager: NSObject, SensorManager, CLLocationManagerDelegate {
-    
-    let sensorType = "position"
-    
-    var sensorConfiguration = NSMutableDictionary()
+class PositionManager: SensorManager, CLLocationManagerDelegate {
     
     static let sharedManager = PositionManager()
     
@@ -25,6 +21,7 @@ class PositionManager: NSObject, SensorManager, CLLocationManagerDelegate {
     override init() {
         super.init()
         
+        sensorType = "position"
         initSensorManager()
         
         locationManager.delegate = self
@@ -36,11 +33,11 @@ class PositionManager: NSObject, SensorManager, CLLocationManagerDelegate {
         }
     }
     
-    func needsSystemAuthorization() -> Bool {
+    override func needsSystemAuthorization() -> Bool {
         return CLLocationManager.authorizationStatus() != .AuthorizedAlways
     }
     
-    func requestAuthorizationFromViewController(viewController: UIViewController, completed: (granted: Bool, error: NSError?) -> Void) {
+    override func requestAuthorizationFromViewController(viewController: UIViewController, completed: (granted: Bool, error: NSError?) -> Void) {
         if CLLocationManager.authorizationStatus() != .AuthorizedAlways {
             locationManager.requestAlwaysAuthorization()
         }
@@ -54,23 +51,23 @@ class PositionManager: NSObject, SensorManager, CLLocationManagerDelegate {
         }
     }
     
-    func didStart() {
+    override func didStart() {
         locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
         
         locationManager.startUpdatingLocation()
     }
     
-    func didStop() {
+    override func didStop() {
         /*
-        * We do not actually stop requesting location updates using
-        * locationManager.stopUpdatingLocation() here because this
-        * would stop the other sensors from being updated in the
-        * background!
-        */
+         * We do not actually stop requesting location updates using
+         * locationManager.stopUpdatingLocation() here because this
+         * would stop the other sensors from being updated in the
+         * background!
+         */
         
         locationManager.desiredAccuracy = kCLLocationAccuracyThreeKilometers
         
-        realm.delete(realm.objects(Position))
+//        realm.delete(realm.objects(Position))
     }
     
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
@@ -84,7 +81,7 @@ class PositionManager: NSObject, SensorManager, CLLocationManagerDelegate {
         }
     }
     
-    func sensorData() -> [Sensor] {
+    override func sensorData() -> [Sensor] {
         if isActive() && shouldUpdate() {
             return Array(realm.objects(Position).toArray().prefix(20))
         }
@@ -92,7 +89,7 @@ class PositionManager: NSObject, SensorManager, CLLocationManagerDelegate {
         return [Sensor]()
     }
     
-    func sensorDataDidUpdate(data: [Sensor]) {
+    override func sensorDataDidUpdate(data: [Sensor]) {
         _ = try? realm.write {
             for position in data {
                 self.realm.delete(position)

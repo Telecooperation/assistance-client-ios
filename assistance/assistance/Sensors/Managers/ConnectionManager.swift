@@ -11,11 +11,7 @@ import Foundation
 import RealmSwift
 import GCNetworkReachability
 
-class ConnectionManager: NSObject, SensorManager {
-    
-    let sensorType = "connection"
-    
-    var sensorConfiguration = NSMutableDictionary()
+class ConnectionManager: SensorManager {
     
     static let sharedManager = ConnectionManager()
     
@@ -26,6 +22,7 @@ class ConnectionManager: NSObject, SensorManager {
     override init() {
         super.init()
         
+        sensorType = "connection"
         initSensorManager()
         
         if isActive() {
@@ -33,7 +30,7 @@ class ConnectionManager: NSObject, SensorManager {
         }
     }
     
-    func didStart() {
+    override func didStart() {
         reachability.startMonitoringNetworkReachabilityWithHandler {
             networkReachabilityStatus in
 
@@ -47,13 +44,13 @@ class ConnectionManager: NSObject, SensorManager {
         }
     }
     
-    func didStop() {
+    override func didStop() {
         GCNetworkReachability().stopMonitoringNetworkReachability()
         
-        realm.delete(realm.objects(Connection))
+//        realm.delete(realm.objects(Connection))
     }
     
-    func sensorData() -> [Sensor] {
+    override func sensorData() -> [Sensor] {
         if isActive() && shouldUpdate() {
             return Array(realm.objects(Connection).toArray().prefix(20))
         }
@@ -61,7 +58,7 @@ class ConnectionManager: NSObject, SensorManager {
         return [Sensor]()
     }
     
-    func sensorDataDidUpdate(data: [Sensor]) {
+    override func sensorDataDidUpdate(data: [Sensor]) {
         _ = try? realm.write {
             for connection in data {
                 self.realm.delete(connection)

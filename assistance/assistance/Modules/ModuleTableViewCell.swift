@@ -18,20 +18,22 @@ class ModuleTableViewCell: UITableViewCell {
     @IBOutlet var moduleSwitch: UISwitch!
     
     var tableViewController: ModuleTableViewController?
+    
     var moduleID = ""
+    var moduleData = [String: AnyObject]()
     
     @IBAction func switchModule(sender: UISwitch) {
         if sender.on {
-            ModuleManager().activateModule(self.moduleID) {
-                result in
-                
-                do {
-                    let _ = try result()
-                } catch {
-                    sender.on = false
-                }
-                self.tableViewController?.loadModules()
-            }
+            
+//            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let moduleActivationController = self.tableViewController?.storyboard?.instantiateViewControllerWithIdentifier("ModuleActivationController") as! UINavigationController
+            let moduleActivationTableViewController = moduleActivationController.topViewController as! ModuleActivationTableViewController
+            moduleActivationTableViewController.moduleData = moduleData
+            moduleActivationTableViewController.requiredSensors = moduleData["requiredCapabilities"] as! [[String: AnyObject]]
+            moduleActivationTableViewController.optionalSensors = moduleData["optionalCapabilites"] as! [[String: AnyObject]]
+            
+            self.tableViewController?.presentViewController(moduleActivationController, animated: true, completion: nil)
+            
         } else {
             ModuleManager().deactivateModule(self.moduleID) {
                 result in

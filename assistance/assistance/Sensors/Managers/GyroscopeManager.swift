@@ -11,11 +11,7 @@ import Foundation
 import CoreMotion
 import RealmSwift
 
-class GyroscopeManager: NSObject, SensorManager {
-    
-    let sensorType = "gyroscope"
-    
-    var sensorConfiguration = NSMutableDictionary()
+class GyroscopeManager: SensorManager {
     
     static let sharedManager = GyroscopeManager()
     
@@ -25,6 +21,7 @@ class GyroscopeManager: NSObject, SensorManager {
     override init() {
         super.init()
 
+        sensorType = "gyroscope"
         initSensorManager()
         
         motionManager.gyroUpdateInterval = collectionInterval()
@@ -34,7 +31,7 @@ class GyroscopeManager: NSObject, SensorManager {
         }
     }
     
-    func didStart() {
+    override func didStart() {
         if motionManager.gyroAvailable {
             motionManager.startGyroUpdatesToQueue(NSOperationQueue()) {
                 (gyroData, error) in
@@ -51,13 +48,13 @@ class GyroscopeManager: NSObject, SensorManager {
         }
     }
     
-    func didStop() {
+    override func didStop() {
         motionManager.stopGyroUpdates()
         
-        realm.delete(realm.objects(Gyroscope))
+//        realm.delete(realm.objects(Gyroscope))
     }
     
-    func sensorData() -> [Sensor] {
+    override func sensorData() -> [Sensor] {
         if isActive() && shouldUpdate() {
             return Array(realm.objects(Gyroscope).toArray().prefix(20))
         }
@@ -65,7 +62,7 @@ class GyroscopeManager: NSObject, SensorManager {
         return [Sensor]()
     }
     
-    func sensorDataDidUpdate(data: [Sensor]) {
+    override func sensorDataDidUpdate(data: [Sensor]) {
         _ = try? realm.write {
             for gyroscope in data {
                 self.realm.delete(gyroscope)

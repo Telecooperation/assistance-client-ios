@@ -12,11 +12,7 @@ import Contacts
 
 import RealmSwift
 
-class ContactManager: NSObject, SensorManager {
-    
-    let sensorType = "contact"
-    
-    var sensorConfiguration = NSMutableDictionary()
+class ContactManager: SensorManager {
     
     var collecting = false
     
@@ -28,6 +24,7 @@ class ContactManager: NSObject, SensorManager {
     override init() {
         super.init()
         
+        sensorType = "contact"
         initSensorManager()
         
         if isActive() {
@@ -35,12 +32,12 @@ class ContactManager: NSObject, SensorManager {
         }
     }
     
-    func needsSystemAuthorization() -> Bool {
+    override func needsSystemAuthorization() -> Bool {
         return CNContactStore.authorizationStatusForEntityType(.Contacts) != .Authorized
     }
     
-    func requestAuthorizationFromViewController(viewController: UIViewController, completed: (granted: Bool, error: NSError?) -> Void) {
-        if CNContactStore.authorizationStatusForEntityType(.Contacts) != .Authorized {
+    override func requestAuthorizationFromViewController(viewController: UIViewController, completed: (granted: Bool, error: NSError?) -> Void) {
+        if CNContactStore.authorizationStatusForEntityType(.Contacts) == .NotDetermined {
             contactStore.requestAccessForEntityType(.Contacts) {
                 granted, error in
                 
@@ -52,19 +49,26 @@ class ContactManager: NSObject, SensorManager {
                 
                 completed(granted: granted, error: error)
             }
+        } else if CNContactStore.authorizationStatusForEntityType(.Contacts) == .Denied {
+            let contactPermissionViewController = viewController.storyboard?.instantiateViewControllerWithIdentifier(String(ContactPermissionViewController)) as! ContactPermissionViewController
+            viewController.presentViewController(contactPermissionViewController, animated: true, completion: nil)
+            
+            completed(granted: false, error: nil)
+        } else if CNContactStore.authorizationStatusForEntityType(.Contacts) == .Authorized {
+            grantAuthorization()
         }
     }
     
-    func didStart() {
+    override func didStart() {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "contactsChanged", name: CNContactStoreDidChangeNotification, object: nil)
         
         contactsChanged()
     }
     
-    func didStop() {
+    override func didStop() {
         NSNotificationCenter.defaultCenter().removeObserver(self)
         
-        realm.delete(realm.objects(Contact))
+//        realm.delete(realm.objects(Contact))
     }
     
     func contactsChanged() {
@@ -80,8 +84,8 @@ class ContactManager: NSObject, SensorManager {
         _ = try? contactStore.enumerateContactsWithFetchRequest(CNContactFetchRequest(keysToFetch: [CNContactNamePrefixKey, CNContactGivenNameKey, CNContactMiddleNameKey, CNContactFamilyNameKey, CNContactPreviousFamilyNameKey, CNContactNameSuffixKey, CNContactNicknameKey, CNContactPhoneticGivenNameKey, CNContactPhoneticMiddleNameKey, CNContactPhoneticFamilyNameKey, CNContactOrganizationNameKey, CNContactDepartmentNameKey, CNContactJobTitleKey, CNContactBirthdayKey, CNContactNonGregorianBirthdayKey, CNContactNoteKey, CNContactImageDataKey, CNContactThumbnailImageDataKey, CNContactImageDataAvailableKey, CNContactTypeKey, CNContactPhoneNumbersKey, CNContactEmailAddressesKey, CNContactPostalAddressesKey, CNContactDatesKey, CNContactUrlAddressesKey, CNContactRelationsKey, CNContactSocialProfilesKey, CNContactInstantMessageAddressesKey])) {
             contact, _ in
             
-            let savedContacts = self.realm.objects(Contact).filter("id == '\(contact.identifier)'")
             dispatch_async(dispatch_get_main_queue(), {
+                let savedContacts = self.realm.objects(Contact).filter("id == '\(contact.identifier)'")
                 _ = try? self.realm.write {
                     if savedContacts.count > 0 {
                         savedContacts.first!.isDeleted = false
@@ -96,7 +100,7 @@ class ContactManager: NSObject, SensorManager {
         collecting = false
     }
     
-    func sensorData() -> [Sensor] {
+    override func sensorData() -> [Sensor] {
         if isActive() && shouldUpdate() && !collecting {
             return Array(realm.objects(Contact).filter("isNew == true || isUpdated == true || isDeleted == true").toArray().prefix(20))
         }
@@ -104,7 +108,7 @@ class ContactManager: NSObject, SensorManager {
         return [Sensor]()
     }
     
-    func sensorDataDidUpdate(data: [Sensor]) {
+    override func sensorDataDidUpdate(data: [Sensor]) {
         _ = try? realm.write {
             for contact in data {
                 contact.setSynced()

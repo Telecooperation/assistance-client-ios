@@ -10,23 +10,22 @@ import Foundation
 
 import RealmSwift
 
-@objc protocol SensorManager {
+class SensorManager: NSObject {
     
-    var sensorType: String { get }
+    var sensorType = ""
     
-    var sensorConfiguration: NSMutableDictionary { get set }
+    var sensorConfiguration = NSMutableDictionary()
     
-    func sensorData() -> [Sensor]
-    func sensorDataDidUpdate(data: [Sensor])
+    func sensorData() -> [Sensor] {
+        return [Sensor]()
+    }
     
-    optional func needsSystemAuthorization() -> Bool
-    optional func requestAuthorizationFromViewController(viewController: UIViewController, completed: (granted: Bool, error: NSError?) -> Void)
+    func sensorDataDidUpdate(data: [Sensor]) {
+        
+    }
     
-    optional func didStart()
-    optional func didStop()
-}
-
-extension SensorManager {
+    func didStart() {}
+    func didStop() {}
     
     func initSensorManager() {
         if let sensorConfigurations = NSUserDefaults.standardUserDefaults().objectForKey("sensorConfiguration")?.mutableCopy() as? NSMutableDictionary, sensorConfiguration = sensorConfigurations[sensorType] {
@@ -91,9 +90,17 @@ extension SensorManager {
     
     func startSensingForModuleWithID(moduleId: String, collectionInterval: Double, updateInterval: Double) {
         if !(sensorConfiguration["used_by_modules"] as! [String]).contains(moduleId) {
-            (sensorConfiguration["used_by_modules"] as! NSMutableArray).addObject(moduleId)
-            (sensorConfiguration["collection_interval"] as! NSMutableArray).addObject(collectionInterval)
-            (sensorConfiguration["update_interval"] as! NSMutableArray).addObject(updateInterval)
+            let usedByModulesConfiguration = (sensorConfiguration["used_by_modules"] as! NSArray).mutableCopy()
+            usedByModulesConfiguration.addObject(moduleId)
+            sensorConfiguration["used_by_modules"] = usedByModulesConfiguration
+            
+            let collectionIntervalConfiguration = (sensorConfiguration["collection_interval"] as! NSArray).mutableCopy()
+            collectionIntervalConfiguration.addObject(collectionInterval)
+            sensorConfiguration["collection_interval"] = collectionIntervalConfiguration
+            
+            let updateIntervalConfiguration = (sensorConfiguration["update_interval"] as! NSArray).mutableCopy()
+            updateIntervalConfiguration.addObject(updateInterval)
+            sensorConfiguration["update_interval"] = updateIntervalConfiguration
             
             saveSensorConfiguration()
             
@@ -103,11 +110,19 @@ extension SensorManager {
         }
     }
     
-    func stopSensingForModuleWithID(moduleId: String, collectionInterval: Double, updateInterval: Double) {
+    func stopSensingForModuleWithID(moduleId: String) {
         if let index = (sensorConfiguration["used_by_modules"] as! [String]).indexOf(moduleId) {
-            (sensorConfiguration["used_by_modules"] as! NSMutableArray).removeObjectAtIndex(index)
-            (sensorConfiguration["collection_interval"] as! NSMutableArray).removeObjectAtIndex(index)
-            (sensorConfiguration["update_interval"] as! NSMutableArray).removeObjectAtIndex(index)
+            let usedByModulesConfiguration = (sensorConfiguration["used_by_modules"] as! NSArray).mutableCopy()
+            usedByModulesConfiguration.removeObjectAtIndex(index)
+            sensorConfiguration["used_by_modules"] = usedByModulesConfiguration
+            
+            let collectionIntervalConfiguration = (sensorConfiguration["collection_interval"] as! NSArray).mutableCopy()
+            collectionIntervalConfiguration.removeObjectAtIndex(index)
+            sensorConfiguration["collection_interval"] = collectionIntervalConfiguration
+            
+            let updateIntervalConfiguration = (sensorConfiguration["update_interval"] as! NSArray).mutableCopy()
+            updateIntervalConfiguration.removeObjectAtIndex(index)
+            sensorConfiguration["update_interval"] = updateIntervalConfiguration
             
             saveSensorConfiguration()
             
@@ -117,16 +132,37 @@ extension SensorManager {
         }
     }
     
+    func usedByModules() -> [String] {
+        return sensorConfiguration["used_by_modules"] as! [String]
+    }
+    
+    func requiredByModules() -> [String] {
+        let usedByModules = sensorConfiguration["used_by_modules"] as! [String]
+        var requiredByModules = [String]()
+        for moduleID in usedByModules {
+            if let module = ModuleManager().moduleWithID(moduleID) {
+                let requiredSensors = module["requiredCapabilities"] as! [[String: AnyObject]]
+                for sensor in requiredSensors {
+                    let sensorType = sensor["type"] as! String
+                    if sensorType == self.sensorType {
+                        requiredByModules.append(moduleID)
+                    }
+                }
+            }
+        }
+        return requiredByModules
+    }
+    
     func start() {
-        didStart?()
+        didStart()
     }
     
     func stop() {
-        didStop?()
+        didStop()
     }
     
     func isActive() -> Bool {
-        return (sensorConfiguration["used_by_modules"] as! NSArray).count > 0
+        return (sensorConfiguration["used_by_modules"] as! NSArray).count > 0 && sensorConfiguration["authorization_status"] as! NSNumber == NSNumber(integer: SensorAuthorizationStatus.Granted.rawValue)
     }
     
     func isRealtime() -> Bool {

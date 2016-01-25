@@ -12,19 +12,23 @@ import CoreLocation
 
 class AssistanceTableViewController: UITableViewController {
 
-    var currentInfo = [
-        ["moduleId": "de.tudarmstadt.informatik.tk.assistanceplatform.modules.hotplaces",
-         "created": "2015-11-29T20:21:34+01:00",
-         "payload": [
-                        ["type": "group", "alignment": "horizontal", "distribution": [70, 30], "content":   [
-                                                                                                                ["type": "text", "style": "headline", "content": "This Is an Awesome Headline!"],
-                                                                                                                ["type": "text", "style": "footnote", "content": "Yeah."]
-                                                                                                            ]
-                        ],
-                        ["type": "map", "showCurrentLocation": true, "points": [[49.877427, 8.653879], [49.877496, 8.653429], [49.877220, 8.653493]]]
-                    ]
-        ]
-    ]
+    var currentInformation = [[String: AnyObject]]() // = [
+//        ["moduleId": "de.tudarmstadt.informatik.tk.assistanceplatform.modules.hotplaces",
+//         "created": "2015-11-29T20:21:34+01:00",
+//         "content":
+//            ["type": "group", "alignment": "vertical", "content": [
+//                    ["type": "group", "alignment": "horizontal", "target": "http://news.ycombinator.com", "content": [
+//                            ["type": "text", "style": "headline", "caption": "This Is an Awesome Headline!", "priority": 3],
+//                            ["type": "text", "style": "footnote", "caption": "Yeah.", "alignment": "right", "highlighted": true]
+//                        ]
+//                    ],
+//                    ["type": "map", "showUserLocation": true, "points": [[49.877427, 8.653879], [49.877496, 8.653429], [49.877220, 8.653493]]],
+//                    ["type": "image", "source": "https://www.tu-darmstadt.de/media/illustrationen/die_universitaet/medien_ausstellung/bilder_geschichte/7_das_logo_der_tu_darmstadt_/01-Das-Logo-der-TU-Darmstadt.jpg"],
+//                    ["type": "button", "caption": "Go to the Apple website!", "target": "http://www.apple.com"]
+//                ]
+//            ]
+//        ]
+//    ]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,19 +39,27 @@ class AssistanceTableViewController: UITableViewController {
         tableView.estimatedRowHeight = 290.0
     }
     
-//    override func viewWillAppear() {
-//        super.viewWillAppear()
-//        
-//        ModuleManager().currentInformation {
-//            result in
-//            
-//            do {
-//                let data = try result()
-//            } catch {
-//                
-//            }
-//        }
-//    }
+    @IBAction func refresh(sender: AnyObject) {
+        ModuleManager().currentInformation {
+            result in
+            
+            do {
+                let data = try result()
+                if let dataString = NSString(data: data as! NSData, encoding: NSUTF8StringEncoding) where dataString.length > 0 {
+                    if let currentInformation = try? NSJSONSerialization.JSONObjectWithData(data as! NSData, options: .MutableContainers) as! [[String: AnyObject]] {
+                        self.currentInformation = currentInformation
+                        
+                        dispatch_async(dispatch_get_main_queue(), {
+                            self.tableView.reloadData()
+                            self.refreshControl?.endRefreshing()
+                        })
+                    }
+                }
+            } catch {
+                
+            }
+        }
+    }
     
     override func viewDidAppear(animated: Bool) {
         if CLLocationManager.authorizationStatus() == .NotDetermined {
@@ -56,41 +68,57 @@ class AssistanceTableViewController: UITableViewController {
             performSegueWithIdentifier("locationAuthorizationFailedSegue", sender: self)
         } else if let _ = NSUserDefaults.standardUserDefaults().stringForKey("UserEmail") {
             DataSync().syncData()
+            refresh(self)
         } else {
             performSegueWithIdentifier("loginSegue", sender: self)
         }
     }
 
     // MARK: - Table view data source
-
+    
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return currentInfo.count
+        return currentInformation.count
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
         return 1
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("Card", forIndexPath: indexPath)
-
-        let cardInfo = currentInfo[Int(indexPath.section)]
-        if let payload = cardInfo["payload"] as? [[String: AnyObject]] {
-            for object in payload {
-                
-            }
+        let cell = UITableViewCell()
+        
+        CardParser.sharedParser.tableViewController = self
+        
+        let stackView = UIStackView()
+        stackView.axis = .Vertical
+        
+        let cardInfo = currentInformation[Int(indexPath.section)]
+        if let content = cardInfo["content"] as? [String: AnyObject] {
+                CardParser.sharedParser.parseObject(content, superview: stackView)
         }
+            
+        cell.contentView.addSubview(stackView)
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        
+        let horizontalConstraints = NSLayoutConstraint.constraintsWithVisualFormat("H:|-[stackView]-|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: ["stackView": stackView])
+        let verticalConstraints = NSLayoutConstraint.constraintsWithVisualFormat("V:|-[stackView]-|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: ["stackView": stackView])
+        cell.contentView.addConstraints(horizontalConstraints + verticalConstraints)
 
         return cell
     }
     
     override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         
-        let iso8601date = currentInfo[section]["created"] as! String
+        let cardInfo = currentInformation[section]
+        
+        var moduleName = ""
+        if let moduleNames = NSUserDefaults.standardUserDefaults().objectForKey("moduleNames") as? [String: String], moduleID = cardInfo["moduleId"] as? String, name = moduleNames[moduleID] {
+            moduleName = name
+        }
+        
+        let iso8601date = currentInformation[section]["created"] as! String
         guard let date = NSDate(ISO8601String: iso8601date) else {
-            return "Hot Zone"
+            return moduleName
         }
         
         let durationFormatter = NSDateComponentsFormatter()
@@ -101,52 +129,7 @@ class AssistanceTableViewController: UITableViewController {
         
         let durationString = durationFormatter.stringFromTimeInterval(duration)!
         
-        return "Hot Zone - \(durationString) ago"
+        return "\(moduleName) - \(durationString) ago"
     }
-
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        if editingStyle == .Delete {
-            // Delete the row from the data source
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
-        } else if editingStyle == .Insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(tableView: UITableView, moveRowAtIndexPath fromIndexPath: NSIndexPath, toIndexPath: NSIndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

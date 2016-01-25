@@ -8,5 +8,8 @@ target 'assistance' do
   pod 'GCNetworkReachability'
   pod 'FBSDKCoreKit’
   pod 'FBSDKLoginKit’
+  pod 'Google/CloudMessaging'
+  pod 'ChameleonFramework'
+  pod 'SDWebImage'
+  pod 'SVProgressHUD'
 end
-

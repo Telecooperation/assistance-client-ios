@@ -85,6 +85,7 @@ strip_invalid_archs() {
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "Pods-assistance/Bolts.framework"
+  install_framework "Pods-assistance/ChameleonFramework.framework"
   install_framework "Pods-assistance/FBSDKCoreKit.framework"
   install_framework "Pods-assistance/FBSDKLoginKit.framework"
   install_framework "Pods-assistance/GCNetworkReachability.framework"
@@ -92,9 +93,12 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "Pods-assistance/Locksmith.framework"
   install_framework "Pods-assistance/Realm.framework"
   install_framework "Pods-assistance/RealmSwift.framework"
+  install_framework "Pods-assistance/SDWebImage.framework"
+  install_framework "Pods-assistance/SVProgressHUD.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "Pods-assistance/Bolts.framework"
+  install_framework "Pods-assistance/ChameleonFramework.framework"
   install_framework "Pods-assistance/FBSDKCoreKit.framework"
   install_framework "Pods-assistance/FBSDKLoginKit.framework"
   install_framework "Pods-assistance/GCNetworkReachability.framework"
@@ -102,4 +106,6 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "Pods-assistance/Locksmith.framework"
   install_framework "Pods-assistance/Realm.framework"
   install_framework "Pods-assistance/RealmSwift.framework"
+  install_framework "Pods-assistance/SDWebImage.framework"
+  install_framework "Pods-assistance/SVProgressHUD.framework"
 fi

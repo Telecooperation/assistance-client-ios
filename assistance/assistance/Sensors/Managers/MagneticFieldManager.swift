@@ -11,11 +11,7 @@ import Foundation
 import CoreMotion
 import RealmSwift
 
-class MagneticFieldManager: NSObject, SensorManager {
-    
-    let sensorType = "magneticfield"
-    
-    var sensorConfiguration = NSMutableDictionary()
+class MagneticFieldManager: SensorManager {
     
     static let sharedManager = MagneticFieldManager()
     
@@ -25,6 +21,7 @@ class MagneticFieldManager: NSObject, SensorManager {
     override init() {
         super.init()
         
+        sensorType = "magneticfield"
         initSensorManager()
         
         motionManager.magnetometerUpdateInterval = collectionInterval()
@@ -34,7 +31,7 @@ class MagneticFieldManager: NSObject, SensorManager {
         }
     }
     
-    func didStart() {
+    override func didStart() {
         if motionManager.magnetometerAvailable {
             motionManager.startMagnetometerUpdatesToQueue(NSOperationQueue()) {
                 (magnetometerData, error) in
@@ -51,13 +48,13 @@ class MagneticFieldManager: NSObject, SensorManager {
         }
     }
     
-    func didStop() {
+    override func didStop() {
         motionManager.stopMagnetometerUpdates()
         
-        realm.delete(realm.objects(MagneticField))
+//        realm.delete(realm.objects(MagneticField))
     }
     
-    func sensorData() -> [Sensor] {
+    override func sensorData() -> [Sensor] {
         if isActive() && shouldUpdate() {
             return Array(realm.objects(MagneticField).toArray().prefix(20))
         }
@@ -65,7 +62,7 @@ class MagneticFieldManager: NSObject, SensorManager {
         return [Sensor]()
     }
     
-    func sensorDataDidUpdate(data: [Sensor]) {
+    override func sensorDataDidUpdate(data: [Sensor]) {
         _ = try? realm.write {
             for magneticField in data {
                 self.realm.delete(magneticField)

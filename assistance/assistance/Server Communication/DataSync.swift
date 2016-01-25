@@ -9,7 +9,6 @@
 import UIKit
 
 import RealmSwift
-import Locksmith
 import GCNetworkReachability
 
 class DataSync {
@@ -20,8 +19,8 @@ class DataSync {
     
     func syncData() {
         
-        guard let userEmail = NSUserDefaults.standardUserDefaults().stringForKey("UserEmail"), dictionary = Locksmith.loadDataForUserAccount(userEmail), token = dictionary["token"] as? String else {
-            print("Sync failed: Not authenticated!")
+        guard let token = NSUserDefaults.standardUserDefaults().stringForKey("UserToken") else {
+            print("Sync failed: Token not found!")
             return
         }
         
@@ -30,21 +29,13 @@ class DataSync {
             return
         }
         
-        let timeSinceLastUpdate = NSDate().timeIntervalSinceDate(PositionManager.sharedManager.lastUpdateTime())
-        let forceCellularUploadIntervall = NSTimeInterval(60 * 60 * 24) // one day
-        
         let reachability = GCNetworkReachability.reachabilityForInternetConnection()
-        
-        guard reachability.currentReachabilityStatus() == GCNetworkReachabilityStatusWiFi || timeSinceLastUpdate > forceCellularUploadIntervall else {
-            print("Sync failed: Not connected to WiFi!")
-            return
-        }
         
         var sensorReadings = [AnyObject]()
         var sensorDataToSync = [String: [Sensor]]()
         
         for sensorManager in sensorManagers {
-            if sensorManager.shouldUpdate() {
+            if sensorManager.isActive() && sensorManager.shouldUpdate() || reachability.currentReachabilityStatus() == GCNetworkReachabilityStatusWiFi {
                 sensorDataToSync[sensorManager.sensorType] = sensorManager.sensorData()
                 for sensorData in sensorDataToSync[sensorManager.sensorType]! {
                     sensorReadings.append(sensorData.dictionary())
@@ -75,8 +66,7 @@ class DataSync {
             } catch ServerConnection.Error.Unauthorized {
 
                 if let userEmail = NSUserDefaults.standardUserDefaults().stringForKey("UserEmail"),
-                    let dictionary = Locksmith.loadDataForUserAccount(userEmail),
-                    let password = dictionary["password"] as? String {
+                    let password = NSUserDefaults.standardUserDefaults().stringForKey("UserPassword") {
                         
                         UserManager().login(userEmail, password: password) {
                             result in
@@ -87,7 +77,8 @@ class DataSync {
                                 if let dataString = NSString(data: data as! NSData, encoding: NSUTF8StringEncoding) where dataString.length > 0,
                                     let dataJSON = try? NSJSONSerialization.JSONObjectWithData(data as! NSData, options: .MutableLeaves) as! NSDictionary,
                                     token = dataJSON["token"] as? String {
-                                    _ = try? Locksmith.updateData(["password": password, "token": token], forUserAccount: userEmail)
+                                        NSUserDefaults.standardUserDefaults().setObject(password, forKey: "UserPassword")
+                                        NSUserDefaults.standardUserDefaults().setObject(token, forKey: "UserToken")
                                 }
                             } catch {
                                 print("login failed.")

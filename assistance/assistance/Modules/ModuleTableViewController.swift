@@ -11,16 +11,18 @@ import UIKit
 class ModuleTableViewController: UITableViewController {
 
     var availableModules = [AnyObject]()
-    var activatedModules: [String]?
+    var activatedModules = [String]()
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        if let availableModules = NSUserDefaults.standardUserDefaults().objectForKey("availableModules") as? [AnyObject] {
+        if let archivedAvailableModules = NSUserDefaults.standardUserDefaults().objectForKey("availableModules") as? NSData,
+            availableModules = NSKeyedUnarchiver.unarchiveObjectWithData(archivedAvailableModules) as? [AnyObject] {
             self.availableModules = availableModules
         }
         
-        if let activatedModules = NSUserDefaults.standardUserDefaults().objectForKey("activatedModules") as? [String] {
+        if let archivedActivatedModules = NSUserDefaults.standardUserDefaults().objectForKey("activatedModules") as? NSData,
+            activatedModules = NSKeyedUnarchiver.unarchiveObjectWithData(archivedActivatedModules) as? [String] {
             self.activatedModules = activatedModules
         }
         
@@ -34,22 +36,23 @@ class ModuleTableViewController: UITableViewController {
             do {
                 let data = try result()
                 if let dataString = NSString(data: data as! NSData, encoding: NSUTF8StringEncoding) where dataString.length > 0,
-                    let modules = try? NSJSONSerialization.JSONObjectWithData(data as! NSData, options: .MutableLeaves) as? NSArray {
+                    let modules = try? NSJSONSerialization.JSONObjectWithData(data as! NSData, options: .MutableContainers) as! [AnyObject] {
                         
-                        self.availableModules = modules as! [AnyObject]
+                        self.availableModules = modules
                         dispatch_async(dispatch_get_main_queue()) {
                             self.tableView.reloadData()
                         }
-//                        NSUserDefaults.standardUserDefaults().setObject(self.availableModules, forKey: "availableModules")
+                        
+                        let archivedAvailableModules = NSKeyedArchiver.archivedDataWithRootObject(self.availableModules)
+                        NSUserDefaults.standardUserDefaults().setObject(archivedAvailableModules, forKey: "availableModules")
+                        
+                        var moduleNames = [String: String]()
+                        for module: [String: AnyObject] in modules as! [[String: AnyObject]] {
+                            moduleNames[module["id"] as! String] = module["name"] as? String
+                        }
+                        NSUserDefaults.standardUserDefaults().setObject(moduleNames, forKey: "moduleNames")
                 }
-            } catch {
-                //                switch error {
-                //                case ModuleManager.Error.NotAuthenticated:
-                //                    print("Not Authenticated!")
-                //                default:
-                //                    break
-                //                }
-            }
+            } catch { }
         }
         
         ModuleManager().activatedModules {
@@ -60,11 +63,13 @@ class ModuleTableViewController: UITableViewController {
                 if let dataString = NSString(data: data as! NSData, encoding: NSUTF8StringEncoding) where dataString.length > 0,
                     let modules = try? NSJSONSerialization.JSONObjectWithData(data as! NSData, options: .MutableLeaves) as? NSArray {
                         
-                        self.activatedModules = modules as? [String]
+                        self.activatedModules = modules as! [String]
                         dispatch_async(dispatch_get_main_queue()) {
                             self.tableView.reloadData()
                         }
-//                        NSUserDefaults.standardUserDefaults().setObject(self.activatedModules, forKey: "activatedModules")
+                        
+                        let archivedActivatedModules = NSKeyedArchiver.archivedDataWithRootObject(self.activatedModules)
+                        NSUserDefaults.standardUserDefaults().setObject(archivedActivatedModules, forKey: "activatedModules")
                 }
             } catch { }
         }
@@ -89,25 +94,17 @@ class ModuleTableViewController: UITableViewController {
         let description = module["descriptionShort"] as! String
         let logoURLString = module["logoUrl"] as! String
         
+        cell.moduleData = module
         cell.moduleID = id
         cell.nameLabel.text = name
         cell.descriptionLabel.text = description
         
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
-            let logoURL = NSURL(string: logoURLString)
-            let logoData = NSData(contentsOfURL: logoURL!)
-            
-            if let logoData = logoData {
-                dispatch_async(dispatch_get_main_queue()) {
-                    cell.logoImageView.image = UIImage(data: logoData)
-                }
-            }
+        if let logoURL = NSURL(string: logoURLString) {
+            cell.logoImageView.sd_setImageWithURL(logoURL)
         }
         
-        if let activatedModules = activatedModules {
-            cell.moduleSwitch.enabled = true
-            cell.moduleSwitch.on = activatedModules.contains(id)
-        }
+        cell.moduleSwitch.enabled = true
+        cell.moduleSwitch.on = activatedModules.contains(id)
         
         cell.tableViewController = self
 
@@ -118,9 +115,13 @@ class ModuleTableViewController: UITableViewController {
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "showModule" {
-            let destinationViewController = segue.destinationViewController as! ModuleDetailTableViewController
+            let destinationViewController = segue.destinationViewController as! ModuleActivationTableViewController
             if let indexPath = self.tableView.indexPathForSelectedRow {
-                destinationViewController.moduleData = availableModules[indexPath.row] as! [String: AnyObject]
+                let moduleData = availableModules[indexPath.row] as! [String: AnyObject]
+                destinationViewController.moduleData = moduleData
+                
+                destinationViewController.requiredSensors = moduleData["requiredCapabilities"] as! [[String: AnyObject]]
+                destinationViewController.optionalSensors = moduleData["optionalCapabilites"] as! [[String: AnyObject]]
             }
         }
     }

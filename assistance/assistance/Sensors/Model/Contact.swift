@@ -157,22 +157,22 @@ class Contact: Sensor {
     
     override func dictionary() -> [String: AnyObject] {
         var dictionary: [String: AnyObject] = ["type": "contact",
-//            "created": created.ISO8601String()!,
+            "created": created.ISO8601String()!,
             "globalContactId": id,
-//            "contactType": contactType.rawValue,
-//            "namePrefix": namePrefix,
+            "contactType": contactType.rawValue,
+            "namePrefix": namePrefix,
             "givenName": givenName,
-//            "middleName": middleName,
+            "middleName": middleName,
             "familyName": familyName,
-//            "previousFamilyName": previousFamilyName,
-//            "nameSuffix": nameSuffix,
-//            "nickname": nickname,
-//            "phoneticGivenName": phoneticGivenName,
-//            "phoneticMiddleName": phoneticMiddleName,
-//            "phoneticFamilyName": phoneticFamilyName,
-//            "organizationName": organizationName,
-//            "departmentName": departmentName,
-//            "jobTitle": jobTitle,
+            "previousFamilyName": previousFamilyName,
+            "nameSuffix": nameSuffix,
+            "nickname": nickname,
+            "phoneticGivenName": phoneticGivenName,
+            "phoneticMiddleName": phoneticMiddleName,
+            "phoneticFamilyName": phoneticFamilyName,
+            "organizationName": organizationName,
+            "departmentName": departmentName,
+            "jobTitle": jobTitle,
             "note": note,
             "isDeleted": isDeleted]
         
@@ -188,13 +188,13 @@ class Contact: Sensor {
 //            dictionary["birthdayYear"] = birthdayYear
 //        }
         
-//        if phoneNumbers.count > 0 {
-//            dictionary["phoneNumbers"] = phoneNumbers.map { $0.dictionary() }
-//        }
-//        
-//        if emailAddresses.count > 0 {
-//            dictionary["emailAddresses"] = emailAddresses.map { $0.dictionary() }
-//        }
+        if phoneNumbers.count > 0 {
+            dictionary["phoneNumbers"] = phoneNumbers.map { $0.dictionary() }
+        }
+        
+        if emailAddresses.count > 0 {
+            dictionary["emailAddresses"] = emailAddresses.map { $0.dictionary() }
+        }
         
         return dictionary
     }

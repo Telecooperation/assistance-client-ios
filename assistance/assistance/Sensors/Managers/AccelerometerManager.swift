@@ -11,11 +11,7 @@ import Foundation
 import CoreMotion
 import RealmSwift
 
-class AccelerometerManager: NSObject, SensorManager {
-    
-    let sensorType = "accelerometer"
-    
-    var sensorConfiguration = NSMutableDictionary()
+class AccelerometerManager: SensorManager {
     
     static let sharedManager = AccelerometerManager()
     
@@ -25,6 +21,7 @@ class AccelerometerManager: NSObject, SensorManager {
     override init() {
         super.init()
 
+        sensorType = "accelerometer"
         initSensorManager()
         
         motionManager.accelerometerUpdateInterval = collectionInterval()
@@ -34,7 +31,7 @@ class AccelerometerManager: NSObject, SensorManager {
         }
     }
     
-    func didStart() {
+    override func didStart() {
         if motionManager.accelerometerAvailable {
             motionManager.startAccelerometerUpdatesToQueue(NSOperationQueue()) {
                 (accelerometerData, error) in
@@ -54,17 +51,17 @@ class AccelerometerManager: NSObject, SensorManager {
         }
     }
     
-    func didStop() {
+    override func didStop() {
         /*
         * We do not actually stop requesting accelerometer updates using
         * motionManager.stopAccelerometerUpdates() here because we use
         * the accelerometer update calls to sync all sensor data to the server.
         */
         
-        realm.delete(realm.objects(Accelerometer))
+//        realm.delete(realm.objects(Accelerometer))
     }
     
-    func sensorData() -> [Sensor] {
+    override func sensorData() -> [Sensor] {
         if isActive() && shouldUpdate() {
             return Array(realm.objects(Accelerometer).toArray().prefix(20))
         }
@@ -72,7 +69,7 @@ class AccelerometerManager: NSObject, SensorManager {
         return [Sensor]()
     }
     
-    func sensorDataDidUpdate(data: [Sensor]) {
+    override func sensorDataDidUpdate(data: [Sensor]) {
         _ = try? realm.write {
             for accelerometer in data {
                 self.realm.delete(accelerometer)

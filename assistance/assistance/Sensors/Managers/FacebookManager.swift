@@ -12,12 +12,8 @@ import RealmSwift
 import FBSDKCoreKit
 import FBSDKLoginKit
 
-class FacebookManager: NSObject, SensorManager {
+class FacebookManager: SensorManager {
 
-    let sensorType = "facebooktoken"
-    
-    var sensorConfiguration = NSMutableDictionary()
-    
     static let sharedManager = FacebookManager()
     
     let realm = try! Realm()
@@ -26,6 +22,7 @@ class FacebookManager: NSObject, SensorManager {
     override init() {
         super.init()
         
+        sensorType = "facebooktoken"
         initSensorManager()
         
         if isActive() {
@@ -33,21 +30,17 @@ class FacebookManager: NSObject, SensorManager {
         }
     }
     
-    func needsSystemAuthorization() -> Bool {
+    override func needsSystemAuthorization() -> Bool {
         return FBSDKAccessToken.currentAccessToken() == nil
     }
     
-    func requestAuthorizationFromViewController(viewController: UIViewController, completed: (granted: Bool, error: NSError?) -> Void) {
+    override func requestAuthorizationFromViewController(viewController: UIViewController, completed: (granted: Bool, error: NSError?) -> Void) {
         if FBSDKAccessToken.currentAccessToken() == nil {
             fbLoginManager.logInWithReadPermissions(["email", "public_profile", "user_friends"], fromViewController: viewController) {
                 result, error in
                 
                 var granted = false
-                if error != nil {
-                    self.denyAuthorization()
-                } else if result.isCancelled {
-                    self.denyAuthorization()
-                } else {
+                if FBSDKAccessToken.currentAccessToken() != nil {
                     self.grantAuthorization()
                     granted = true
                     
@@ -58,13 +51,15 @@ class FacebookManager: NSObject, SensorManager {
                             self.realm.add(Facebook(oauthToken: FBSDKAccessToken.currentAccessToken().tokenString, permissions: permissions, declinedPermissions: declinedPermissions))
                         }
                     })
+                } else {
+                    self.denyAuthorization()
                 }
                 completed(granted: granted, error: error)
             }
         }
     }
     
-    func sensorData() -> [Sensor] {
+    override func sensorData() -> [Sensor] {
         if isActive() && shouldUpdate() {
             return Array(realm.objects(Facebook).filter("isNew == true").toArray().prefix(20))
         }
@@ -72,14 +67,14 @@ class FacebookManager: NSObject, SensorManager {
         return [Sensor]()
     }
     
-    func sensorDataDidUpdate(data: [Sensor]) {
+    override func sensorDataDidUpdate(data: [Sensor]) {
         _ = try? realm.write {
             for facebook in data {
                 facebook.setSynced()
             }
         }
         
-        if realm.objects(Facebook).count == 0 {
+        if realm.objects(Facebook).filter("isNew == true").count == 0 {
             didUpdate()
         }
     }

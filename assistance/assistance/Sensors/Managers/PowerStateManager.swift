@@ -10,11 +10,7 @@ import Foundation
 
 import RealmSwift
 
-class PowerStateManager: NSObject, SensorManager {
-    
-    let sensorType = "powerstate"
-    
-    var sensorConfiguration = NSMutableDictionary()
+class PowerStateManager: SensorManager {
     
     static let sharedManager = PowerStateManager()
     
@@ -23,6 +19,7 @@ class PowerStateManager: NSObject, SensorManager {
     override init() {
         super.init()
         
+        sensorType = "powerstate"
         initSensorManager()
         
         if isActive() {
@@ -30,7 +27,7 @@ class PowerStateManager: NSObject, SensorManager {
         }
     }
     
-    func didStart() {
+    override func didStart() {
         UIDevice.currentDevice().batteryMonitoringEnabled = true
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "savePowerState", name: UIDeviceBatteryLevelDidChangeNotification, object: nil)
@@ -40,10 +37,10 @@ class PowerStateManager: NSObject, SensorManager {
         savePowerState()
     }
     
-    func didStop() {
+    override func didStop() {
         NSNotificationCenter.defaultCenter().removeObserver(self)
         
-        realm.delete(realm.objects(PowerState))
+//        realm.delete(realm.objects(PowerState))
     }
     
     func savePowerState() {
@@ -71,7 +68,7 @@ class PowerStateManager: NSObject, SensorManager {
         })
     }
     
-    func sensorData() -> [Sensor] {
+    override func sensorData() -> [Sensor] {
         if isActive() && shouldUpdate() {
             return Array(realm.objects(PowerState).toArray().prefix(20))
         }
@@ -79,7 +76,7 @@ class PowerStateManager: NSObject, SensorManager {
         return [Sensor]()
     }
     
-    func sensorDataDidUpdate(data: [Sensor]) {
+    override func sensorDataDidUpdate(data: [Sensor]) {
         _ = try? realm.write {
             for powerState in data {
                 self.realm.delete(powerState)

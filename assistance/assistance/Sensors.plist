@@ -28,7 +28,7 @@
 		<key>name</key>
 		<string>Calendar</string>
 		<key>authorization_status</key>
-		<integer>2</integer>
+		<integer>0</integer>
 		<key>last_collection</key>
 		<date>1-12-31T23:06:32Z</date>
 		<key>last_update</key>
@@ -70,7 +70,7 @@
 		<key>name</key>
 		<string>Contact</string>
 		<key>authorization_status</key>
-		<integer>2</integer>
+		<integer>0</integer>
 		<key>last_collection</key>
 		<date>1-12-31T23:06:32Z</date>
 		<key>last_update</key>
@@ -91,7 +91,7 @@
 		<key>name</key>
 		<string>Facebook</string>
 		<key>authorization_status</key>
-		<integer>2</integer>
+		<integer>0</integer>
 		<key>last_collection</key>
 		<date>1-12-31T23:06:32Z</date>
 		<key>last_update</key>
@@ -196,7 +196,7 @@
 		<key>name</key>
 		<string>Position</string>
 		<key>authorization_status</key>
-		<integer>2</integer>
+		<integer>0</integer>
 		<key>last_collection</key>
 		<date>1-12-31T23:06:32Z</date>
 		<key>last_update</key>
@@ -259,7 +259,7 @@
 		<key>name</key>
 		<string>Tucan</string>
 		<key>authorization_status</key>
-		<integer>2</integer>
+		<integer>0</integer>
 		<key>last_collection</key>
 		<date>1-12-31T23:06:32Z</date>
 		<key>last_update</key>

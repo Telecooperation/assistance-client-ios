@@ -11,11 +11,7 @@ import Foundation
 import CoreMotion
 import RealmSwift
 
-class MotionActivityManager: NSObject, SensorManager {
-    
-    let sensorType = "motionactivity"
-    
-    var sensorConfiguration = NSMutableDictionary()
+class MotionActivityManager: SensorManager {
     
     let motionActivityManager = CMMotionActivityManager()
     
@@ -26,6 +22,7 @@ class MotionActivityManager: NSObject, SensorManager {
     override init() {
         super.init()
         
+        sensorType = "motionactivity"
         initSensorManager()
         
         if isActive() {
@@ -33,12 +30,16 @@ class MotionActivityManager: NSObject, SensorManager {
         }
     }
     
-    func requestAuthorizationFromViewController(viewController: UIViewController, completed: (granted: Bool, error: NSError?) -> Void) {
+    override func requestAuthorizationFromViewController(viewController: UIViewController, completed: (granted: Bool, error: NSError?) -> Void) {
         self.motionActivityManager.queryActivityStartingFromDate(NSDate(), toDate: NSDate(), toQueue: NSOperationQueue()) {
             _, error in
             
             if let error = error where error.code == Int(CMErrorMotionActivityNotAuthorized.rawValue) {
                 self.denySystemAuthorization()
+                
+                let contactPermissionViewController = viewController.storyboard?.instantiateViewControllerWithIdentifier(String(ContactPermissionViewController)) as! ContactPermissionViewController
+                viewController.presentViewController(contactPermissionViewController, animated: true, completion: nil)
+                
                 completed(granted: false, error: error)
             } else {
                 self.grantAuthorization()
@@ -47,19 +48,18 @@ class MotionActivityManager: NSObject, SensorManager {
         }
     }
     
-    func didStop() {
-        realm.delete(realm.objects(MotionActivity))
+    override func didStop() {
+//        realm.delete(realm.objects(MotionActivity))
     }
     
-    func sensorData() -> [Sensor] {
+    override func sensorData() -> [Sensor] {
         if isActive() && shouldUpdate() {
             if CMMotionActivityManager.isActivityAvailable() {
                 self.motionActivityManager.queryActivityStartingFromDate(lastUpdateTime(), toDate: NSDate(), toQueue: NSOperationQueue()) {
                     motionActivities, error in
                     
                     if let motionActivities = motionActivities {
-                        dispatch_async(dispatch_get_main_queue(),{
-                            
+                        dispatch_async(dispatch_get_main_queue(), {
                             var previousMotionActivity = CMMotionActivity()
                             for motionActivity in motionActivities {
                                 if motionActivity != previousMotionActivity && (motionActivity.cycling || motionActivity.automotive || motionActivity.running || motionActivity.stationary || motionActivity.walking || motionActivity.unknown) {
@@ -81,7 +81,7 @@ class MotionActivityManager: NSObject, SensorManager {
         return [Sensor]()
     }
     
-    func sensorDataDidUpdate(data: [Sensor]) {
+    override func sensorDataDidUpdate(data: [Sensor]) {
         _ = try? realm.write {
             for motionActivity in data {
                 self.realm.delete(motionActivity)
