@@ -10,15 +10,19 @@ import UIKit
 
 class ModuleTableViewController: UITableViewController {
 
-    var availableModules = [AnyObject]()
+    var availableModules = [[String: AnyObject]]() {
+        didSet {
+            availableModules = availableModules.sort { ($0["name"] as! String) < ($1["name"] as! String) }
+        }
+    }
     var activatedModules = [String]()
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
         if let archivedAvailableModules = NSUserDefaults.standardUserDefaults().objectForKey("availableModules") as? NSData,
-            availableModules = NSKeyedUnarchiver.unarchiveObjectWithData(archivedAvailableModules) as? [AnyObject] {
-            self.availableModules = availableModules
+        availableModules = NSKeyedUnarchiver.unarchiveObjectWithData(archivedAvailableModules) as? [[String: AnyObject]] {
+                self.availableModules = availableModules
         }
         
         if let archivedActivatedModules = NSUserDefaults.standardUserDefaults().objectForKey("activatedModules") as? NSData,
@@ -36,7 +40,7 @@ class ModuleTableViewController: UITableViewController {
             do {
                 let data = try result()
                 if let dataString = NSString(data: data as! NSData, encoding: NSUTF8StringEncoding) where dataString.length > 0,
-                    let modules = try? NSJSONSerialization.JSONObjectWithData(data as! NSData, options: .MutableContainers) as! [AnyObject] {
+                    let modules = try? NSJSONSerialization.JSONObjectWithData(data as! NSData, options: .MutableContainers) as! [[String: AnyObject]] {
                         
                         self.availableModules = modules
                         dispatch_async(dispatch_get_main_queue()) {
@@ -47,7 +51,7 @@ class ModuleTableViewController: UITableViewController {
                         NSUserDefaults.standardUserDefaults().setObject(archivedAvailableModules, forKey: "availableModules")
                         
                         var moduleNames = [String: String]()
-                        for module: [String: AnyObject] in modules as! [[String: AnyObject]] {
+                        for module: [String: AnyObject] in modules {
                             moduleNames[module["id"] as! String] = module["name"] as? String
                         }
                         NSUserDefaults.standardUserDefaults().setObject(moduleNames, forKey: "moduleNames")
@@ -88,7 +92,7 @@ class ModuleTableViewController: UITableViewController {
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("ModuleCell", forIndexPath: indexPath) as! ModuleTableViewCell
 
-        let module = availableModules[indexPath.row] as! [String: AnyObject]
+        let module = availableModules[indexPath.row] 
         let id = module["id"] as! String
         let name = module["name"] as! String
         let description = module["descriptionShort"] as! String
@@ -117,7 +121,7 @@ class ModuleTableViewController: UITableViewController {
         if segue.identifier == "showModule" {
             let destinationViewController = segue.destinationViewController as! ModuleActivationTableViewController
             if let indexPath = self.tableView.indexPathForSelectedRow {
-                let moduleData = availableModules[indexPath.row] as! [String: AnyObject]
+                let moduleData = availableModules[indexPath.row] 
                 destinationViewController.moduleData = moduleData
                 
                 destinationViewController.requiredSensors = moduleData["requiredCapabilities"] as! [[String: AnyObject]]
