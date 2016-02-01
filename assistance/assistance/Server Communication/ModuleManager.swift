@@ -57,10 +57,10 @@ class ModuleManager {
             do {
                 let _ = try result()
                 
+                completed(result: result)
+                
                 self.configureSensorsForModuleWithID(moduleID)
             } catch { }
-            
-            completed(result: result)
         }
     }
     
@@ -78,10 +78,10 @@ class ModuleManager {
             do {
                 let _ = try result()
                 
+                completed(result: result)
+                
                 self.deactivateSensorsForModuleWithID(moduleID)
             } catch { }
-            
-            completed(result: result)
         }
     }
     
