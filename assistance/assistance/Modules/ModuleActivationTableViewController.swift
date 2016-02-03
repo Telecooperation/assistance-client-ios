@@ -85,7 +85,9 @@ class ModuleActivationTableViewController: UITableViewController {
         if activated {
             if sensorsToAuthorize.count == 0 {
 //                SVProgressHUD.setDefaultStyle(.Dark)
-                SVProgressHUD.show()
+                dispatch_async(dispatch_get_main_queue()) {
+                    SVProgressHUD.show()
+                }
                 ModuleManager().activateModule(self.moduleData["id"] as! String) {
                     _ in
                     
