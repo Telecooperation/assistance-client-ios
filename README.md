@@ -1,4 +1,4 @@
-# Modular Android-based Intelligent Personal Assistant
+# IOS client for Intelligent Personal Assistant platform
 
 IOS client for Intelligent Personal Assistant platform. The project @Telecooperation Lab, TU Darmstadt
 
