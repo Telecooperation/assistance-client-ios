@@ -1,4 +1,5 @@
 # IOS client for Intelligent Personal Assistant platform
+[![License](https://img.shields.io/badge/license-Apache-orange.svg?style=flat)](https://opensource.org/licenses/Apache-2.0)
 [![codebeat badge](https://codebeat.co/badges/8fd60d97-bcc3-4e5f-8e4b-1666df6662ed)](https://codebeat.co/projects/github-com-telecooperation-assistance-platform-client-ios)
 
 IOS client for Intelligent Personal Assistant platform. The project @Telecooperation Lab, TU Darmstadt
